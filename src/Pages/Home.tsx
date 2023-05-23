@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles.scss";
+import NavBar from ".././client/components/NavBar"
 
 const Home: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const Home: React.FC = () => {
           A POWERFUL METRIC VISUALIZATION TOOL FOR gRPC
         </h3>
       </div>
+      <NavBar />
     </div>
   );
 };
