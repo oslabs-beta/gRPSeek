@@ -3,6 +3,7 @@ import "../styles.scss";
 
 const Home: React.FC = () => {
   return (
+
     <div className="container">
       <div className="home home--container">
         <h1 className="home home__title">gRPSeek</h1>
