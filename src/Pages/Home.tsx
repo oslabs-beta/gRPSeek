@@ -14,7 +14,7 @@ const Home: React.FC = () => {
         <h3 className="home home__slogan">
           A POWERFUL METRIC VISUALIZATION TOOL FOR gRPC
         </h3>
-        <Button variant="contained" onClick={() => navigate('/Main')}>Start Seeking</Button>
+        <Button variant="contained" onClick={() => navigate('/main')}>Start Seeking</Button>
       </div>
     </div>
   );

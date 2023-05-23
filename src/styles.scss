@@ -53,3 +53,16 @@ html {
   margin-bottom: 1.8rem;
   text-align: center;
 }
+
+.navbar--container{
+  @include flexboxCenter(row);
+  margin-top: 2rem;
+}
+
+.grid--container{
+  height: 30rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 5rem;
+}
