@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import "../styles.scss";
-import NavBar from ".././client/components/NavBar"
+import { Button } from "@mui/material";
 
 const Home: React.FC = () => {
+  const navigate = useNavigate()
+
   return (
 
     <div className="container">
@@ -11,6 +14,7 @@ const Home: React.FC = () => {
         <h3 className="home home__slogan">
           A POWERFUL METRIC VISUALIZATION TOOL FOR gRPC
         </h3>
+        <Button variant="contained" onClick={() => navigate('/main')}>Start Seeking</Button>
       </div>
       <NavBar />
     </div>

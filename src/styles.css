@@ -37,4 +37,23 @@ html {
   font-size: 2rem;
   font-family: "Quicksand", sans-serif;
   font-weight: 300;
+  position: relative;
+  margin-bottom: 1.8rem;
+  text-align: center;
+}
+
+.navbar--container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 2rem;
+}
+
+.grid--container {
+  height: 30rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 5rem;
 }/*# sourceMappingURL=styles.css.map */
