@@ -7,6 +7,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate()
 
   return (
+
     <div className="container">
       <div className="home home--container">
         <h1 className="home home__title">gRPSeek</h1>
