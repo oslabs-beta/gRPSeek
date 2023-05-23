@@ -37,4 +37,7 @@ html {
   font-size: 2rem;
   font-family: "Quicksand", sans-serif;
   font-weight: 300;
+  position: relative;
+  margin-bottom: 1.8rem;
+  text-align: center;
 }/*# sourceMappingURL=styles.css.map */
