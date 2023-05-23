@@ -1,6 +1,40 @@
-.buttonGroup.center {
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&family=Montserrat&family=Quicksand:wght@300&family=Red+Hat+Display:wght@300&family=Roboto+Condensed:wght@300&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
   display: flex;
-  direction: row;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.home--container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.home__title {
+  font-size: 10rem;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  margin-bottom: 1.2rem;
+}
+
+.home__slogan {
+  font-size: 2rem;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
 }/*# sourceMappingURL=styles.css.map */

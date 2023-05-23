@@ -1,6 +1,56 @@
-.buttonGroup.center {
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&family=Montserrat&family=Quicksand:wght@300&family=Red+Hat+Display:wght@300&family=Roboto+Condensed:wght@300&display=swap');
+
+
+
+$primaryColor: rgb(75,145,241);
+$secondaryColor: rgb(119,212,252);
+$white: rgb(249, 238, 238);
+
+// font-family: 'Comfortaa', cursive;
+// font-family: 'Montserrat', sans-serif;
+// font-family: 'Quicksand', sans-serif;
+// font-family: 'Red Hat Display', sans-serif;
+// font-family: 'Roboto Condensed', sans-serif;
+
+@mixin flexboxCenter($direction) {
     display: flex;
-    direction: row;
-    align-items: center;
     justify-content: center;
-};
+    align-items: center;
+    flex-direction: $direction
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    height: 100%;
+    width: 100%;
+}
+
+.container{
+    height: 100vh;
+    width: 100vw;
+    @include flexboxCenter(row)
+}
+
+.home--container{
+    @include flexboxCenter(column)
+}
+
+.home__title{
+    font-size: 10rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+}
+
+.home__slogan{
+    font-size: 2rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 300;
+
+}
