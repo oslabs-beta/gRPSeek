@@ -14,11 +14,12 @@ const Client: React.FC = () => {
   return (
     <>
       <NavBar></NavBar>
-      <h1>Client</h1>
-      <div className="grid--container">
-        {fakeClientData.map(data => (
-          <BoxMetric  />
-        ))}
+      <div className="grid--container__container">
+        <div className="grid--container">
+          {fakeClientData.map((data) => (
+            <BoxMetric metric={data.metric} total={data.total}/>
+          ))}
+        </div>
       </div>
     </>
   );

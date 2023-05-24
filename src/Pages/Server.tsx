@@ -3,7 +3,6 @@ import NavBar from ".././client/components/NavBar";
 import BoxMetric from ".././client/components/Box";
 
 const Server: React.FC = () => {
-
   const fakeServerData = [
     { metric: "Total Server Calls", total: 15 },
     { metric: "Avg Server Calls ", total: 66 },
@@ -15,11 +14,12 @@ const Server: React.FC = () => {
   return (
     <>
       <NavBar></NavBar>
-      <h1>Server</h1>
-      <div className="grid--container">
-        {fakeServerData.map(data => (
-          <BoxMetric  />
-        ))}
+      <div className="grid--container__container">
+        <div className="grid--container">
+          {fakeServerData.map((data) => (
+            <BoxMetric metric={data.metric} total={data.total}/>
+          ))}
+        </div>
       </div>
     </>
   );
