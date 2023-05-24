@@ -17,19 +17,19 @@ const NavBar: React.FC = () => {
             className="button button--primary"
             style={{width: '10rem'}}
             onClick={() => {
-              navigate("/client");
+              navigate("/metrics");
             }}
           >
-            Client
+            Metrics
           </Button>
           <Button
             className="button button--primary"
             style={{width: '10rem'}}
             onClick={() => {
-              navigate("/server");
+              navigate("/graph");
             }}
           >
-            Server
+            Graph
           </Button>
         </ButtonGroup>
       </div>
