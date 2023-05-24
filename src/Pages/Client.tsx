@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from ".././client/components/NavBar";
 import BoxMetric from ".././client/components/Box";
 
+
 const Client: React.FC = () => {
   const fakeClientData = [
     { metric: "Total Client Calls", total: 15 },

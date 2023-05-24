@@ -5,14 +5,14 @@ import CardContent from "@mui/material/CardContent";
 // import Button from '@mui/material/Button';
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
+import CountUp from "react-countup";
 
 interface BoxProps {
-  metric: string,
-  total: number
+  metric: string;
+  total: number;
 }
 
-const BoxMetric = ({metric, total} : BoxProps) => {
-
+const BoxMetric = ({ metric, total }: BoxProps) => {
   return (
     <>
       <Card sx={{ boxShadow: 5 }}>
@@ -24,10 +24,10 @@ const BoxMetric = ({metric, total} : BoxProps) => {
           >
             {metric}
           </Typography>
-          <Divider/>
+          <Divider />
           <Typography
             style={{
-              marginTop: '18px',
+              marginTop: "18px",
               backgroundColor: "white",
               color: "#4B91F1",
               fontWeight: 300,
@@ -36,7 +36,7 @@ const BoxMetric = ({metric, total} : BoxProps) => {
             }}
             component="div"
           >
-            {total}
+            <CountUp start = {0} end = {total} duration = {3.5}/>
           </Typography>
         </CardContent>
       </Card>
