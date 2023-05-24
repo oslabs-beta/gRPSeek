@@ -56,4 +56,32 @@ html {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
   grid-gap: 5rem;
+}
+
+.box__title {
+  font-size: 3rem;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  position: relative;
+  margin-bottom: 1.8rem;
+  text-align: center;
+}
+
+.box__data {
+  font-size: 5rem;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  color: "#4B91F1";
+  position: relative;
+  margin-bottom: 1.8rem;
+  text-align: center;
+}
+
+.box__description {
+  font-size: 2rem;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  position: relative;
+  margin-bottom: 1.8rem;
+  text-align: center;
 }/*# sourceMappingURL=styles.css.map */

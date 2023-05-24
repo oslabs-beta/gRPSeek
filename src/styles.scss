@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Comfortaa&family=Montserrat&family=Quicksand:wght@300&family=Red+Hat+Display:wght@300&family=Roboto+Condensed:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400&family=Comfortaa&family=Montserrat&family=Quicksand:wght@300;500;600;700&family=Red+Hat+Display:wght@300&family=Roboto+Condensed:wght@300&display=swap");
 
 $primaryColor: rgb(75, 145, 241);
 $secondaryColor: rgb(119, 212, 252);
@@ -65,4 +65,32 @@ html {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, 1fr);
   grid-gap: 5rem;
+}
+
+.box_title {
+  font-size: 1.2rem;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  position: relative;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.box_data {
+  font-size: 4.5rem;
+  font-family: 'Source Sans Pro', "Quicksand", sans-serif;
+  font-weight: 700;
+  color: #4B91F1;
+  position: relative;
+  margin-bottom: .5rem;
+  text-align: center;
+}
+
+.box_description {
+  font-size: 2rem;
+  font-family: 'Source Sans Pro', "Quicksand", sans-serif;
+  font-weight: 300;
+  position: relative;
+  margin-bottom: 1.8rem;
+  text-align: center;
 }

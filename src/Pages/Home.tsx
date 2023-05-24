@@ -16,7 +16,6 @@ const Home: React.FC = () => {
         </h3>
         <Button variant="contained" onClick={() => navigate('/main')}>Start Seeking</Button>
       </div>
-      <NavBar />
     </div>
   );
 };
