@@ -8,7 +8,7 @@ import MetricsView from "./Pages/MetricsView";
 import GraphView from "./Pages/GraphView";
 
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <Router>
       <Routes>

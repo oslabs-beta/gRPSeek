@@ -15,7 +15,7 @@ interface BoxProps {
   id: number;
 }
 
-const BoxMetric = ({ metric, total, id }: BoxProps) => {
+const BoxMetric: React.FC<BoxProps> = props => {
   // return (
   //   <>
   //     <Card id = {`card--${id}`} sx={{ boxShadow: 2, width: 150, height: 150 }}>
@@ -48,7 +48,7 @@ const BoxMetric = ({ metric, total, id }: BoxProps) => {
 
   return (
 
-    <motion.div className={`card--${id}`}
+    <motion.div className={`card--${props.id}`}
     initial={{scale:0}} animate={{scale:1}} 
     exit={{ scale: 0, transition: { duration: 0.1 } }}
     transition={{
@@ -64,10 +64,10 @@ const BoxMetric = ({ metric, total, id }: BoxProps) => {
      
   }} >
       <h3 className="card--metric">
-        {metric}
+        {props.metric}
         <hr/>
         <div className="card--number">
-          <CountUp start={0} end={total} duration={3.5} />
+          <CountUp start={0} end={props.total} duration={3.5} />
         </div>
       </h3>
     </motion.div>
