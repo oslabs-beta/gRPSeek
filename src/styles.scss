@@ -251,3 +251,83 @@ a {
   text-decoration: none;
   color: black;
 }
+
+.tree--container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.node {
+  cursor: pointer;
+}
+
+.text {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.file-label {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.oneProtoFile-input,
+.multipleProtoFiles-input {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+ 
+}
+
+/* Styling the button appearance */
+/* .custom-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+ */
+/* Styling the button hover effect */
+.oneProtoFile-input,
+.multipleProtoFiles-input:hover {
+  background-color: #45a049;
+}
+
+/* Styling the file input appearance */
+.custom-button + input[type="file"] {
+  display: none;
+}
+
+.custom-file-input::before {
+  content: 'Select File';
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-file-input:hover::before {
+  background-color: #45a049;
+}
+

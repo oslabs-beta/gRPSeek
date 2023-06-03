@@ -1,8 +1,8 @@
-import "./App.css";
 import { useCallback, useState } from "react";
+import React from "react";
 import protobuf from "protobufjs";
 import Tree from "./Tree";
-import "./index.css";
+import "../../styles.scss";
 
 
 function Treemap() {
