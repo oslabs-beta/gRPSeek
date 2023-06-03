@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package chat;
+
+message ChatRequest {
+  string name = 1;
+  string message = 2;
+}
+
+
+message ChatResponse {
+  string name = 1;
+  string message = 2;
+}
+
+/* SendChat - unary
+* SendMultipleChat - client side streaming
+* ReceiveMultiplaChat - server side streaming */
+
+service ChatService {
+  rpc SendChat(ChatRequest) returns (ChatResponse);
+  rpc SendMultipleChat(stream ChatRequest) returns (ChatResponse);
+  rpc ReceiveMultipleChat(ChatRequest) returns (stream ChatResponse);
+}
