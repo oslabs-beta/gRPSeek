@@ -8,7 +8,10 @@ const clientFactory = createClientFactory()
     .use(prometheusClientMiddleware())
 
 const client: ChatServiceClient = clientFactory.create(ChatServiceDefinition, channel);
-
+// Delay Function 
+function delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 //unary call here:
 const unaryCall = async() => {
     const response = await client.sendChat({name: 'jackson', message:'hello world'})
@@ -16,5 +19,8 @@ const unaryCall = async() => {
 }
 
 unaryCall();
+unaryCall();
+unaryCall();
+
 
 channel.close();
