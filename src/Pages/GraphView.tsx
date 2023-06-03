@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "../client/components/NavBar";
 import BoxMetric from "../client/components/Box";
+import Chart from "../client/components/Chart";
 
 const GraphView: React.FC = () => {
   const fakeServerData = [
@@ -12,7 +13,10 @@ const GraphView: React.FC = () => {
   ];
 
   return (
+    <>
     <NavBar/>
+    <Chart/>
+    </>
   );
 };
 
