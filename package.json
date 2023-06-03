@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack-dev-server --open --hot"
+    "start": "webpack-dev-server --open --hot",
+    "prom": "prometheus --config.file=./metrics/prometheus.yml",
+    "run-server": "node metrics/dist/src/server.js",
+    "run-client": "node metrics/dist/src/client.js"
   },
   "repository": {
     "type": "git",
