@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "../../styles.scss";
+import {Tooltip} from "react-tooltip";
 import * as d3 from "d3";
 import { BufferReader } from "protobufjs";
 
@@ -66,7 +67,7 @@ function Tree(props) {
         "class",
         (d) => "node" + (d.children ? "node--internal" : "node--leaf")
       )
-      .attr("transform", (d) => "translate(" + d.x + "," + d.y + ")");
+      .attr("transform", (d) => "translate(" + d.x + "," + d.y + ")")
 
     node
       .append("circle")
@@ -85,6 +86,7 @@ function Tree(props) {
   return (
     <div className="tree--container" ref={ref}>
       <button onClick={clearTree}>click me</button>
+      
     </div>
   );
 }

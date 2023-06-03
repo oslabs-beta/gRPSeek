@@ -270,6 +270,7 @@ a {
 }
 
 .inputs {
+  margin-top: 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -281,11 +282,11 @@ a {
   margin-bottom: 5px;
 }
 
-.oneProtoFile-input,
-.multipleProtoFiles-input {
+
+input[type='file'] {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #4caf50;
+  background-color: rgb(75, 145, 241);
   color: white;
   border: none;
   border-radius: 4px;
@@ -294,40 +295,13 @@ a {
  
 }
 
-/* Styling the button appearance */
-/* .custom-button {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
- */
+
+
 /* Styling the button hover effect */
-.oneProtoFile-input,
-.multipleProtoFiles-input:hover {
-  background-color: #45a049;
+input[type='file']:hover {
+  background-color: #5c4de9;
 }
 
 /* Styling the file input appearance */
-.custom-button + input[type="file"] {
-  display: none;
-}
 
-.custom-file-input::before {
-  content: 'Select File';
-  display: inline-block;
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.custom-file-input:hover::before {
-  background-color: #45a049;
-}
 
