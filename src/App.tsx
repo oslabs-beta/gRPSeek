@@ -9,7 +9,7 @@ import GraphView from "./Pages/GraphView";
 import TreeMapView from "./Pages/TreetMapView";
 
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <Router>
       <Routes>
