@@ -5,14 +5,14 @@ import BoxMetric from "../client/components/Box";
 
 const MetricsView: React.FC = () => {
   const fakeClientData = [
-    { metric: "Total Client Calls", total: 15 },
-    { metric: "Avg Client Calls ", total: 45 },
-    { metric: "Min Client Calls", total: 11 },
-    { metric: "Max Client Calls", total: 9 },
-    { metric: "Client Calls", total: 56 },
-    { metric: "ient Calls", total: 5 },
-    { metric: "ACalls", total: 9 },
-    { metric: "ent Calls", total: 1 },
+    { metric: "Client Started", total: 15 },
+    { metric: "Client Handled", total: 45 },
+    { metric: "Client Msg Received", total: 11 },
+    { metric: "Client Msg Sent", total: 9 },
+    { metric: "Server Started", total: 56 },
+    { metric: "Server Handled", total: 5 },
+    { metric: "Server Msg Received", total: 9 },
+    { metric: "Server Msg Sent", total: 2 },
   ];
 
   return (

@@ -12,7 +12,7 @@ const Home: React.FC = () => {
       <div className="home home--container">
         <h1 className="home home__title">gRPSeek</h1>
         <h3 className="home home__slogan">
-          A POWERFUL METRIC VISUALIZATION TOOL FOR gRPC
+          A POWERFUL VISUALIZATION TOOL FOR gRPC
         </h3>
         <Button variant="contained" onClick={() => navigate('/main')}>Start Seeking</Button>
       </div>

@@ -62,7 +62,7 @@ html {
 
 .navbar--container{
   @include flexboxCenter(row);
-  margin-top: 2rem;
+  margin-top: 1.25rem;
 }
 
 .grid--container__container{
@@ -81,6 +81,14 @@ html {
   grid-auto-flow: row;
 }
 
+.chart{
+  margin-top: 2rem;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .card--0{
   @include border(rgba(208, 33, 33, 0.971));
@@ -209,4 +217,37 @@ html {
   font-size: .7rem;
   font-family: 'Quicksand', sans-serif; ;
   @include flexboxCenter(column);
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
+  position: relative;
+  margin-bottom: 1rem;
+  margin-top: 1.3rem;
+  text-align: center;
+}
+
+.flex-1 {
+  /* Add your styles for the flex container here */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex: 1;
+  
+}
+
+.small-size svg {
+  /* Add your styles for the smaller SVG here */
+  width: 50px;
+  height: 50px;
+  stroke-width: 1.4;
+  stroke: currentColor;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
