@@ -251,3 +251,57 @@ a {
   text-decoration: none;
   color: black;
 }
+
+.tree--container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.node {
+  cursor: pointer;
+}
+
+.text {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.inputs {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.file-label {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+
+input[type='file'] {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: rgb(75, 145, 241);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+ 
+}
+
+
+
+/* Styling the button hover effect */
+input[type='file']:hover {
+  background-color: #5c4de9;
+}
+
+/* Styling the file input appearance */
+
+
