@@ -1,39 +1,36 @@
-function hello() {
-  console.log('hello from grpseek')
-}
-// Function to make gRPC requests
-// User passes in requestPayload (object) matching proto schema
-async function makeGrpcRequest(requestPayload, clientMethod) {
-  // Construct your request payload
-  // const requestPayload = {
-  //   // ... populate with request data
-  //   name: ''
-  // };
+const { Worker } = require('worker_threads');
 
-  // Call the gRPC method
+//function to create new instances of worker threads
+function createWorkers(method) {
   return new Promise((resolve, reject) => {
-    clientMethod(requestPayload, (err, response) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(response);
+    const worker = new Worker(method);
+    worker.on('message', (message) => {
+      console.log('worker message', message)
+    });
+    worker.on('error', (error) => {
+      reject(error);
+    });
+    worker.on('exit', (code) => {
+      if (code !== 0) {
+        reject(new Error(`worker stopped with exit code ${code}`))
       }
     });
+    resolve(worker);
   });
 }
-// Main execution function
-async function run() {
-  try {
-    const response = await makeGrpcRequest();
-    console.log('Response:', response);
-  } catch (error) {
-    console.error('Error:', error);
-  } finally {
-    // You can add any cleanup or additional logic here
-    console.log('Done')
-  }
-}
-// Run the script
-run();
 
-module.exports = hello;
+
+//sleep will be optional
+function loadTest(method, vu, duration, sleep) {
+  //create desired workers
+  const workerArr = [];
+  while (vu > 0) {
+    workerArr.push(createWorkers(method));
+    vu--;
+  }
+  console.log(`Created ${vu} virtual users. Sending gRPC requests...`)
+
+  Promise.all(workerArr).then(result => console.log(result.message))
+}
+
+module.exports = loadTest;
