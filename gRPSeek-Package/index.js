@@ -22,16 +22,17 @@ function createWorkers(method) {
 
 //sleep will be optional
 function loadTest(method, vu, duration, sleep) {
+
   //create desired workers
   const workerArr = [];
   while (vu > 0) {
     workerArr.push(createWorkers(method));
     vu--;
   }
-  console.log(`Created ${vu} virtual users. Sending gRPC requests...`)
+  console.log(`Created ${vu} virtual users. Sending gRPC requests...`);
 
   // const seconds = duration * 1000;
-  Promise.all(workerArr).then(result => console.log(result.message))
+  Promise.all(workerArr).then(result => console.log(result.message));
 
 }
 
