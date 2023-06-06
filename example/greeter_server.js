@@ -56,7 +56,7 @@ const hello_proto = grpc.loadPackageDefinition(packageDefinition).helloworld;
  * Implements the SayHello RPC method.
  */
 function sayHello(call, callback) {
-  console.log('Received a Request: ', call.request.name)
+  //console.log('Received a Request: ', call.request.name)
 
   //====================== Implementing Custom Metrics ==========================
   grpcRequestCounter.inc({ method: 'sayHello' }); // Increment the request counter

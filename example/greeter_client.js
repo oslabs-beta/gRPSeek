@@ -73,51 +73,5 @@ function invoke() {
 main()
 // module.exports = invoke;
 
-// function startLoopWithTimer() {
-//   const startTime = new Date()
-//   console.log("START:", startTime)
-//   let counter = 0;
-//   const intervalId = setInterval(() => {
-//     // Perform your desired actions inside the loop
-//     main()
-//     counter++;
-
-//     // Once 20 iterations happen 
-//     if (counter === 30) {
-//       clearInterval(intervalId);
-//       const endTime = new Date();
-//       console.log(endTime);
-//       const duration = (endTime - startTime) / 1000;
-//       // Moves it over 2 decimal places pretty kool
-//       console.log(`Elapsed time: ${duration.toFixed(2)} seconds`);
-
-//       console.log(`Loop stopped after ${counter} iterations`);
-//     }
-//   }, 1000); // Set the interval duration (in milliseconds)
-// }
-
-// // Start the loop with a timer
-// startLoopWithTimer();
-
-
-// // main();
-
-// // Testing the function invocation 10 times back to back 
-// // const startTime = new Date()
-// // console.log("START: ", startTime)
-// // main()
-// // main()
-// // main()
-// // main()
-// // main()
-// // main()
-// // main()
-// // main()
-// // main()
-// // main()
-// // main()
-// // const endTime = new Date();
-// // const duration = (endTime - startTime) / 1000;
-// // console.log(`Elapsed time: ${duration.toFixed(2)} seconds`);
 
 

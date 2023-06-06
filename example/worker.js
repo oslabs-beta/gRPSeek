@@ -44,7 +44,7 @@ async function run(requestPayload, clientMethod) {
   // console.log(clientMethod)
   try {
     const response = await makeGrpcRequest(requestPayload, clientMethod);
-    console.log('Response:', response);
+    //console.log('Response:', response);
   } catch (error) {
     console.error('Error:', error);
   } finally {
