@@ -7,6 +7,7 @@ import Main from "./Pages/Main";
 // import MetricsView from "./Pages/MetricsView";
 import GraphView from "./Pages/GraphView";
 import TreeMapView from "./Pages/TreetMapView";
+import Dashboard from "./client/components/Dashboard";
 
 
 const App: React.FC = () => {
@@ -14,8 +15,8 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home/>}></Route>
-        {/* <Route path="/metrics" element={<MetricsView/>}></Route> */}
         <Route path="/graph" element={<GraphView/>}></Route>
+        <Route path="/dashboard" element={<Dashboard/>}></Route>
         <Route path="/main" element={<Main/>}></Route>
         <Route path="/treemap" element={<TreeMapView/>}></Route>
       </Routes>
