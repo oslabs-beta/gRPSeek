@@ -17,14 +17,14 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [['@babel/preset-env'], '@babel/preset-react'],
+            presets: [ [ '@babel/preset-env' ], '@babel/preset-react' ],
           },
         },
       },
       {
         test: /\.s?[ac]ss$/i,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: [ 'style-loader', 'css-loader', 'sass-loader' ]
       },
       {
         test: /\.tsx?$/,
@@ -48,7 +48,7 @@ module.exports = {
     historyApiFallback: true,
     port: 8080,
     proxy: {
-      '/api/**': 'http://localhost:3000',
+      '**/*': 'http://localhost:9090',
     },
   },
   plugins: [
@@ -57,6 +57,6 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
   },
 };
