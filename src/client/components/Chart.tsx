@@ -40,10 +40,12 @@ export const data = {
 const Chart: React.FC = () => {
   return (
     <div className='chart'>
-  <Bar options={options} data={data} />
-  <iframe src="http://localhost:3000/d-solo/null?orgId=1&from=1685190326701&to=1685211926701&panelId=123124" width="450" height="200" frameBorder="0"></iframe>
-  <div>
-  <img src='https://johncamilomcconnell.grafana.net/d/a53a3e5d-42e6-4ffe-a52f-23bc390c648f/new-dashboard?orgId=1&from=1685179807199&to=1685201407199&viewPanel=1'></img></div>
+      <Bar options={options} data={data} />
+      <iframe src="http://localhost:3000/d-solo/null?orgId=1&from=1685190326701&to=1685211926701&panelId=123124" width="450" height="200" frameBorder="0"></iframe>
+    <div>
+    <img src='https://johncamilomcconnell.grafana.net/d/a53a3e5d-42e6-4ffe-a52f-23bc390c648f/new-dashboard?orgId=1&from=1685179807199&to=1685201407199&viewPanel=1'/>
+      
+      </div>
   </div>
   )
 };
