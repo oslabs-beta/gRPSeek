@@ -75,4 +75,4 @@ const workerScriptPath = './greeter_client.js';
 // runLoadTesting(20);
 
 const timer = require('grpseek')
-timer(workerScriptPath, 4, 1)
+timer(workerScriptPath, 1, 1)
