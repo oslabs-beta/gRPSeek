@@ -102,7 +102,7 @@ let data;
 const PORT = 9090;
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', register.contentType);
-  const metrics = await register.metrics();
+  const metrics = await register.getMetricsAsJSON();
   data = metrics;
   res.send(metrics);
 });
