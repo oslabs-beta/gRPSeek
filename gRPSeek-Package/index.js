@@ -21,7 +21,7 @@ function createWorkers(method) {
 
 //sleep will be optional
 
-function loadTest(method, vu) {
+function runTest(method, vu) {
   console.log(`Creating ${vu} virtual users`)
   //create desired workers
   const workerArr = [];
@@ -32,7 +32,7 @@ function loadTest(method, vu) {
   console.log(` Sending gRPC requests...`);
 
   // const seconds = duration * 1000;
-  Promise.all(workerArr).then(result => console.log(result));
+  Promise.all(workerArr).then(result =>  result);
 
 }
 
@@ -40,7 +40,7 @@ function loadTest(filepath, vu, seconds) {
   console.log(`timer: ${filepath}, vu: ${vu}`)
   seconds *= 1000;
   const id = setInterval(() => {
-    loadTest(filepath, vu)
+    runTest(filepath, vu)
     console.log(`setInterval: method: ${filepath}, vu: ${vu}`)
   }, 0)
   setTimeout(() => clearInterval(id), seconds)
