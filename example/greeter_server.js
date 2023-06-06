@@ -27,18 +27,18 @@ const grpcMethodDurationHistogram = new Histogram({
   labelNames: [ 'method' ],
   buckets: [ 0.0000001, 0.0000005, 0.000001, 0.0000015, 0.000002, 0.000003, 0.000004, 0.000005]
 });
-const grpcMethodLatencySummary = new Summary({
-  name: 'grpc_server_method_latency_seconds',
-  help: 'Latency of gRPC methods in seconds',
-  labelNames: [ 'method' ],
-  percentiles: [ 0.1, 0.3, .4, 0.5, 0.9, 0.99 ],
-});
-const grpcRequestSizeHistogram = new Histogram({
-  name: 'grpc_server_request_size_bytes',
-  help: 'Size of incoming gRPC requests in bytes',
-  labelNames: [ 'method' ],
-  buckets: [ 100, 500, 1000, 2000 ],
-});
+// const grpcMethodLatencySummary = new Summary({
+//   name: 'grpc_server_method_latency_seconds',
+//   help: 'Latency of gRPC methods in seconds',
+//   labelNames: [ 'method' ],
+//   percentiles: [ 0.1, 0.3, .4, 0.5, 0.9, 0.99 ],
+// });
+// const grpcRequestSizeHistogram = new Histogram({
+//   name: 'grpc_server_request_size_bytes',
+//   help: 'Size of incoming gRPC requests in bytes',
+//   labelNames: [ 'method' ],
+//   buckets: [ 100, 500, 1000, 2000 ],
+// });
 
 // =====================================================
 const packageDefinition = protoLoader.loadSync(
@@ -103,6 +103,7 @@ const PORT = 3500;
 const cors = require('cors');
 app.use(cors())
 app.use('/metrics', async (req, res) => {
+
   res.set('Content-Type', register.contentType);
   const metrics = await register.getMetricsAsJSON();
   res.header('Access-Control-Allow-Origin', '*');
