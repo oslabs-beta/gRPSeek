@@ -19,21 +19,31 @@ function createWorkers(method) {
   });
 }
 
-
 //sleep will be optional
-function loadTest(method, vu, duration, sleep) {
 
+function loadTest(method, vu) {
+  console.log(`Creating ${vu} virtual users`)
   //create desired workers
   const workerArr = [];
   while (vu > 0) {
     workerArr.push(createWorkers(method));
     vu--;
   }
-  console.log(`Created ${vu} virtual users. Sending gRPC requests...`);
+  console.log(` Sending gRPC requests...`);
 
   // const seconds = duration * 1000;
-  Promise.all(workerArr).then(result => console.log(result.message));
+  Promise.all(workerArr).then(result => console.log(result));
 
+}
+
+function loadTest(filepath, vu, seconds) {
+  console.log(`timer: ${filepath}, vu: ${vu}`)
+  seconds *= 1000;
+  const id = setInterval(() => {
+    loadTest(filepath, vu)
+    console.log(`setInterval: method: ${filepath}, vu: ${vu}`)
+  }, 0)
+  setTimeout(() => clearInterval(id), seconds)
 }
 
 module.exports = loadTest;
