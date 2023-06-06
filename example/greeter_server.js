@@ -5,7 +5,7 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-const grpcHist = require('../gRPSeek-Package/metrics')
+// const grpcHist = require('../gRPSeek-Package/metrics')
 // ============= EXPRESS =======================
 const express = require('express');
 const app = express();
@@ -16,29 +16,29 @@ const { Counter, Histogram, Summary } = require('prom-client'); // Custom Metric
 collectDefaultMetrics()
 
 // ============Creating custom metrics for gRPC ==================
-// const grpcRequestCounter = new Counter({
-//   name: 'grpc_server_requests_total',
-//   help: 'Total number of gRPC requests received',
-//   labelNames: [ 'method' ],
-// });
-// const grpcMethodDurationHistogram = new Histogram({
-//   name: 'grpc_server_method_duration_seconds',
-//   help: 'Duration of gRPC methods in seconds',
-//   labelNames: [ 'method' ],
-//   buckets: [ 0.1, 0.5, 1, 2, 5 ],
-// });
-// const grpcMethodLatencySummary = new Histogram({
-//   name: 'grpc_server_method_latency_seconds',
-//   help: 'Latency of gRPC methods in seconds',
-//   labelNames: [ 'method' ],
-//   percentiles: [ 0.1, 0.3, .4, 0.5, 0.9, 0.99 ],
-// });
-// const grpcRequestSizeHistogram = new Histogram({
-//   name: 'grpc_server_request_size_bytes',
-//   help: 'Size of incoming gRPC requests in bytes',
-//   labelNames: [ 'method' ],
-//   buckets: [ 100, 500, 1000, 2000 ],
-// });
+const grpcRequestCounter = new Counter({
+  name: 'grpc_server_requests_total',
+  help: 'Total number of gRPC requests received',
+  labelNames: [ 'method' ],
+});
+const grpcMethodDurationHistogram = new Histogram({
+  name: 'grpc_server_method_duration_seconds',
+  help: 'Duration of gRPC methods in seconds',
+  labelNames: [ 'method' ],
+  buckets: [ 0.1, 0.5, 1, 2, 5 ],
+});
+const grpcMethodLatencySummary = new Summary({
+  name: 'grpc_server_method_latency_seconds',
+  help: 'Latency of gRPC methods in seconds',
+  labelNames: [ 'method' ],
+  percentiles: [ 0.1, 0.3, .4, 0.5, 0.9, 0.99 ],
+});
+const grpcRequestSizeHistogram = new Histogram({
+  name: 'grpc_server_request_size_bytes',
+  help: 'Size of incoming gRPC requests in bytes',
+  labelNames: [ 'method' ],
+  buckets: [ 100, 500, 1000, 2000 ],
+});
 
 // =====================================================
 const packageDefinition = protoLoader.loadSync(
@@ -61,18 +61,18 @@ function sayHello(call, callback) {
   //====================== Implementing Custom Metrics ==========================
   grpcRequestCounter.inc({ method: 'sayHello' }); // Increment the request counter
   //============= Measure the method duration=================
-  // const startTime = process.hrtime();
-  // const endTime = process.hrtime(startTime);
-  // const durationInSeconds = endTime[ 0 ] + endTime[ 1 ] / 1e9;
+  const startTime = process.hrtime();
+  const endTime = process.hrtime(startTime);
+  const durationInSeconds = endTime[ 0 ] + endTime[ 1 ] / 1e9;
   // ======================================================
-  // grpcMethodDurationHistogram.observe({ method: 'sayHello' }, durationInSeconds);
-  // grpcMethodLatencySummary.observe({ method: 'sayHello' }, durationInSeconds);
+  grpcMethodDurationHistogram.observe({ method: 'sayHello' }, durationInSeconds);
+  grpcMethodLatencySummary.observe({ method: 'sayHello' }, durationInSeconds);
 
 
 
   // ============ RESPONSE FROM gRPC SERVER ==================
 
-  grpcHist('sayHello')
+
   const response = { message: 'Hello from Server' }
   callback(null, response)
   // =================================================
@@ -97,11 +97,14 @@ function main() {
   });
 }
 // ========== Prometheus/Express ===========
+let data;
+
 const PORT = 9090;
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', register.contentType);
   const metrics = await register.metrics();
-  res.status(200).json(metrics);
+  data = metrics;
+  res.send(metrics);
 });
 app.listen(PORT, () => console.log(`Prometheus metrics server listening on ${PORT}`))
 main();

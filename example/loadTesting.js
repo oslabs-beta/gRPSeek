@@ -74,5 +74,5 @@
 // // Run the load testing script
 // runLoadTesting(20);
 
-const loadTest = require('grpseek')
-loadTest("./greeter_client.js", 800, 10, 1)
+const loadTest = require('../gRPSeek-Package/index')
+loadTest("./greeter_client.js", 300, 10, 1)
