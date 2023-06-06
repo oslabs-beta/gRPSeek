@@ -57,17 +57,17 @@ const hello_proto = grpc.loadPackageDefinition(packageDefinition).helloworld;
 function main() {
   const client = new hello_proto.Greeter('localhost:50051', grpc.credentials.createInsecure());
   client.sayHello({ name: 'Kenny' }, function (err, response) {
-    console.log('Greetings:', response.message);
+    console.log('sayHello Greetings:', response.message);
   });
   client.sayHelloAgain({ name: 'Miri' }, function (err, response) {
-    console.log('Greetings:', response.message)
+    console.log('sayHelloAgainGreetings:', response.message)
   })
 }
 
 function invoke() {
   const client2 = new hello_proto.Greeter('localhost:50051', grpc.credentials.createInsecure());
   client2.sayHello({ name: 'Miri' }, function (err, response) {
-    console.log('Greetings:', response.message);
+    console.log('clientGreetings:', response.message);
   });
 }
 main()

@@ -97,14 +97,16 @@ function main() {
   });
 }
 // ========== Prometheus/Express ===========
-let data;
 
 const PORT = 9090;
-app.get('/metrics', async (req, res) => {
+const cors = require('cors');
+app.use(cors())
+app.use('/metrics', async (req, res) => {
   res.set('Content-Type', register.contentType);
-  const metrics = await register.metrics();
-  data = metrics;
+  const metrics = await register.getMetricsAsJSON();
+  res.header('Access-Control-Allow-Origin', '*');
   res.send(metrics);
 });
+
 app.listen(PORT, () => console.log(`Prometheus metrics server listening on ${PORT}`))
 main();
