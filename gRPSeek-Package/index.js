@@ -32,7 +32,7 @@ function loadTest(method, vu, duration, sleep) {
   console.log(`Created ${vu} virtual users. Sending gRPC requests...`);
 
   // const seconds = duration * 1000;
-  Promise.all(workerArr).then(result => console.log(result.message));
+  Promise.all(workerArr).then(result => console.log(result));
 
 }
 

@@ -5,7 +5,7 @@
 // // const numWorkers = 2500;
 
 // // Path to your worker script
-// const workerScriptPath = './greeter_client.js';
+const workerScriptPath = './greeter_client.js';
 
 // // Creates a new worker thread from the `Worker` class from `worker_threads` module. EACH worker_thread executes the `worker.js` file. 
 // function createWorker() {
@@ -74,5 +74,5 @@
 // // Run the load testing script
 // runLoadTesting(20);
 
-const loadTest = require('../gRPSeek-Package/index')
-loadTest("./greeter_client.js", 300, 10, 1)
+const timer = require('grpseek')
+timer(10, workerScriptPath, 30)
