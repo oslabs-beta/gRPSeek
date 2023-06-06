@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "../client/components/NavBar";
-import BoxMetric from "../client/components/Box";
+// import BoxMetric from "../client/components/Box";
 import Chart from "../client/components/Chart";
 import {useEffect} from 'react'
 
