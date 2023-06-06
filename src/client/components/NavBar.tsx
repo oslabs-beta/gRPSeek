@@ -7,6 +7,11 @@ import Typography from '@mui/material/Typography';
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
+  async function getMetrics() {
+    const response = await fetch('localhost:9090/metrics');
+    const json = await response.json();
+    console.log(json)
+  }
   return (
     <div><div className="flex-1 small-size">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -22,6 +27,8 @@ const NavBar: React.FC = () => {
           variant="contained"
           aria-label="outlined primary button group"
         >
+          <Button
+            className=""> Load Testing Visualizer </Button>
           <Button
             className="button button--primary"
             style={{width: '10rem'}}

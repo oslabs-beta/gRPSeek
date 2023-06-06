@@ -97,11 +97,11 @@ function main() {
   });
 }
 // ========== Prometheus/Express ===========
-// const PORT = 9090;
-// app.get('/metrics', async (req, res) => {
-//   res.set('Content-Type', register.contentType);
-//   const metrics = await register.metrics();
-//   res.end(metrics);
-// });
-// app.listen(PORT, () => console.log(`Prometheus metrics server listening on ${PORT}`))
+const PORT = 9090;
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  const metrics = await register.metrics();
+  res.status(200).json(metrics);
+});
+app.listen(PORT, () => console.log(`Prometheus metrics server listening on ${PORT}`))
 main();
