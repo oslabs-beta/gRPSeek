@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import "../../styles.scss";
 import Typography from '@mui/material/Typography';
-
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
   return (
@@ -23,11 +22,7 @@ const NavBar: React.FC = () => {
           aria-label="outlined primary button group"
         >
           <Button
-            className="load-test" onClick={async() => {
-              const response = await fetch('http://localhost:3500/metrics');
-              const json = response.json();
-              console.log(json) 
-            }}> Load Testing Visualizer </Button>
+            className="load-test"> Load Testing Visualizer </Button>
           <Button
             className="button button--primary"
             style={{width: '10rem'}}
@@ -60,5 +55,4 @@ const NavBar: React.FC = () => {
       </div>
   );
 };
-
 export default NavBar;

@@ -27,6 +27,7 @@ const grpcMethodDurationHistogram = new Histogram({
   labelNames: [ 'method' ],
   buckets: [ 0.1, 0.5, 1, 2, 5 ],
 });
+
 const grpcMethodLatencySummary = new Summary({
   name: 'grpc_server_method_latency_seconds',
   help: 'Latency of gRPC methods in seconds',
