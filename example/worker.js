@@ -1,5 +1,7 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
+const timer = require('../gRPSeek-Package/index')
+const file = '../example/greeter_client.js'
 
 // Load the protobuf definition
 const packageDefinition = protoLoader.loadSync('./protos/helloworld.proto', {
@@ -50,7 +52,9 @@ async function run(requestPayload, clientMethod) {
     console.log('Done')
   }
 }
-console.log('line 53: ', client.sayHello)
+// console.log('line 53: ', client.sayHello)
 
-run({ name: "yeww" }, client.sayHello);
+// run({ name: "yeww" }, client.sayHello);
+
+timer(file, 100, 5)
 
