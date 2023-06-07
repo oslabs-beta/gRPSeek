@@ -200,10 +200,19 @@ html {
 }
 
 .card--number{
-  color: #4B91F1;
-  font-weight: 300;
-  font-size: 2.7rem;
+  color: #345f5f;
+  font-weight: 500;
+  font-size: 1.5rem;
   text-align: "center";
+  font-family: 'Quicksand';
+}
+
+.card--title{
+  color: #000000;
+  font-weight: 200;
+  font-size: 1.2rem;
+  text-align: "center";
+  font-family: 'Quicksand';
 }
 
 .card--metric{
@@ -307,6 +316,9 @@ input[type='file']:hover {
 
 .logo{
   margin-left: 5%;
+  font-family: 'Quicksand';
+  font-weight: 400;
+  font-size: 23px;
 }
 
 .tree-button{
@@ -392,6 +404,7 @@ body{
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   
@@ -410,7 +423,7 @@ body{
   height: 100vh;
   width: 100vw;
   @include flexboxCenter(row);
-  background: linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147));
+  background: linear-gradient(to right, rgb(255, 255, 255), rgb(52, 95, 95));
 }
 
 .chart{

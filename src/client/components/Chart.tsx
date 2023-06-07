@@ -15,7 +15,9 @@ import { Button } from "@mui/base";
 type Props = {
   data: number[],
   labels: string[],
-  title: string
+  title: string,
+  yTitle: string,
+  xTitle: string,
 }
 
 const Chart: React.FC<Props> = (props) => {
@@ -39,6 +41,20 @@ const Chart: React.FC<Props> = (props) => {
         text: props.title,
       },
     },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: props.yTitle
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: props.xTitle
+        }
+      }
+    }
   };
 
   const labels = props.labels
@@ -49,7 +65,7 @@ const Chart: React.FC<Props> = (props) => {
       {
         label: "Data",
         data: props.data,
-        backgroundColor: "rgba(255, 200, 132, 0.7)",
+        backgroundColor: "rgba(52, 95, 95, 0.8)",
       },
     ],
   };

@@ -12,7 +12,6 @@ const NavBar: React.FC = () => {
 
   const navigate = useNavigate();
 
-
   return (
     <div className="nav-bar">
       <h1 className="logo">gRPSeek</h1>
