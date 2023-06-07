@@ -3,6 +3,7 @@ import React from "react";
 import protobuf from "protobufjs";
 import Tree from "./Tree";
 import "../../styles.scss";
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 
 
 function Treemap() {
@@ -211,7 +212,6 @@ function Treemap() {
   return (
     <div>
       <div className="inputs">
-        <label for="file-input" id="file-label">Select One .proto File</label>
         <input
           className="oneProtoFile--input"
           id="file-input"
@@ -220,7 +220,9 @@ function Treemap() {
           title=" "
           onChange={onFileChange}
         ></input>
-        <label for="file-input2" id="file-label">Select Multiple .proto Files</label>
+        <label for="file-input" id="file-label">
+          <DriveFolderUploadIcon className="icon"/>
+          Choose a .proto file</label>
         <input
           id="file-input2"
           className="multipleProtoFiles--input"
@@ -228,6 +230,9 @@ function Treemap() {
           accept=".proto"
           onChange={onFileChangeCallback}
         />
+        <label for="file-input2" id="file-label">
+        <DriveFolderUploadIcon className="icon"/>
+          Choose multiple .proto files</label>
       </div>
       {dataReady && <Tree treeData={current} />}
     </div>
