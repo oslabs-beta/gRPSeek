@@ -78,10 +78,10 @@ function Dashboard() {
     "0.000005",
   ];
 
-const histYTitle = 'HistY'
-const histXTitle = 'HistX'
-const latXTitle = 'LatX'
-const latYTitle = 'LatY'
+const histYTitle = 'Requests'
+const histXTitle = 'Seconds'
+const latXTitle = 'Percentile'
+const latYTitle = 'Seconds'
 
 
 
