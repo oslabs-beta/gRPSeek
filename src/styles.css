@@ -198,7 +198,7 @@ html {
 .card--number {
   color: #345f5f;
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-align: "center";
   font-family: "Quicksand";
 }
@@ -307,6 +307,9 @@ input[type=file]:hover {
 
 .logo {
   margin-left: 5%;
+  font-family: "Quicksand";
+  font-weight: 400;
+  font-size: 23px;
 }
 
 .tree-button {
@@ -409,7 +412,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  background: linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147));
+  background: linear-gradient(to right, rgb(255, 255, 255), rgb(52, 95, 95));
 }
 
 .chart {

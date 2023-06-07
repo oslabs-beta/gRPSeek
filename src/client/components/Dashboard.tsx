@@ -9,52 +9,11 @@ function Dashboard() {
   const [latencyData, setLatencyData] = useState([0]);
   const [currSecSum, secSum] = useState(0);
   const [currSecCount, secCount] = useState(0);
-  const [currBytes, setBytes] = useState(0);
-  const [latencySum, setLatencySum] = useState(0);
+  const [userCPU, setUserCPU] = useState(0);
+  const [systemCPU, setSystemCPU] = useState(0);
   const [chartHistTitle, setHistTitle] = useState("");
   const [chartLatencyTitle, setLatencyTitle] = useState("");
 
-  // const clickHandler = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:3500/metrics");
-  //     const text = await response.json(); // Use .text() instead of .json() if the endpoint returns plain text data.
-  //     console.log(text);
-  //     const histArrOfObj = await text[28].values;
-  //     const latencyArrOfObj = await text[29].values;
-  //     const histArr: number[] = [];
-  //     const latencyArr: number[] = [];
-  //     console.log(latencyArrOfObj[0].value);
-  //     for (let i: number = 0; i < 8; i++) {
-  //       if (i === 0) {
-  //         histArr.push(histArrOfObj[i].value);
-  //       } else {
-  //         histArr.push(histArrOfObj[i].value - histArrOfObj[i - 1].value);
-  //       }
-  //     }
-
-  //     for (let k: number = 0; k < 6; k++) {
-  //       console.log(latencyArrOfObj[k].value * 10000);
-  //       latencyArr.push(latencyArrOfObj[k].value * 10000);
-  //     }
-
-  //         secSum(text[28].values[9].value.toFixed(8))
-  //         console.log("secsum", text[28].values[9].value)
-  //         secCount(text[28].values[10].value);
-  //         console.log("setcount",text[28].values[10].value)
-  //         setBytes(text[30].values[5].value.toFixed(8));
-  //         console.log("setbytes", text[30].values[5].value);
-  //         setLatencySum(text[29].values[6].value.toFixed(8));
-  //         console.log("latencysum", text[29].values[6].value);
-          
-  //         setHistTitle(text[28].help)
-  //         setLatencyTitle(text[29].help)
-
-  //         setHistData(histArr);
-  //         setLatencyData(latencyArr);
-  //   } catch (error) {
-  //     console.error("Error fetching metrics:", error);
-  //   }
-  // };
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -75,7 +34,6 @@ function Dashboard() {
       }
 
       for (let k: number = 0; k < 6; k++) {
-        console.log(latencyArrOfObj[k].value * 10000);
         latencyArr.push(latencyArrOfObj[k].value * 10000);
       }
 
@@ -83,10 +41,10 @@ function Dashboard() {
           console.log("secsum", text[28].values[9].value)
           secCount(text[28].values[10].value);
           console.log("setcount",text[28].values[10].value)
-          setBytes(text[30].values[5].value.toFixed(8));
-          console.log("setbytes", text[30].values[5].value);
-          setLatencySum(text[29].values[6].value.toFixed(8));
-          console.log("latencysum", text[29].values[6].value);
+          setUserCPU(text[0].values[0].value.toFixed(5));
+          console.log("usercpu", text[0].values[0].value);
+          setSystemCPU(text[1].values[0].value.toFixed(5));
+          console.log("systemcpu", text[1].values[0].value);
           
           setHistTitle(text[28].help)
           setLatencyTitle(text[29].help)
@@ -147,16 +105,16 @@ const latYTitle = 'LatY'
               <div className="card--number">{currSecSum}</div>
             </div>
             <div className="box-3">
-              <div className="card--title">Seconds Count</div>
+              <div className="card--title">Requests Received</div>
               <div className="card--number">{currSecCount}</div>
             </div>
             <div className="box-4">
-              <div className="card--title">Latency Sum</div>
-              <div className="card--number">{latencySum}</div>
+              <div className="card--title">System CPU Sum</div>
+              <div className="card--number">{systemCPU}</div>
             </div>
             <div className="box-5">
-              <div className="card--title">Total Bytes</div>
-              <div className="card--number">{currBytes}</div>
+              <div className="card--title">User CPU Sum</div>
+              <div className="card--number">{userCPU}</div>
             </div>
             <div className="box-6">
               <Chart
