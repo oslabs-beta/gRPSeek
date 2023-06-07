@@ -1,11 +1,10 @@
 import React from 'react'
-import NavBar from '../client/components/NavBar'
 import Dashboard from '../client/components/Dashboard'
+import NavBar from '../client/components/NavBar'
 
 const Main: React.FC = () => {
   return (
-    <div>
-    <NavBar/>
+    <div className='navbar-dashboard-container'>
     <Dashboard/>
     </div>
   )
