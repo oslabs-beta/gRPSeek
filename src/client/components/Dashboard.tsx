@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@mui/base";
 import Chart from "../components/Chart";
 import NavBar from "./NavBar";
+import CountUp from "react-countup";
 
 function Dashboard() {
   const [histData, setHistData] = useState([0]);
@@ -41,9 +42,9 @@ function Dashboard() {
           console.log("secsum", text[28].values[9].value)
           secCount(text[28].values[10].value);
           console.log("setcount",text[28].values[10].value)
-          setUserCPU(text[0].values[0].value.toFixed(5));
+          setUserCPU(text[0].values[0].value.toFixed(4));
           console.log("usercpu", text[0].values[0].value);
-          setSystemCPU(text[1].values[0].value.toFixed(5));
+          setSystemCPU(text[1].values[0].value.toFixed(4));
           console.log("systemcpu", text[1].values[0].value);
           
           setHistTitle(text[28].help)
@@ -102,19 +103,27 @@ const latYTitle = 'LatY'
             </div>
             <div className="box-2">
               <div className="card--title">Seconds Sum</div>
-              <div className="card--number">{currSecSum}</div>
+              <div className="card--number">
+              <CountUp start={0} end={currSecSum} duration={5} decimals={8} decimal="." />
+                </div>
             </div>
             <div className="box-3">
               <div className="card--title">Requests Received</div>
-              <div className="card--number">{currSecCount}</div>
+              <div className="card--number">
+              <CountUp start={0} end={currSecCount} duration={3.5} />
+                </div>
             </div>
             <div className="box-4">
               <div className="card--title">System CPU Sum</div>
-              <div className="card--number">{systemCPU}</div>
+              <div className="card--number">
+              <CountUp start={0} end={systemCPU} duration={5} decimals={4} decimal="." />
+                </div>
             </div>
             <div className="box-5">
               <div className="card--title">User CPU Sum</div>
-              <div className="card--number">{userCPU}</div>
+              <div className="card--number">
+              <CountUp start={0} end={userCPU} duration={5} decimals={4} decimal="." />
+                </div>
             </div>
             <div className="box-6">
               <Chart
