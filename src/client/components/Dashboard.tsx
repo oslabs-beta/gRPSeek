@@ -1,15 +1,5 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
 import { Button } from "@mui/base";
 import Chart from "../components/Chart";
 import NavBar from "./NavBar";
@@ -24,8 +14,50 @@ function Dashboard() {
   const [chartHistTitle, setHistTitle] = useState("");
   const [chartLatencyTitle, setLatencyTitle] = useState("");
 
-  const clickHandler = async () => {
-    try {
+  // const clickHandler = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:3500/metrics");
+  //     const text = await response.json(); // Use .text() instead of .json() if the endpoint returns plain text data.
+  //     console.log(text);
+  //     const histArrOfObj = await text[28].values;
+  //     const latencyArrOfObj = await text[29].values;
+  //     const histArr: number[] = [];
+  //     const latencyArr: number[] = [];
+  //     console.log(latencyArrOfObj[0].value);
+  //     for (let i: number = 0; i < 8; i++) {
+  //       if (i === 0) {
+  //         histArr.push(histArrOfObj[i].value);
+  //       } else {
+  //         histArr.push(histArrOfObj[i].value - histArrOfObj[i - 1].value);
+  //       }
+  //     }
+
+  //     for (let k: number = 0; k < 6; k++) {
+  //       console.log(latencyArrOfObj[k].value * 10000);
+  //       latencyArr.push(latencyArrOfObj[k].value * 10000);
+  //     }
+
+  //         secSum(text[28].values[9].value.toFixed(8))
+  //         console.log("secsum", text[28].values[9].value)
+  //         secCount(text[28].values[10].value);
+  //         console.log("setcount",text[28].values[10].value)
+  //         setBytes(text[30].values[5].value.toFixed(8));
+  //         console.log("setbytes", text[30].values[5].value);
+  //         setLatencySum(text[29].values[6].value.toFixed(8));
+  //         console.log("latencysum", text[29].values[6].value);
+          
+  //         setHistTitle(text[28].help)
+  //         setLatencyTitle(text[29].help)
+
+  //         setHistData(histArr);
+  //         setLatencyData(latencyArr);
+  //   } catch (error) {
+  //     console.error("Error fetching metrics:", error);
+  //   }
+  // };
+
+  useEffect(()=> {
+    const fetchData = async () => {
       const response = await fetch("http://localhost:3500/metrics");
       const text = await response.json(); // Use .text() instead of .json() if the endpoint returns plain text data.
       console.log(text);
@@ -47,27 +79,35 @@ function Dashboard() {
         latencyArr.push(latencyArrOfObj[k].value * 10000);
       }
 
-
-          secSum(text[28].values[9].value);
+          secSum(text[28].values[9].value.toFixed(8))
           console.log("secsum", text[28].values[9].value)
           secCount(text[28].values[10].value);
           console.log("setcount",text[28].values[10].value)
-          setBytes(text[30].values[5].value);
+          setBytes(text[30].values[5].value.toFixed(8));
           console.log("setbytes", text[30].values[5].value);
-          setLatencySum(text[29].values[6].value);
-          console.log(text[29].values[6].value);
+          setLatencySum(text[29].values[6].value.toFixed(8));
+          console.log("latencysum", text[29].values[6].value);
           
           setHistTitle(text[28].help)
           setLatencyTitle(text[29].help)
 
-      setHistData(histArr);
-      setLatencyData(latencyArr);
-    } catch (error) {
-      console.error("Error fetching metrics:", error);
+          setHistData(histArr);
+          setLatencyData(latencyArr);
     }
-  };
+    fetchData()
+    //  .catch (error) {
+    //   console.error("Error fetching metrics:", error);
+    // }
+  }, [])
 
-  const latencyLabels = ["0.1", "0.3", "0.4", "0.5", "0.9", "0.99"];
+  const latencyLabels = [
+    "0.1", 
+    "0.3", 
+    "0.4", 
+    "0.5", 
+    "0.9", 
+    "0.99"
+  ];
   const histLabels = [
     "0.0000001",
     "0.0000005",
@@ -79,63 +119,59 @@ function Dashboard() {
     "0.000005",
   ];
 
+const histYTitle = 'HistY'
+const histXTitle = 'HistX'
+const latXTitle = 'LatX'
+const latYTitle = 'LatY'
+
+
+
   return (
     <>
       <NavBar></NavBar>
       <div className="dashboard-container">
         <div className="dashboard-secondary-container">
-          <Button onClick={clickHandler}>Refresh</Button>
+          {/* <Button onClick={clickHandler}>Refresh</Button> */}
           <div className="grid-container">
             <div className="box-1">
               <Chart
                 data={histData}
                 labels={histLabels}
                 title={chartHistTitle}
+                yTitle={histYTitle}
+                xTitle={histXTitle}
               ></Chart>
             </div>
-            <div className="box-2">{currSecSum}</div>
-            <div className="box-3">{currSecCount}</div>
-            <div className="box-4">{latencySum}</div>
-            <div className="box-5">{currBytes}</div>
+            <div className="box-2">
+              <div className="card--title">Seconds Sum</div>
+              <div className="card--number">{currSecSum}</div>
+            </div>
+            <div className="box-3">
+              <div className="card--title">Seconds Count</div>
+              <div className="card--number">{currSecCount}</div>
+            </div>
+            <div className="box-4">
+              <div className="card--title">Latency Sum</div>
+              <div className="card--number">{latencySum}</div>
+            </div>
+            <div className="box-5">
+              <div className="card--title">Total Bytes</div>
+              <div className="card--number">{currBytes}</div>
+            </div>
             <div className="box-6">
               <Chart
                 data={latencyData}
                 labels={latencyLabels}
                 title={chartLatencyTitle}
+                xTitle={latXTitle}
+                yTitle={latYTitle}
               ></Chart>
             </div>
           </div>
         </div>
       </div>
     </>
-
-    //   <div className='chart'>
-    //     <Button onClick={clickHandler}>Refresh</Button>
-    //     {/* <Chart data={histData} labels={histLabels} title={chartHistTitle}></Chart>
-    //     <Chart data={latencyData} labels={latencyLabels} title={chartLatencyTitle}></Chart> */}
-    // </div>
-    // </div>
   );
 }
 
 export default Dashboard;
-
-// return (
-//   //grid container
-//   //return graphs and metrics
-//   <>
-//   <NavBar></NavBar>
-//   <div className='dashboard-container'>
-//       <div className='dashboard-secondary-container'>
-//           <div className='grid-container'>
-//               <div className='box-1'>GRAPH 1</div>
-//               <div className='box-2'>Total gRPC Requests</div>
-//               <div className='box-3'>Duration Sum</div>
-//               <div className='box-4'>Bytes</div>
-//               <div className='box-5'>Sum of Latency</div>
-//               <div className='box-6'>GRAPH 2</div>
-//           </div>
-
-//       </div>
-//   </div>
-//   </>
