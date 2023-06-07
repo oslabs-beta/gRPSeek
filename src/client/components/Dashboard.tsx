@@ -49,8 +49,13 @@ function Dashboard() {
 
 
           secSum(text[28].values[9].value);
+          console.log("secsum", text[28].values[9].value)
           secCount(text[28].values[10].value);
+          console.log("setcount",text[28].values[10].value)
           setBytes(text[30].values[5].value);
+          console.log("setbytes", text[30].values[5].value);
+          setLatencySum(text[29].values[6].value);
+          console.log(text[29].values[6].value);
           
           setHistTitle(text[28].help)
           setLatencyTitle(text[29].help)
