@@ -386,12 +386,12 @@ body{
 }
 
 .dashboard-secondary-container{
-  height: 80%;
+  height: 86%;
   width: 80%;
   // background: linear-gradient(179.1deg, rgb(43, 170, 96) 2.3%, rgb(129, 204, 104) 98.3%);
   // background-color: rgb(52,95,95);
   background-color: #89d8d3;
-  background-image: linear-gradient(315deg, #64b0aa 0%, #037562 74%);
+  background-image: linear-gradient(315deg, #29bbaf 0%, #060606 74%);
   border: 0px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 8px;
@@ -402,8 +402,8 @@ body{
 
 .grid-container{
   display: grid;
-  width: 70%;
-  height: 80%;
+  width: 75%;
+  height: 84%;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2,1fr);
   row-gap: 14px;
@@ -412,7 +412,7 @@ body{
 }
 
 .box-1, .box-2,.box-3, .box-4,.box-5, .box-6 {
-  background-color: whitesmoke;
+  background-color: rgb(245, 245, 245);
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
@@ -435,7 +435,6 @@ body{
   height: 100vh;
   width: 100vw;
   @include flexboxCenter(row);
-  background: linear-gradient(to right, rgb(255, 255, 255), rgb(52, 95, 95));
 }
 
 .chart{
