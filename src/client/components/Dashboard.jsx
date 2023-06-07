@@ -1,4 +1,5 @@
 import React from 'react'
+import NavBar from './NavBar'
 
 function Dashboard() {
 
@@ -10,6 +11,8 @@ function Dashboard() {
   return (
     //grid container
     //return graphs and metrics
+    <>
+    <NavBar></NavBar>
     <div className='dashboard-container'>
         <div className='dashboard-secondary-container'>
             <div className='grid-container'>
@@ -25,6 +28,7 @@ function Dashboard() {
 
         </div>
     </div>
+    </>
 
 
 

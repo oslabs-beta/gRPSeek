@@ -5,7 +5,6 @@ import NavBar from '../client/components/NavBar'
 const Main: React.FC = () => {
   return (
     <div className='navbar-dashboard-container'>
-    <NavBar/>
     <Dashboard/>
     </div>
   )

@@ -34,11 +34,11 @@ html {
   width: 100vw;
 }
 
-.container {
-  height: 100vh;
-  width: 100vw;
-  @include flexboxCenter(row);
-}
+// .container {
+//   height: 100vh;
+//   width: 100vw;
+//   @include flexboxCenter(row);
+// }
 
 .home--container {
   @include flexboxCenter(column);
@@ -309,26 +309,48 @@ input[type='file']:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 }
+
 
 .logo{
   margin-left: 5%;
 }
 
 .tree-button{
-  margin-right: 5%;
   height: 25px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: 'Quicksand';
 }
 
-.dashoboard-button{
+.dashboard-button{
   height: 25px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: 'Quicksand';
+}
+
+
+
+.tree-button:hover,
+.dashboard-button:hover {
+  color: teal;
+}
+
+.navbar-buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5%;
+  gap: 30px;
 }
 
 .dashboard-container{
   height: 100%;
   width: 100vw;
-  background-color: rgba(21, 20, 20, 0.838);
+  background-color: rgb(255, 255, 255);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -349,7 +371,7 @@ body{
 .dashboard-secondary-container{
   height: 80%;
   width: 80%;
-  background-color: rgba(120, 119, 119, 0.592);
+  background: linear-gradient(179.1deg, rgb(43, 170, 96) 2.3%, rgb(129, 204, 104) 98.3%);
   border: 0px solid transparent;
   border-radius: 8px;
   display: flex;
@@ -384,8 +406,9 @@ body{
   grid-column: 3/5;
 }
 
-.navbar-buttons{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.home-container{
+  height: 100vh;
+  width: 100vw;
+  @include flexboxCenter(row);
+  background: linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147));
 }
