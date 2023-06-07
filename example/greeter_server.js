@@ -103,6 +103,7 @@ const PORT = 3500;
 const cors = require('cors');
 app.use(cors())
 app.use('/metrics', async (req, res) => {
+
   res.set('Content-Type', register.contentType);
   const metrics = await register.getMetricsAsJSON();
   res.header('Access-Control-Allow-Origin', '*');
