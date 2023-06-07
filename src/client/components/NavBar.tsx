@@ -16,8 +16,8 @@ const NavBar: React.FC = () => {
     <div className="nav-bar">
       <h1 className="logo">gRPSeek</h1>
       <div className="navbar-buttons">
-        <button className="tree-button" onClick={() => navigate('/treemap')}>Tree</button>
         <button className="dashboard-button" onClick={() => navigate('/dashboard')}>Dashboard</button>
+        <button className="tree-button" onClick={() => navigate('/treemap')}>Tree</button>
       </div>
     </div>
   

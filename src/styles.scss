@@ -266,7 +266,7 @@ a {
 }
 
 .text {
-  font-family: "Quicksand", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
   font-size: 14px;
 }
@@ -274,9 +274,11 @@ a {
 .inputs {
   margin-top: 28px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  gap: 5%;
   align-items: center;
   margin-bottom: 20px;
+  
 }
 
 .file-label {
@@ -285,23 +287,33 @@ a {
 }
 
 
-input[type='file'] {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: rgb(75, 145, 241);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
- 
+input[type="file"] {
+  display: none;
 }
 
+label{
+  color: rgb(251, 249, 247);
+  height: 50px;
+  width: 250px;
+  border-radius: 8px;
+  background-color: rgb(52,95,95);
+  font-size: 13px;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  font-family: 'Quicksand';
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
 
+.icon{
+  margin-left: 26px;
+  margin-right: 8px;
+}
 
 /* Styling the button hover effect */
-input[type='file']:hover {
-  background-color: #5c4de9;
+label:hover {
+  background-color: rgb(27, 65, 65);
 }
 
 /* Styling the file input appearance */
@@ -378,8 +390,8 @@ body{
   width: 80%;
   // background: linear-gradient(179.1deg, rgb(43, 170, 96) 2.3%, rgb(129, 204, 104) 98.3%);
   // background-color: rgb(52,95,95);
-  background: rgb(121,127,136);
-  background: linear-gradient(90deg, rgba(121,127,136,1) 0%, rgba(52,95,95,1) 59%);
+  background-color: #89d8d3;
+  background-image: linear-gradient(315deg, #64b0aa 0%, #037562 74%);
   border: 0px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 8px;

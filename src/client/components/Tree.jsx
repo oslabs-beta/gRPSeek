@@ -9,10 +9,11 @@ function Tree(props) {
   const svgRef = useRef(null);
   console.log("inside tree component: ", props.treeData);
 
-  const clearTree = () => {
-    d3.select("svg").selectAll("*").remove();
-    console.log("this is props.treedata", props.treeData);
-  };
+  const colors = ['rgb(52,95,95)', 'rgb(27, 65, 65)', 'rgb(10, 10, 10)', 'rgb(99, 99, 99)']
+  // const clearTree = () => {
+  //   d3.select("svg").selectAll("*").remove();
+  //   console.log("this is props.treedata", props.treeData);
+  // };
 
   useEffect(() => {
     if (props.treeData) {
@@ -22,11 +23,14 @@ function Tree(props) {
     }
 
     //creates an svg with a height and width
+    const svgWidth = 1500;
+    const svgHeight = 800;
+
     const svg = d3
       .select(ref.current)
       .append("svg")
-      .attr("width", 1500)
-      .attr("height", 800);
+      .attr("width", svgWidth)
+      .attr("height", svgHeight);
 
     svgRef.current = svg;
 
@@ -38,7 +42,7 @@ function Tree(props) {
     treeLayout(treeRoot);
 
     //creates an svg group ('g') element for links and appends it to the svg
-    const g = svg.append("g").attr("transform", "translate(120,50)");
+    const g = svg.append("g").attr("transform", "translate(200,125)");
 
     const link = g
       .selectAll(".link")
@@ -72,7 +76,7 @@ function Tree(props) {
     node
       .append("circle")
       .attr("r", 8)
-      .attr("fill", (d) => (d.children ? "blue" : "red")); //radius of circle
+      .attr("fill", (d) => (d.children ? "rgb(52,95,95)" : "gb(32, 60, 60)")); //radius of circle
 
     node
       .append("text")
@@ -84,8 +88,8 @@ function Tree(props) {
   }, [props.treeData]);
 
   return (
-    <div className="tree--container" ref={ref}>
-      <button onClick={clearTree}>click me</button>
+    <div className="tree--container" >
+      <div ref={ref}></div>
       
     </div>
   );
