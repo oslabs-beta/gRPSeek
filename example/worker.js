@@ -17,14 +17,6 @@ const hello_proto = grpc.loadPackageDefinition(packageDefinition).helloworld
 const client = new hello_proto.Greeter('localhost:50051', grpc.credentials.createInsecure());
 // Function to make gRPC requests
 async function makeGrpcRequest(requestPayload, clientMethod) {
-  // console.log("CLIENT METHOD: _______", clientMethod)
-  // Construct your request payload
-  // const requestPayload = {
-  //   // ... populate with request data
-  //   name: 'WORKER'
-
-  // console.log(requestPayload)
-  // console.log(clientMethod)
   // Call the gRPC method
   return new Promise((resolve, reject) => {
     // console.log("CLIENT SAY HELLO: ", client)
@@ -40,11 +32,8 @@ async function makeGrpcRequest(requestPayload, clientMethod) {
 }
 // Main execution function
 async function run(requestPayload, clientMethod) {
-  // console.log(requestPayload)
-  // console.log(clientMethod)
   try {
     const response = await makeGrpcRequest(requestPayload, clientMethod);
-    //console.log('Response:', response);
   } catch (error) {
     console.error('Error:', error);
   } finally {
@@ -52,9 +41,6 @@ async function run(requestPayload, clientMethod) {
     console.log('Done')
   }
 }
-// console.log('line 53: ', client.sayHello)
-
-// run({ name: "yeww" }, client.sayHello);
 
 timer(file, 100, 5)
 

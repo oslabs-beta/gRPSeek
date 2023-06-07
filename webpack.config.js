@@ -8,7 +8,7 @@ module.exports = {
     filename: 'bundle.js',
   },
 
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -48,7 +48,7 @@ module.exports = {
     historyApiFallback: true,
     port: 8080,
     proxy: {
-      '**/*': 'http://localhost:9090',
+      '**/*': 'http://localhost:3500',
     },
   },
   plugins: [
