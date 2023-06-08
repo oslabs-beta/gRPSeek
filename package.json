@@ -8,8 +8,8 @@
     "build": "webpack",
     "start": "webpack-dev-server --open --hot",
     "prom": "prometheus --config.file=./metrics/prometheus.yml",
-    "run-server": "node metrics/dist/src/server.js",
-    "run-client": "node metrics/dist/src/client.js"
+    "run-server": "node example/greeter_server.js",
+    "loadtest": "node example/loadTesting.js"
   },
   "repository": {
     "type": "git",
