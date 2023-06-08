@@ -65,6 +65,7 @@
   "devDependencies": {
     "@types/d3": "^7.4.0",
     "css-loader": "^6.7.4",
+    "file-loader": "^6.2.0",
     "parcel": "2.8.3",
     "style-loader": "^3.3.3",
     "webpack-cli": "^5.1.1"
