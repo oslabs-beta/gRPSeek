@@ -40,6 +40,18 @@ const grpcRequestSizeHistogram = new Histogram({
   labelNames: [ 'method' ],
   buckets: [ 100, 500, 1000, 2000 ],
 });
+const grpcMethodLatencySummary = new Summary({
+  name: 'grpc_server_method_latency_seconds',
+  help: 'Latency of gRPC methods in seconds',
+  labelNames: [ 'method' ],
+  percentiles: [ 0.1, 0.3, .4, 0.5, 0.9, 0.99 ],
+});
+const grpcRequestSizeHistogram = new Histogram({
+  name: 'grpc_server_request_size_bytes',
+  help: 'Size of incoming gRPC requests in bytes',
+  labelNames: [ 'method' ],
+  buckets: [ 100, 500, 1000, 2000 ],
+});
 
 // =====================================================
 const packageDefinition = protoLoader.loadSync(
@@ -65,9 +77,12 @@ function sayHello(call, callback) {
   const startTime = process.hrtime();
   const endTime = process.hrtime(startTime);
   const durationInSeconds = endTime[ 0 ] + endTime[ 1 ] / 1e9;
+
+  const requestSizeBytes = Buffer.byteLength(JSON.stringify(call.request));
   // ======================================================
   grpcMethodDurationHistogram.observe({ method: 'sayHello' }, durationInSeconds);
   grpcMethodLatencySummary.observe({ method: 'sayHello' }, durationInSeconds);
+  grpcRequestSizeHistogram.observe({method: 'sayHello' }, requestSizeBytes);
 
 
 
