@@ -210,9 +210,10 @@ html {
 .card--title{
   color: #000000;
   font-weight: 200;
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: "center";
   font-family: 'Quicksand';
+  margin-bottom: 3px;
 }
 
 .card--metric{
@@ -391,7 +392,7 @@ body{
   // background: linear-gradient(179.1deg, rgb(43, 170, 96) 2.3%, rgb(129, 204, 104) 98.3%);
   // background-color: rgb(52,95,95);
   background-color: #89d8d3;
-  background-image: linear-gradient(315deg, #29bbaf 0%, #060606 74%);
+  background-image: linear-gradient(315deg, #29bbaf 0%, #2a2727 74%);
   border: 0px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 8px;
@@ -443,4 +444,22 @@ body{
   // display: flex;
   // align-items: center;
   // justify-content: center;
+}
+
+.logo-icon{
+  height: 36px;
+  width: 36px;
+}
+
+.logo-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.sec{
+  font-family: 'Quicksand';
+  font-weight: 200;
+  color: rgb(126, 117, 117);
 }
