@@ -64,10 +64,12 @@ function sayHello(call, callback) {
   const startTime = process.hrtime();
   const endTime = process.hrtime(startTime);
   const durationInSeconds = endTime[ 0 ] + endTime[ 1 ] / 1e9;
+
+  const requestSizeBytes = Buffer.byteLength(JSON.stringify(call.request));
   // ======================================================
   grpcMethodDurationHistogram.observe({ method: 'sayHello' }, durationInSeconds);
   grpcMethodLatencySummary.observe({ method: 'sayHello' }, durationInSeconds);
-  grpcRequestSizeHistogram.observe({method: 'sayHello' }, durationInSeconds);
+  grpcRequestSizeHistogram.observe({method: 'sayHello' }, requestSizeBytes);
 
 
 
