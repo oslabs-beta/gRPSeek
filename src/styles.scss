@@ -3,12 +3,7 @@
 $primaryColor: rgb(75, 145, 241);
 $secondaryColor: rgb(119, 212, 252);
 $white: rgb(249, 238, 238);
-
-// font-family: 'Comfortaa', cursive;
-// font-family: 'Montserrat', sans-serif;
-// font-family: 'Quicksand', sans-serif;
-// font-family: 'Red Hat Display', sans-serif;
-// font-family: 'Roboto Condensed', sans-serif;
+$primaryFont: 'Quicksand';
 
 @mixin flexboxCenter($direction) {
   display: flex;
@@ -22,7 +17,6 @@ $white: rgb(249, 238, 238);
   border-radius: 3px;
 }
 
-
 * {
   margin: 0;
   padding: 0;
@@ -34,26 +28,20 @@ html {
   width: 100vw;
 }
 
-// .container {
-//   height: 100vh;
-//   width: 100vw;
-//   @include flexboxCenter(row);
-// }
-
 .home--container {
   @include flexboxCenter(column);
 }
 
 .home__title {
   font-size: 10rem;
-  font-family: "Quicksand", sans-serif;
+  font-family: $primaryFont;
   font-weight: 300;
   margin-bottom: 1.2rem;
 }
 
 .home__slogan {
   font-size: 2rem;
-  font-family: "Quicksand", sans-serif;
+  font-family: $primaryFont;
   font-weight: 300;
   position: relative;
   margin-bottom: 1.8rem;
@@ -69,162 +57,10 @@ html {
   margin-top: 4rem;
   @include flexboxCenter(row)
 }
-.grid--container{
-  width: 40%;
-  height: 40rem;
-  display: grid;
-  // grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  // grid-template-rows: repeat(auto-fill, minmax(180px, 1fr));
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5,1fr);
-  grid-gap: .5rem;
-  grid-auto-flow: row;
-}
-
-
-
-.card--0{
-  @include border(rgba(208, 33, 33, 0.971));
-  @include flexboxCenter(column);
-  background-color: white;
-  // grid-row: 1 / 2;
-
-  hr{
-    width:100%;
-    border: .6px solid rgb(169, 165, 165);
-  }
-
-}
-.card--1{
-  @include border(rgba(208, 33, 33, 0.971));
-  @include flexboxCenter(column);
-  grid-column: 2 / 4;
-  grid-row: 1 / 3;
-  background-color: white;
-
-  hr{
-    width:100%;
-    border: .6px solid rgb(169, 165, 165);
-  }
-
-  div{
-    font-size: 5.5rem;
-  }
-}
-.card--2{
-  @include border(rgba(208, 33, 33, 0.971));
-  @include flexboxCenter(column);
-  grid-row: 1 / 2;
-  grid-column: 4 / 6;
-  background-color: white;
-  
-
-  hr{
-    width:100%;
-    border: .6px solid rgb(169, 165, 165);
-  }
-}
-.card--3{
-  @include border(rgba(208, 33, 33, 0.971));
-  @include flexboxCenter(column);
-  grid-row: 2 / 5 ;
-  grid-column: 1 / 2;
-  background-color: white;
-
-  hr{
-    width:100%;
-    border: .6px solid rgb(169, 165, 165);
-  }
-
-  div{
-    font-size: 4.5rem;
-  }
-}
-.card--4{
-  @include border(blue);
-  @include flexboxCenter(column);
-  grid-row: 4 / 4;
-  grid-column: 2 / span 4;
-  background-color: white;
-
-
-  hr{
-    width:100%;
-    border: .6px solid rgb(169, 165, 165);
-  }
-
-  div{
-    font-size: 4rem;
-  }
- 
-}
-.card--5{
-  @include border(blue);
-  @include flexboxCenter(column);
-  grid-row: 3 / 4;
-  background-color: white;
-
-  hr{
-    width:100%;
-    border: .6px solid rgb(169, 165, 165);
-  }
-  
-}
-.card--6{
-  @include border(blue);
-  @include flexboxCenter(column);
-  grid-column: 4/6;
-  background-color: white;
-
-  hr{
-    width:100%;
-    border: .6px solid rgb(169, 165, 165);
-  }
-  
-}
-.card--7{
-  @include border(blue);
-  @include flexboxCenter(column);
-  grid-row: 3/3;
-  grid-column: 3/6;
-  background-color: white;
-
-  hr{
-    width:100%;
-    border: .6px solid rgb(169, 165, 165);
-  }
-
-  div{
-    font-size: 3.8rem;
-  }
-}
-
-.card--number{
-  color: #345f5f;
-  font-weight: 500;
-  font-size: 1.5rem;
-  text-align: "center";
-  font-family: 'Quicksand';
-}
-
-.card--title{
-  color: #000000;
-  font-weight: 200;
-  font-size: 1rem;
-  text-align: "center";
-  font-family: 'Quicksand';
-  margin-bottom: 3px;
-}
-
-.card--metric{
-  font-size: .7rem;
-  font-family: 'Quicksand', sans-serif; ;
-  @include flexboxCenter(column);
-}
 
 .logo {
   font-size: 1.4rem;
-  font-family: "Quicksand", sans-serif;
+  font-family: $primaryFont;
   font-weight: 300;
   position: relative;
   margin-bottom: 1rem;
@@ -233,7 +69,6 @@ html {
 }
 
 .flex-1 {
-  /* Add your styles for the flex container here */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -243,7 +78,6 @@ html {
 }
 
 .small-size svg {
-  /* Add your styles for the smaller SVG here */
   width: 50px;
   height: 50px;
   stroke-width: 1.4;
@@ -302,7 +136,7 @@ label{
   display: flex;
   justify-self: center;
   align-items: center;
-  font-family: 'Quicksand';
+  font-family: $primaryFont;
   cursor: pointer;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
@@ -312,12 +146,10 @@ label{
   margin-right: 8px;
 }
 
-/* Styling the button hover effect */
 label:hover {
   background-color: rgb(27, 65, 65);
 }
 
-/* Styling the file input appearance */
 
 //NEW STYLING ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .nav-bar{
@@ -329,9 +161,15 @@ label:hover {
 
 .logo{
   margin-left: 5%;
-  font-family: 'Quicksand';
+  font-family: $primaryFont;
   font-weight: 400;
   font-size: 23px;
+}
+
+.logo-img{
+  margin-left: 12px;
+  margin-top: 10px;
+  height: 44px;
 }
 
 .tree-button{
@@ -339,7 +177,7 @@ label:hover {
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  font-family: 'Quicksand';
+  font-family: $primaryFont;
 }
 
 .dashboard-button{
@@ -347,10 +185,8 @@ label:hover {
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  font-family: 'Quicksand';
+  font-family: $primaryFont;
 }
-
-
 
 .tree-button:hover,
 .dashboard-button:hover {
@@ -358,9 +194,7 @@ label:hover {
 }
 
 .navbar-buttons{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flexboxCenter(row);
   margin-right: 5%;
   gap: 30px;
 }
@@ -369,9 +203,7 @@ label:hover {
   height: 90%;
   width: 100vw;
   background-color: rgb(255, 255, 255);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flexboxCenter(row)
 }
 
 body{
@@ -389,16 +221,12 @@ body{
 .dashboard-secondary-container{
   height: 86%;
   width: 80%;
-  // background: linear-gradient(179.1deg, rgb(43, 170, 96) 2.3%, rgb(129, 204, 104) 98.3%);
-  // background-color: rgb(52,95,95);
   background-color: #89d8d3;
   background-image: linear-gradient(315deg, #29bbaf 0%, #2a2727 74%);
   border: 0px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flexboxCenter(row)
 }
 
 .grid-container{
@@ -416,12 +244,7 @@ body{
   background-color: rgb(245, 245, 245);
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  
-  
+  @include flexboxCenter(column)
 }
 
 .box-1{
@@ -440,10 +263,6 @@ body{
 
 .chart{
   width: 100%;
-  
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
 }
 
 .logo-icon{
@@ -452,14 +271,12 @@ body{
 }
 
 .logo-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flexboxCenter(row);
   margin-left: 30px;
 }
 
 .sec{
-  font-family: 'Quicksand';
+  font-family: $primaryFont;
   font-weight: 200;
   color: rgb(126, 117, 117);
 }
