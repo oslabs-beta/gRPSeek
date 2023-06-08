@@ -8,11 +8,17 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 
 function Treemap() {
 
-  
+  //D3 expects an object with a hierchical structure so we're parsing through the file and creating the object using data from the file
+
+  //delcare the object
   const currObj = { name: "", children: [] };
+
+  //declare an array that's going to hold all the message objects
   const arrayOfMessageObjects = [];
+
   let once = true;
 
+  //
   const deepSearch = (currObj, targetMessage) => {
     for (let key in currObj) {
       if (currObj[key] === targetMessage.name) {
@@ -24,10 +30,9 @@ function Treemap() {
       }
     }
 
-    // console.log("deepsearch is finished");
-    // console.log("here is our updated currObj: ", currObj);
     return;
   };
+
 
   const printDefinitions = (object, prefix = "") => {
     //console.log('currObj: ', currObj)
@@ -139,6 +144,7 @@ function Treemap() {
       //     // console.log('this is an enum', prefix + name + '.' + valueName, value)
       //   }
       // }
+
       else if (nested.nested) {
         printDefinitions(nested, prefix + name + ".");
       }
@@ -157,6 +163,7 @@ function Treemap() {
   const [current, setCurrent] = useState(currObj);
   const [dataReady, setDataReady] = useState(false);
 
+  
   const onFileChange = (event) => {
     setCurrent({ name: "", children: [] });
     console.log("this is current state", current);

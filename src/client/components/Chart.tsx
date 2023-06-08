@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { Button } from "@mui/base";
+
 
 type Props = {
   data: number[],
@@ -70,7 +69,6 @@ const Chart: React.FC<Props> = (props) => {
     ],
   };
 
-  
   return (
     <div className="chart">
       <Bar options={options} data={chart} />

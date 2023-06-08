@@ -9,11 +9,6 @@ function Tree(props) {
   const svgRef = useRef(null);
   console.log("inside tree component: ", props.treeData);
 
-  const colors = ['rgb(52,95,95)', 'rgb(27, 65, 65)', 'rgb(10, 10, 10)', 'rgb(99, 99, 99)']
-  // const clearTree = () => {
-  //   d3.select("svg").selectAll("*").remove();
-  //   console.log("this is props.treedata", props.treeData);
-  // };
 
   useEffect(() => {
     if (props.treeData) {
@@ -90,7 +85,6 @@ function Tree(props) {
   return (
     <div className="tree--container" >
       <div ref={ref}></div>
-      
     </div>
   );
 }

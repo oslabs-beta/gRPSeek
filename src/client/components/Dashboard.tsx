@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Button } from "@mui/base";
 import Chart from "../components/Chart";
 import NavBar from "./NavBar";
 import CountUp from "react-countup";
@@ -16,6 +15,7 @@ function Dashboard() {
   const [chartLatencyTitle, setLatencyTitle] = useState("");
 
 
+  //fetch load testing data
   useEffect(()=> {
     const fetchData = async () => {
       const response = await fetch("http://localhost:3500/metrics");
@@ -54,11 +54,9 @@ function Dashboard() {
           setLatencyData(latencyArr);
     }
     fetchData()
-    //  .catch (error) {
-    //   console.error("Error fetching metrics:", error);
-    // }
   }, [])
 
+  //define labels for latency graph
   const latencyLabels = [
     "0.1", 
     "0.3", 
@@ -67,6 +65,8 @@ function Dashboard() {
     "0.9", 
     "0.99"
   ];
+
+  //define labels for duration graph
   const histLabels = [
     "0.0000001",
     "0.0000005",
@@ -78,19 +78,17 @@ function Dashboard() {
     "0.000005",
   ];
 
-const histYTitle = 'Requests'
-const histXTitle = 'Seconds'
-const latXTitle = 'Percentile'
-const latYTitle = 'Seconds'
-
-
+  
+  const histYTitle = 'Requests'
+  const histXTitle = 'Seconds'
+  const latXTitle = 'Percentile'
+  const latYTitle = 'Seconds'
 
   return (
     <>
       <NavBar></NavBar>
       <div className="dashboard-container">
         <div className="dashboard-secondary-container">
-          {/* <Button onClick={clickHandler}>Refresh</Button> */}
           <div className="grid-container">
             <div className="box-1">
               <Chart
