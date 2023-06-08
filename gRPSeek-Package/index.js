@@ -5,6 +5,7 @@ function createWorkers(method) {
   return new Promise((resolve, reject) => {
     const worker = new Worker(method);
     worker.on('message', (message) => {
+      console.log(message)
     });
     worker.on('error', (error) => {
       reject(error);
