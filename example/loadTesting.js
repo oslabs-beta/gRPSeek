@@ -1,3 +1,3 @@
 const workerScriptPath = './greeter_client.js';
-const loadTest = require('grpseek')
-loadTest('./greeter_client.js', 100, 10)
+const timer = require('grpseek')
+timer(workerScriptPath, 1, 1)

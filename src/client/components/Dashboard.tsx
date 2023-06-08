@@ -102,10 +102,10 @@ const latYTitle = 'Seconds'
               ></Chart>
             </div>
             <div className="box-2">
-              <div className="card--title">Seconds Sum</div>
+              <div className="card--title">Total Duration</div>
               <div className="card--number">
-              <CountUp start={0} end={currSecSum} duration={5} decimals={8} decimal="." />
-                </div>
+              <CountUp start={0} end={currSecSum} duration={3} decimals={8} decimal="." />
+                </div> <span className="sec">sec</span>
             </div>
             <div className="box-3">
               <div className="card--title">Requests Received</div>
@@ -114,16 +114,16 @@ const latYTitle = 'Seconds'
                 </div>
             </div>
             <div className="box-4">
-              <div className="card--title">System CPU Sum</div>
+              <div className="card--title">System CPU Time Spent</div>
               <div className="card--number">
-              <CountUp start={0} end={systemCPU} duration={5} decimals={4} decimal="." />
-                </div>
+              <CountUp start={0} end={systemCPU} duration={3} decimals={4} decimal="." />
+                </div> <span className="sec">sec</span>
             </div>
             <div className="box-5">
-              <div className="card--title">User CPU Sum</div>
+              <div className="card--title">User CPU Time Spent</div>
               <div className="card--number">
-              <CountUp start={0} end={userCPU} duration={5} decimals={4} decimal="." />
-                </div>
+              <CountUp start={0} end={userCPU} duration={3} decimals={4} decimal="." />
+                </div> <span className="sec">sec</span>
             </div>
             <div className="box-6">
               <Chart
