@@ -43,6 +43,7 @@
     "framer-motion": "^10.12.16",
     "html-webpack-plugin": "^5.5.1",
     "mini-css-extract-plugin": "^2.7.6",
+    "mui": "^0.0.1",
     "protobufjs": "^7.2.3",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",

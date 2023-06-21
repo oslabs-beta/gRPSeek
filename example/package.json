@@ -19,6 +19,7 @@
     "grpseek": "^1.4.4",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
+    "mui": "^0.0.1",
     "nodemon": "^2.0.22",
     "prom-client": "^14.2.0"
   }
