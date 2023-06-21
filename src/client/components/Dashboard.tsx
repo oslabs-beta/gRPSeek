@@ -108,7 +108,7 @@ function Dashboard() {
             <div className="box-3">
               <div className="card--title">Requests Received</div>
               <div className="card--number">
-              <CountUp start={0} end={currSecCount} duration={3.5} />
+              <CountUp start={0} end={currSecCount} duration={3} />
                 </div>
             </div>
             <div className="box-4">

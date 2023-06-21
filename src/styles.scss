@@ -278,3 +278,15 @@ body{
   font-weight: 200;
   color: rgb(126, 117, 117);
 }
+
+.card--title{
+  font-family: $primaryFont;
+  font-weight: 200;
+}
+
+.card--number{
+  font-family: 400;
+  font-family: $primaryFont;
+  font-size: 28px;
+
+}
