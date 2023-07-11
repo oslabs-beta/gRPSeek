@@ -28,7 +28,7 @@ const grpcMethodDurationHistogram = new Histogram({
   buckets: [ 0.1, 0.5, 1, 2, 5 ],
 });
 
-const grpcMethodLatencySummary = new Summary({
+const grpcMethodLatencySummary = new Histogram({
   name: 'grpc_server_method_latency_seconds',
   help: 'Latency of gRPC methods in seconds',
   labelNames: [ 'method' ],
@@ -58,7 +58,7 @@ const hello_proto = grpc.loadPackageDefinition(packageDefinition).helloworld;
  * Implements the SayHello RPC method.
  */
 function sayHello(call, callback) {
-  //console.log('Received a Request: ', call.request.name)
+  // console.log('Received a Request: ', call.request.name)
 
   //====================== Implementing Custom Metrics ==========================
   grpcRequestCounter.inc({ method: 'sayHello' }); // Increment the request counter
