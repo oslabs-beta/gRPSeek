@@ -1,3 +1,4 @@
-const workerScriptPath = './greeter_client.js';
+const path = require('path')
+const workerScriptPath = path.join(__dirname,'./greeter_client.js');
 const timer = require('grpseek')
-timer(workerScriptPath, 10, 5)
+timer(workerScriptPath, 5, 5)

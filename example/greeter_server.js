@@ -11,34 +11,42 @@ const express = require('express');
 const app = express();
 
 // =========== PROMETHEUS ============================
-const { collectDefaultMetrics, register } = require('prom-client');
+const { collectDefaultMetrics,register } = require('prom-client');
 const { Counter, Histogram, Summary } = require('prom-client'); // Custom Metrics 
+// const client = require('prom-client');
+// const Registry = client.Registry;
+// const register = new Registry();
 collectDefaultMetrics()
-
 // ============Creating custom metrics for gRPC ==================
 const grpcRequestCounter = new Counter({
   name: 'grpc_server_requests_total',
   help: 'Total number of gRPC requests received',
   labelNames: [ 'method' ],
+  // registers: [register],
 });
 const grpcMethodDurationHistogram = new Histogram({
   name: 'grpc_server_method_duration_seconds',
   help: 'Duration of gRPC methods in seconds',
   labelNames: [ 'method' ],
-  buckets: [ 0.1, 0.5, 1, 2, 5 ],
+  // buckets: [ 0.1, 0.5, 1, 2, 5 ],
+  buckets: [ 0.0000001, 0.0000005, 0.000001, 0.0000015, 0.000002, 0.000003, 0.000004, 0.000005]
+
+  // registers: [register],
 });
 
-const grpcMethodLatencySummary = new Histogram({
+const grpcMethodLatencySummary = new Summary({
   name: 'grpc_server_method_latency_seconds',
   help: 'Latency of gRPC methods in seconds',
   labelNames: [ 'method' ],
-  percentiles: [ 0.1, 0.3, .4, 0.5, 0.9, 0.99 ],
+  percentiles: [ 0.1, 0.3, 0.4, 0.5, 0.9, 0.99 ],
+  // registers: [register],
 });
 const grpcRequestSizeHistogram = new Histogram({
   name: 'grpc_server_request_size_bytes',
   help: 'Size of incoming gRPC requests in bytes',
   labelNames: [ 'method' ],
   buckets: [ 100, 500, 1000, 2000 ],
+  // registers: [register],
 });
 
 
@@ -58,7 +66,7 @@ const hello_proto = grpc.loadPackageDefinition(packageDefinition).helloworld;
  * Implements the SayHello RPC method.
  */
 function sayHello(call, callback) {
-  // console.log('Received a Request: ', call.request.name)
+  console.log('Received a Request: ', call.request.name)
 
   //====================== Implementing Custom Metrics ==========================
   grpcRequestCounter.inc({ method: 'sayHello' }); // Increment the request counter
@@ -78,7 +86,7 @@ function sayHello(call, callback) {
   // ============ RESPONSE FROM gRPC SERVER ==================
 
 
-  const response = { message: 'Hello from Server' }
+  const response = { message: "Hello from Server" }
   callback(null, response)
   // =================================================
 }
@@ -110,7 +118,7 @@ app.use('/metrics', async (req, res) => {
   res.set('Content-Type', register.contentType);
   const metrics = await register.getMetricsAsJSON();
   res.header('Access-Control-Allow-Origin', '*');
-  res.json(metrics);
+  res.status(200).json(metrics);
 });
 
 app.listen(PORT, () => console.log(`Prometheus metrics server listening on ${PORT}`))

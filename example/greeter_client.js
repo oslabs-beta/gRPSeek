@@ -1,5 +1,7 @@
+const path = require('path')
+//const PROTO_PATH = __dirname + '/protos/helloworld.proto';
+const PROTO_PATH = path.join(__dirname ,'/protos/helloworld.proto');
 
-const PROTO_PATH = __dirname + '/protos/helloworld.proto';
 
 const parseArgs = require('minimist');
 const grpc = require('@grpc/grpc-js');
@@ -23,14 +25,15 @@ function main() {
   client.sayHelloAgain({ name: 'Miri' }, function (err, response) {
     console.log('sayHelloAgainGreetings:', response.message)
   })
+  invoke()
 }
 
-// function invoke() {
-//   const client2 = new hello_proto.Greeter('localhost:50051', grpc.credentials.createInsecure());
-//   client2.sayHello({ name: 'Miri' }, function (err, response) {
-//     console.log('clientGreetings:', response.message);
-//   });
-// }
+function invoke() {
+  const client2 = new hello_proto.Greeter('localhost:50051', grpc.credentials.createInsecure());
+  client2.sayHello({ name: 'Miri' }, function (err, response) {
+    console.log('clientGreetings:', response.message);
+  });
+}
 
 main()
 
