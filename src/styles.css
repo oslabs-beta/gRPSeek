@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400&family=Comfortaa&family=Montserrat&family=Quicksand:wght@300;500;600;700&family=Red+Hat+Display:wght@300&family=Roboto+Condensed:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400&family=Comfortaa&family=Montserrat&family=Quicksand:wght@300;500;600;700&family=Red+Hat+Display:wght@300&family=Roboto+Condensed:wght@300&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -19,14 +19,14 @@ html {
 
 .home__title {
   font-size: 10rem;
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
   font-weight: 300;
   margin-bottom: 1.2rem;
 }
 
 .home__slogan {
   font-size: 2rem;
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
   font-weight: 300;
   position: relative;
   margin-bottom: 1.8rem;
@@ -135,7 +135,7 @@ html {
   align-items: center;
   flex-direction: column;
   grid-row: 4/4;
-  grid-column: 2/span 4;
+  grid-column: 2 / span 4;
   background-color: white;
 }
 .card--4 hr {
@@ -199,21 +199,21 @@ html {
   color: #345f5f;
   font-weight: 500;
   font-size: 1.5rem;
-  text-align: "center";
-  font-family: "Quicksand";
+  text-align: 'center';
+  font-family: 'Quicksand';
 }
 
 .card--title {
   color: #000000;
   font-weight: 200;
   font-size: 1.2rem;
-  text-align: "center";
-  font-family: "Quicksand";
+  text-align: 'center';
+  font-family: 'Quicksand';
 }
 
 .card--metric {
   font-size: 0.7rem;
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -222,7 +222,7 @@ html {
 
 .logo {
   font-size: 1.4rem;
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
   font-weight: 300;
   position: relative;
   margin-bottom: 1rem;
@@ -264,7 +264,7 @@ a {
 }
 
 .text {
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
   font-weight: 400;
   font-size: 14px;
 }
@@ -282,7 +282,7 @@ a {
   margin-bottom: 5px;
 }
 
-input[type=file] {
+input[type='file'] {
   display: inline-block;
   padding: 10px 20px;
   background-color: rgb(75, 145, 241);
@@ -294,7 +294,7 @@ input[type=file] {
 }
 
 /* Styling the button hover effect */
-input[type=file]:hover {
+input[type='file']:hover {
   background-color: #5c4de9;
 }
 
@@ -307,7 +307,7 @@ input[type=file]:hover {
 
 .logo {
   margin-left: 5%;
-  font-family: "Quicksand";
+  font-family: 'Quicksand';
   font-weight: 400;
   font-size: 23px;
 }
@@ -317,7 +317,7 @@ input[type=file]:hover {
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  font-family: "Quicksand";
+  font-family: 'Quicksand';
 }
 
 .dashboard-button {
@@ -325,7 +325,7 @@ input[type=file]:hover {
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  font-family: "Quicksand";
+  font-family: 'Quicksand';
 }
 
 .tree-button:hover,
@@ -366,9 +366,18 @@ body {
   height: 80%;
   width: 80%;
   background: rgb(121, 127, 136);
-  background: linear-gradient(90deg, rgb(121, 127, 136) 0%, rgb(52, 95, 95) 59%);
+  background: linear-gradient(
+    90deg,
+    rgb(121, 127, 136) 0%,
+    rgb(52, 95, 95) 59%
+  );
   border: 0px solid transparent;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  box-shadow:
+    rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px,
+    rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px,
+    rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -383,11 +392,16 @@ body {
   grid-template-rows: repeat(2, 1fr);
   row-gap: 14px;
   -moz-column-gap: 14px;
-       column-gap: 14px;
+  column-gap: 14px;
   grid-auto-flow: row;
 }
 
-.box-1, .box-2, .box-3, .box-4, .box-5, .box-6 {
+.box-1,
+.box-2,
+.box-3,
+.box-4,
+.box-5,
+.box-6 {
   background-color: whitesmoke;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -417,4 +431,4 @@ body {
 
 .chart {
   width: 100%;
-}/*# sourceMappingURL=styles.css.map */
+} /*# sourceMappingURL=styles.css.map */
