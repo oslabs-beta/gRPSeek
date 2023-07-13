@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 // './generated/proto/ToDoServiceClientPb.ts' might have the client/service stub
+import Item from '../client/components/Item';
 import { TodoClient } from '../generated/proto/ToDoServiceClientPb';
-import { TodoItem } from '../generated/proto/toDo_pb';
+import { TodoItem, voidNoParams } from '../generated/proto/toDo_pb';
+import icon from '../../assets/icon.png';
+import '../styles.css';
+
 export default function AddItem() {
   const client = new TodoClient('http://localhost:8080');
   const req = new TodoItem();
-  const sendToEnvoy = (txt: string = 'New Item :D', id: number = 1) => {
+  const sendToEnvoy = (txt: string = 'New Item', id: number = 1) => {
     req.setText(txt);
     req.setId(id);
     client.createTodo(req, {}, (err, resp) => {
@@ -16,11 +20,26 @@ export default function AddItem() {
       }
     });
   };
-
+  // let object: voidNoParams.AsObject;
+  const object = new voidNoParams();
   const [text, setText] = useState('');
   const [id, setId] = useState('');
+  const [listItems, setListItems] = useState([]);
 
   useEffect(() => {
+    client.readTodos(object, {}, (err, resp) => {
+      const items = resp.getItemsList();
+      console.log('ITEMS', items);
+      // items.forEach((i) => console.log(i.getText()));
+      const list = items.map((i) => {
+        return <Item key={i.getId()} title={i.getText()} />;
+      });
+      setListItems(list);
+      console.log(resp.toObject());
+      if (err) {
+        console.log(err);
+      }
+    });
     sendToEnvoy();
   }, []);
 
@@ -39,14 +58,22 @@ export default function AddItem() {
 
   return (
     <div>
-      <h1>Add an Item to your To-Do List</h1>
-      <div>
-        <h3>Item:</h3>
-        <input type="text" onChange={handleText} />
-        <h3>ID: </h3>
-        <input type="number" onChange={handleId} />
-        <button onClick={handleSubmit}>Add to List</button>
+      <div className="item-container">
+        <img height="50px" src={icon} alt="" />
+
+        <h1 className="item-title">Add an Item to your To-Do List</h1>
+        <div className="inputs">
+          <h3>Item:</h3>
+          <input className="item-input" type="text" onChange={handleText} />
+          <h3>ID: </h3>
+          <input className="item-input" type="number" onChange={handleId} />
+          <button className="item-button" onClick={handleSubmit}>
+            Add to List
+          </button>
+        </div>
       </div>
+      <h1>Tasks</h1>
+      <div className="list-of-cards">{listItems}</div>
     </div>
   );
 }

@@ -33,7 +33,7 @@ function getServer() {
   const server = new grpc.Server();
 
   server.addService(todoPackage.Todo.service, {
-    createTodo: (call, callback) => {
+    createTodo: async (call, callback) => {
       const todoText = call.request.text;
       try {
         const result = pool(
@@ -45,6 +45,16 @@ function getServer() {
         callback(null, insertedTodoItem);
       } catch (error) {
         callback(error);
+      }
+    },
+    readTodos: async (call, callback) => {
+      try {
+        const result = await pool('SELECT * FROM todos');
+        const todoItems = result.rows;
+        callback(null, { items: todoItems });
+        // return result
+      } catch (error) {
+        console.log('Error: ', error);
       }
     },
   });

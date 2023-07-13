@@ -5,6 +5,7 @@ import Main from './Pages/Main';
 import TreeMapView from './Pages/TreetMapView';
 import Dashboard from './client/components/Dashboard';
 import AddItem from './Pages/AddItem';
+import './styles.scss';
 
 const App: React.FC = () => {
   return (

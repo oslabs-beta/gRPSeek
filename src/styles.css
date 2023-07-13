@@ -440,3 +440,14 @@ body {
 .chart {
   width: 100%;
 } /*# sourceMappingURL=styles.css.map */
+
+.list-of-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: 1000px;
+  overflow-y: scroll;
+  width: 1200px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

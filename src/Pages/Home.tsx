@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import '../styles.scss';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Home: React.FC = () => {
         >
           Start Seeking
         </Button>
+        <Link to="additem">Add Item Page</Link>
       </div>
     </div>
   );

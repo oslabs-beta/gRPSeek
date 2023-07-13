@@ -23,7 +23,7 @@ static_resources:
                       routes:
                         - match: { prefix: "/" }
                           route:
-                            cluster: chat_service
+                            cluster: server_proxy
                             timeout: 0s
                             max_stream_duration:
                               grpc_timeout_header_max: 0s
@@ -39,13 +39,13 @@ static_resources:
                   - name: envoy.filters.http.cors
                   - name: envoy.filters.http.router
   clusters:
-    - name: chat_service
+    - name: server_proxy
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
       lb_policy: round_robin
       load_assignment:
-        cluster_name: echo_service
+        cluster_name: server_proxy
         endpoints:
           - lb_endpoints:
               - endpoint:
