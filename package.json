@@ -61,6 +61,7 @@
     "sass-loader": "^13.3.0",
     "styled-components": "^5.3.10",
     "ts-loader": "^9.4.2",
+    "ts-protoc-gen": "^0.15.0",
     "typescript": "^5.0.4",
     "uuid": "^9.0.0",
     "webpack": "^5.83.1",
