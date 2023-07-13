@@ -327,6 +327,14 @@ input[type='file']:hover {
   cursor: pointer;
   font-family: 'Quicksand';
 }
+.additem-button {
+  height: 25px;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: 'Quicksand';
+}
+
 
 .tree-button:hover,
 .dashboard-button:hover {

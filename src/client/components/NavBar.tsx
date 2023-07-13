@@ -21,6 +21,9 @@ const NavBar: React.FC = () => {
         <button className="tree-button" onClick={() => navigate('/treemap')}>
           Tree
         </button>
+        <button className="additem-button" onClick={() => navigate('/additem')}>
+          Add Item to To-Do List
+        </button>
       </div>
     </div>
   );
