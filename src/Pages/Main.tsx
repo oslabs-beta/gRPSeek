@@ -1,13 +1,12 @@
-import React from 'react'
-import Dashboard from '../client/components/Dashboard'
-import NavBar from '../client/components/NavBar'
+import React from 'react';
+import Dashboard from '../client/components/Dashboard';
 
 const Main: React.FC = () => {
   return (
-    <div className='navbar-dashboard-container'>
-    <Dashboard/>
+    <div className="navbar-dashboard-container">
+      <Dashboard />
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;

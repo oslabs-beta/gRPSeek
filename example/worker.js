@@ -42,5 +42,5 @@ async function run(requestPayload, clientMethod) {
   }
 }
 
-timer(file, 100, 5)
+timer(file, 10, 5)
 
