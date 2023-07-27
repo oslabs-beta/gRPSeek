@@ -45,4 +45,4 @@ function observeDurationHistogram(methodName) {
   return
 }
 
-module.exports = observeDurationHistogram;
+// module.exports = observeDurationHistogram;
