@@ -44,17 +44,17 @@ In this example, 400 worker threads are running the `greeter_client.js` file, fo
 This makes it extremely easy for developers in Node.js to load test their gRPC services without making massive changes to their code base or installing unnecessary dependencies. Worker threads are a native module to Node and does not require any other packages for the workers to run the client’s file.
 
 ## Protocol Buffers
-Protocol Buffers (ProtoBuf) are a binary serialization format created by Google in 2008, offering a compact and efficient alternative to JSON and XML .proto files, or Protocol Buffer files, are the key to using Protocol Buffers. These files are used to define the structure of the data to be serialized or deserialized. They act as a contract or schema between services, ensuring consistent communication.
+Protocol Buffers (ProtoBuf) are a binary serialization format created by Google in 2008, offering a compact and efficient alternative to JSON and XML. Proto files, or Protocol Buffer files, are the key to using Protocol Buffers. These files are used to define the structure of the data to be serialized or deserialized. They act as a contract or schema between services, ensuring consistent communication.
 
 ## The Need for a Visualizer
-Understanding complex nested structures and repeated fields in .proto files can be challenging, especially for a developer who’s working with protocol buffers for the first time. gRPSeek aims to enhance the developer experience of working with Protocol Buffers and gRPC by offering an intuitive visualization tool, powered by D3.js to alleviate the challenges of working with complex, deeply nested .proto files. Our tool provides a clear view of the hierarchical structure of your .proto files in a tree-like graph. Just import your proto file, or multiple proto files, and see your schema come to life.
+Understanding complex nested structures and repeated fields in proto files can be challenging, especially for a developer who’s working with protocol buffers for the first time. gRPSeek aims to enhance the developer experience of working with Protocol Buffers and gRPC by offering an intuitive visualization tool, powered by D3.js to alleviate the challenges of working with complex, deeply nested proto files. Our tool provides a clear view of the hierarchical structure of your proto files in a tree-like graph. Just import your proto file, or multiple proto files, and see your schema come to life.
 <p align="center">
   <img width="350" src="./assets/tree.jpg">
 </p>
 
 ## Troubleshooting and Support
 
-If you encounter any issues or have questions, refer to the troubleshooting section in our documentation [link to troubleshooting section]. For further assistance, please reach out to our support team [contact information or link to support channels].
+If you encounter any issues or have questions, please reach out to our support team: grpseek@gmail.com.
 
 
 
