@@ -48,7 +48,6 @@ This tool is designed to provide comprehensive load testing for gRPC services, a
 
 ## Built With
 
-Whilst I was the main developer of this project, this project couldn't of even started without the help of these open source projects, special thanks to:
 
 - [TypeScript](https://www.typescriptlang.org/)
 - [React](https://react.dev/)
