@@ -9,22 +9,21 @@
   <p align="center">
     Performance Optimization Suite for gRPC: Load Testing and Response Metrics Analysis
     <br/>
-    W.I.P.
+    ______________
     <br/>
     <br/>
     <a href="https://grpseek.io"><strong>Learn More »</strong></a>
     <br/>
     <br/>
-    <a href="https://github.com/ShaanCoding/ReadME-Generator">Explore the docs</a>
+    <a href="https://github.com/kennysghub/gRPSeek-v2">Explore the docs</a>
     .
-    <a href="https://github.com/ShaanCoding/ReadME-Generator/issues">Report Bug</a>
+    <a href="https://github.com/kennysghub/gRPSeek-v2">Report Bug</a>
     .
-    <a href="https://github.com/ShaanCoding/ReadME-Generator/issues">Request Feature</a>
+    <a href="https://github.com/kennysghub/gRPSeek-v2">Request Feature</a>
   </p>
-  <script type="text/javascript" src="https://sessionize.com/api/speaker/sessions/b485e6c2-15b5-4db2-b028-304152b73d3c/0x0x3fb393x"></script>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/ShaanCoding/ReadME-Generator/total) ![Contributors](https://img.shields.io/github/contributors/ShaanCoding/ReadME-Generator?color=dark-green) ![Issues](https://img.shields.io/github/issues/ShaanCoding/ReadME-Generator) ![License](https://img.shields.io/github/license/ShaanCoding/ReadME-Generator) 
+![Downloads](https://img.shields.io/github/downloads/kennysghub/gRPSeek-v2/total) ![Contributors](https://img.shields.io/github/contributors/kennysghub/gRPSeek-v2?color=dark-green) ![Issues](https://img.shields.io/github/issues/kennysghub/gRPSeek-v2) ![License](https://img.shields.io/github/license/kennysghub/gRPSeek-v2) 
 
 ## Table Of Contents
 
@@ -44,18 +43,15 @@
 
 ## About The Project
 
-![Screen Shot](images/screenshot.png)
-
 This tool is designed to provide comprehensive load testing for gRPC services, allowing developers to simulate various levels of load and analyze server response metrics. By offering real-time insights into latency, throughput, and stream message transmission, it enables the identification and mitigation of performance bottlenecks. The tool's robust testing capabilities ensure that new code does not introduce performance regression, and it plays a vital role in meeting required concurrency and inference response times. Integrated with visualizations and intuitive dashboards, it offers a complete solution for optimizing gRPC service performance and reliability.
 
--
 
 ## Built With
 
 Whilst I was the main developer of this project, this project couldn't of even started without the help of these open source projects, special thanks to:
 
 - [TypeScript](https://www.typescriptlang.org/)
-- [React]()
+- [React](https://react.dev/)
 
 ## Getting Started
 
@@ -71,7 +67,7 @@ This program has no pre-requisites
 1. Clone the repo
 
 ```
-git clone https://github.com/kennysghub/gRPSeek-v2
+git clone https://github.com/oslabs-beta/gRPSeek
 ```
 
 2. Install dependencies
@@ -109,7 +105,6 @@ Distributed under the MPL-2.0 License. See [LICENSE](https://github.com/kennysgh
 
 
 ## Acknowledgements
+Coming Soon!
 
 
-
-<script type="text/javascript" src="https://sessionize.com/api/speaker/events/b485e6c2-15b5-4db2-b028-304152b73d3c/1x0x3fb393x"></script>
