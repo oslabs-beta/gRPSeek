@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --config webpack/webpack.config.js --env env=dev --open",
     "build": "webpack  --config webpack/webpack.config.js --env env=prod",
+    "apiServer": "ts-node ./api-server/expressServer",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "proto:gen": "./tools/proto-gen.sh"
@@ -15,7 +16,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "eslint-plugin-eslint-comments": "^3.2.0",
+    "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -25,6 +28,7 @@
     "@babel/preset-env": "^7.22.6",
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
+    "@types/cors": "^2.8.13",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
@@ -41,6 +45,7 @@
     "html-webpack-plugin": "^5.5.3",
     "prettier": "^2.8.8",
     "style-loader": "^3.3.3",
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.6",
     "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4",
