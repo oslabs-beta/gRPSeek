@@ -12,12 +12,13 @@ app.use(express.urlencoded({ extended: true }));
 /** Request for static files */
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
+
+
+
+
+
 /** Catch-all route handler for unknown routes */
 app.use((req, res) => res.status(404).send('Invalid page'));
-
-
-
-
 
 /** Global error handler */
 app.use((err, req, res, next) => {
