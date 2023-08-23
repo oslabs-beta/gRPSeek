@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../proto/helloworld';
+import clientInterceptor from '../server/loadTester';
 
 const PORT = 8082;
 const PROTO = '../proto/helloworld.proto';
@@ -14,13 +15,20 @@ const client = new grpcObj.greeterPackage.Greeter(
   `0.0.0.0:${PORT}`, grpc.credentials.createInsecure(),
 )
 
-function main () {
-  client.SayHello({name:"Kenny"}, (err, res)=> {
-    if(err){
+const interceptor = clientInterceptor();
+
+const channel = client.getChannel();
+
+function main() {
+  client.SayHello({ name: "Kenny" }, (err, res) => {
+    if (err) {
       console.log('error', err)
       return;
     }
     console.log("result:", res)
   })
 }
-main()
+
+while (true) {
+  main();
+}

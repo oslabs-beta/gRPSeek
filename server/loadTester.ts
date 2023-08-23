@@ -26,3 +26,6 @@ function clientInterceptor(): grpc.Interceptor {
     return call;
   }
 }
+
+
+export default clientInterceptor
