@@ -13,10 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
 
-
-
-
-
 /** Catch-all route handler for unknown routes */
 app.use((req, res) => res.status(404).send('Invalid page'));
 
