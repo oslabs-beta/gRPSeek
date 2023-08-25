@@ -21,7 +21,7 @@ function clientInterceptor(): grpc.Interceptor {
 
     //length in ms
     let timeDuration = endTime - startTime;
-    fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Time Duration: ${timeDuration}`);
+    fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Time Duration: ${timeDuration}\n`, { flag: "a+" });
 
     return call;
   }

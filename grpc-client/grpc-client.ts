@@ -17,10 +17,8 @@ const client = new grpcObj.greeterPackage.Greeter(
 
 const interceptor = clientInterceptor();
 
-const channel = client.getChannel();
-
 function main() {
-  client.SayHello({ name: "Kenny" }, (err, res) => {
+  client.SayHello({ name: "Kenny" }, { interceptors: [interceptor] }, (err, res) => {
     if (err) {
       console.log('error', err)
       return;
