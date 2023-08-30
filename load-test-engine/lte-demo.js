@@ -14,4 +14,12 @@ engine
 
 setTimeout(() => {
   engine.stopAll();
+  
+  console.log('Calls currently stored on engine: ', engine.getLabels());
+
+  engine
+    .removeCall('dummy1')
+    .removeCall('dummy2');
+
+  console.log('Calls currently stored on engine: ', engine.getLabels());
 }, 10000)

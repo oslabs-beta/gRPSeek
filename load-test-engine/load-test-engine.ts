@@ -43,10 +43,11 @@ class LoadTestEngine {
     return this;
   }
 
-  removeCall(label): void {
+  removeCall(label): LoadTestEngine {
     if (this.calls[label]) {
       delete this.calls[label];
       console.log(`Call ${label} removed`);
+      return this;
     } else {
       throw new Error('Label does not exist.')
     }
@@ -63,8 +64,8 @@ class LoadTestEngine {
         // The associated this.calls object for the current label
         const call = this.calls[label];
         // Set a recursive timeout
-        repeatCall(call);
         console.log(`Call ${label} started.`);
+        repeatCall(call);
         // Add to active calls tracker
         this.active[label] = call;
       }
@@ -76,8 +77,8 @@ class LoadTestEngine {
     for (const label in this.calls) {
       if (!this.active[label]) {
         const call = this.calls[label];
-        repeatCall(call);
         console.log(`Call ${label} started.`);
+        repeatCall(call);
         this.active[label] = call;
       }
     }
@@ -106,4 +107,4 @@ class LoadTestEngine {
 
 }
 
-module.exports = LoadTestEngine;
+module.exports = new LoadTestEngine();

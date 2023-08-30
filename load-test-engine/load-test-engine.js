@@ -1,4 +1,3 @@
-// Only used for hashCall()
 var hash = require('crypto');
 // Generates a label if one is not provided by user
 function hashCall(stub, message, interval) {
@@ -6,12 +5,11 @@ function hashCall(stub, message, interval) {
         .update(stub.toString() + JSON.stringify(message) + interval.toString())
         .digest('hex');
 }
-// Recursively calls setTimeout for repeating calls
+// Recursive setTimeout for repeating calls
 function repeatCall(call) {
     call.stub(call.message);
     call.timeout = setTimeout(function () { repeatCall(call); }, call.interval);
 }
-// Load test engine to be instantiated
 var LoadTestEngine = /** @class */ (function () {
     function LoadTestEngine() {
         this.calls = {};
@@ -35,6 +33,7 @@ var LoadTestEngine = /** @class */ (function () {
         if (this.calls[label]) {
             delete this.calls[label];
             console.log("Call ".concat(label, " removed"));
+            return this;
         }
         else {
             throw new Error('Label does not exist.');
@@ -51,8 +50,8 @@ var LoadTestEngine = /** @class */ (function () {
                 // The associated this.calls object for the current label
                 var call = _this.calls[label];
                 // Set a recursive timeout
-                repeatCall(call);
                 console.log("Call ".concat(label, " started."));
+                repeatCall(call);
                 // Add to active calls tracker
                 _this.active[label] = call;
             }
@@ -63,8 +62,8 @@ var LoadTestEngine = /** @class */ (function () {
         for (var label in this.calls) {
             if (!this.active[label]) {
                 var call = this.calls[label];
-                repeatCall(call);
                 console.log("Call ".concat(label, " started."));
+                repeatCall(call);
                 this.active[label] = call;
             }
         }
@@ -90,5 +89,4 @@ var LoadTestEngine = /** @class */ (function () {
     };
     return LoadTestEngine;
 }());
-
-module.exports = new LoadTestEngine;
+module.exports = new LoadTestEngine();
