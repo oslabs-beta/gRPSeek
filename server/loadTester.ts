@@ -29,11 +29,11 @@ let interceptor: grpc.Interceptor = function (options, nextCall) {
         onReceiveStatus: (status, next) => {
           if (status.code !== grpc.status.OK) {
             numErrors++;
-            console.log('In onReceiveStatus, status ERROR');
-            //Potential Stretch feature: handling failed requests with a fallback method
-          } else {
-            // console.log('In onReceiveStatus, status OK');
-            //next(status);
+            console.log(`Status ERROR: ${grpc.status[status.code]} message: ${status.details}`);
+            //   Potential Stretch feature: handling failed requests with a fallback method
+            // } else {
+            //   console.log('Status OK');
+            //   next(status);
           }
           next(status);
         }

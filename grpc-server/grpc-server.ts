@@ -30,9 +30,9 @@ function getServer() {
   server.addService(greeterPackage.Greeter.service, {
     SayHello: (req, res) => {
       // console.log("Server received request: ", req.request);
-      let value = Math.floor(Math.random() * 5);
-      if (value < 3) {
-        res({ code: grpc.status.INVALID_ARGUMENT, message: "Hello from server" })
+      let value = Math.floor(Math.random() * 10);
+      if (value < 2) {
+        res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server" })
       } else {
         res(null, { message: "Hello from server" })
       }
