@@ -20,7 +20,7 @@ let interceptor: grpc.Interceptor = function (options, nextCall) {
       //listener that intercepts inbound operations - receiving server status and message
       let newListener: grpc.Listener = {
         onReceiveMessage: (message, next) => {
-          // console.log('In onReceiveMessage, INBOUND MESSAGE: ', message);
+          // console.log('inbound message received: ', message);
           let endTime = performance.now();
           let timeDuration = endTime - startTime;
           //duration in ms
@@ -29,10 +29,10 @@ let interceptor: grpc.Interceptor = function (options, nextCall) {
         onReceiveStatus: (status, next) => {
           if (status.code !== grpc.status.OK) {
             numErrors++;
-            console.log(`Status ERROR: ${grpc.status[status.code]} message: ${status.details}`);
+            console.log(`status error: ${grpc.status[status.code]} message: ${status.details}`);
             //   Potential Stretch feature: handling failed requests with a fallback method
             // } else {
-            //   console.log('Status OK');
+            //   console.log('status ok');
             //   next(status);
           }
           next(status);
@@ -42,7 +42,7 @@ let interceptor: grpc.Interceptor = function (options, nextCall) {
     },
     //sendMesssage method called before every outbound message - where we count total number of calls, time start
     sendMessage: (message, next) => {
-      console.log('In sendMessage, OUTBOUND MESSAGE: ', message);
+      console.log('outbound message sent: ', message);
       startTime = performance.now();
       numCalls++;
       next(message);
