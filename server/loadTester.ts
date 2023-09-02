@@ -24,7 +24,7 @@ let interceptor: grpc.Interceptor = function (options, nextCall) {
           let endTime = performance.now();
           let timeDuration = endTime - startTime;
           //duration in ms
-          fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Time Duration: ${timeDuration}\n`, { flag: "a+" });
+          fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Time Duration: ${timeDuration}, Call ${numCalls}\n`, { flag: "a+" });
         },
         onReceiveStatus: (status, next) => {
           if (status.code !== grpc.status.OK) {
