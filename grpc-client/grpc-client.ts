@@ -27,8 +27,18 @@ function main() {
   })
 }
 
-for (let i = 0; i < 100; i++) {
+let counter = 0;
+let copy = function () {
+  counter++;
+  if (counter < 100) {
+    setTimeout(() => { copy() }, 1);
+  }
   main();
 }
-console.log('Finished calls: ', clientInterceptor.numCalls);
-console.log('Number of failed requests: ', clientInterceptor.numErrors);
+
+copy();
+
+setTimeout(() => {
+  console.log('Finished calls: ', clientInterceptor.numCalls);
+  console.log('Number of failed requests: ', clientInterceptor.numErrors);
+}, 1000);

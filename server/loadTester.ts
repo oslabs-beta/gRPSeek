@@ -30,7 +30,7 @@ class MetricInterceptor implements MetricInterceptorInterface {
         //listener that intercepts inbound operations - receiving server status and message
         let newListener: grpc.Listener = {
           onReceiveMessage: (message, next) => {
-            // console.log('inbound message received: ', message);
+            console.log('inbound message received: ', message);
             let endTime = performance.now();
             let timeDuration = endTime - startTime;
             //duration in ms
@@ -39,11 +39,8 @@ class MetricInterceptor implements MetricInterceptorInterface {
           onReceiveStatus: (status, next) => {
             if (status.code !== grpc.status.OK) {
               this.numErrors++;
-              console.log(`status error: ${grpc.status[status.code]} message: ${status.details}`);
+              console.log(`status error: ${grpc.status[status.code]} message: ${status.details}, ${this.numErrors}, ${this.numCalls}`);
               //   Potential Stretch feature: handling failed requests with a fallback method
-              // } else {
-              //   console.log('status ok');
-              //   next(status);
             }
             next(status);
           }
@@ -52,7 +49,7 @@ class MetricInterceptor implements MetricInterceptorInterface {
       },
       //sendMesssage method called before every outbound message - where we count total number of calls, time start
       sendMessage: (message, next) => {
-        console.log('outbound message sent: ', message);
+        // console.log('outbound message sent: ', message);
         startTime = performance.now();
         this.numCalls++;
         console.log(this.numCalls);
