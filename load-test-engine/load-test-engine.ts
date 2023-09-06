@@ -1,4 +1,5 @@
 const hash = require('crypto');
+// import MetricInterceptor from '../server/loadTester';
 
 // Generates a label if one is not provided by user
 function hashCall(stub, message, interval) {
@@ -13,23 +14,28 @@ function repeatCall(call) {
   call.timeout = setTimeout(() => {repeatCall(call)}, call.interval);
 }
 
-type stub = {
-  stub: (arg: any) => any,
-  message: Record<string, any>,
+type Message = Record<string, string | number | boolean>
+
+type Stub = () => {};
+
+type Call = {
+  stub: Stub,
+  message: Message,
   interval: number,
+  interface: any,
   timeout: NodeJS.Timeout | undefined,
 }
 
 class LoadTestEngine {
-  private calls: Record<string, stub>
-  private active: Record<string, stub>
+  private calls: Record<string, Call>
+  private active: Record<string, Call>
   
   constructor() {
     this.calls = {};
     this.active = {};
   }
 
-  addCall(stub: (arg: any) => any, message: Record<string, any>, interval: number, label: string = hashCall(stub, message, interval), timeout: NodeJS.Timeout | undefined): LoadTestEngine {
+  addCall(stub: StubFunction, message: Record<string, any>, interval: number, label: string = hashCall(stub, message, interval), timeout: NodeJS.Timeout | undefined): LoadTestEngine {
     if (this.calls[label]) {
       throw new Error('Label already exists.');
     }
