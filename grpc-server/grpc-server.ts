@@ -11,11 +11,11 @@ const packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO_FILE))
 const grpcObj = (grpc.loadPackageDefinition(packageDef) as unknown) as ProtoGrpcType
 const greeterPackage = grpcObj.greeterPackage;
 
-function main(){
+function main() {
   const server = getServer();
 
-  server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port)=> {
-    if(err){
+  server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
+    if (err) {
       console.log("Error: ", err);
       return;
     }
@@ -24,13 +24,18 @@ function main(){
   })
 }
 
-function getServer(){
+function getServer() {
   const server = new grpc.Server();
 
   server.addService(greeterPackage.Greeter.service, {
     SayHello: (req, res) => {
       // console.log("Server received request: ", req.request);
-      res(null, {message: "Hello from server"})
+      let value = Math.floor(Math.random() * 10);
+      if (value < 2) {
+        res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server" })
+      } else {
+        res(null, { message: "Hello from server" })
+      }
     }
   } as GreeterHandlers);
 
