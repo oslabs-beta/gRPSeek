@@ -32,9 +32,18 @@ function getServer() {
       // console.log("Server received request: ", req.request);
       let value = Math.floor(Math.random() * 10);
       if (value < 2) {
-        res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server" })
+        res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHello)" })
       } else {
         res(null, { message: "Hello from server" })
+      }
+    },
+    SayHelloAgain: (req, res) => {
+      // console.log("Server received request: ", req.request);
+      let value = Math.floor(Math.random() * 10);
+      if (value < 2) {
+        res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHelloAgain)" })
+      } else {
+        res(null, { message: "Hello again from server" })
       }
     }
   } as GreeterHandlers);

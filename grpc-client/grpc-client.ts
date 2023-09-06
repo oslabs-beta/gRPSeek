@@ -3,6 +3,7 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../proto/helloworld';
 import MetricInterceptor from '../server/loadTester';
+const LTE = require('../load-test-engine/load-test-engine');
 
 const PORT = 8082;
 const PROTO = '../proto/helloworld.proto';
@@ -17,28 +18,29 @@ const client = new grpcObj.greeterPackage.Greeter(
 
 let clientInterceptor = new MetricInterceptor();
 
-function main() {
-  client.SayHello({ name: "Kenny" }, { interceptors: [clientInterceptor.interceptor] }, (err, res) => {
-    if (err) {
-      console.log('error', err)
-      return;
-    }
-    console.log("result:", res)
-  })
-}
+// Arguments to be passed into each RPC
+const message = {name: "Kenny"};
 
-let counter = 0;
-let copy = function () {
-  counter++;
-  if (counter < 100) {
-    setTimeout(() => { copy() }, 1);
+const options = { interceptors: [clientInterceptor.interceptor] }
+
+const callback = (err: any, res: any) => {
+  if (err) {
+    console.log('error', err)
+    return;
   }
-  main();
+  console.log("result:", res)
 }
 
-copy();
+// Iterate through client and add RPCs to engine, ignoring duplicate (Pascal case) versions of the RPCs.
+for (const key in client) {
+    if (key[0] >= "a" && key[0] <= "z") {
+      const stub = (client as any)[key] as Function;
+      LTE.addCall(stub.bind(client), message, options, callback, 1000, undefined, "TestCall:" + key)
+    }
+}
 
-setTimeout(() => {
-  console.log('Finished calls: ', clientInterceptor.numCalls);
-  console.log('Number of failed requests: ', clientInterceptor.numErrors);
-}, 1000);
+// Start load testing
+LTE.startAll();
+
+// Stop load testing after 10 seconds
+setTimeout(() => {LTE.stopAll()}, 10000);

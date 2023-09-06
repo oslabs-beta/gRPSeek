@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var hash = require('crypto');
 // Generates a label if one is not provided by user
 function hashCall(stub, message, interval) {
@@ -7,7 +9,12 @@ function hashCall(stub, message, interval) {
 }
 // Recursive setTimeout for repeating calls
 function repeatCall(call) {
-    call.stub(call.message);
+    // Type issue with grpc.CallOptions, temporarily disabling call count limit
+    // if (call.options.interceptors !== undefined && call.count >= call.options.interceptors[0].numCalls) {
+    //   clearTimeout(call.timeout);
+    //   return;
+    // }
+    call.stub(call.message, call.options, call.callback);
     call.timeout = setTimeout(function () { repeatCall(call); }, call.interval);
 }
 var LoadTestEngine = /** @class */ (function () {
@@ -15,7 +22,8 @@ var LoadTestEngine = /** @class */ (function () {
         this.calls = {};
         this.active = {};
     }
-    LoadTestEngine.prototype.addCall = function (stub, message, interval, label, timeout) {
+    LoadTestEngine.prototype.addCall = function (stub, message, options, callback, interval, count, label, timeout) {
+        if (count === void 0) { count = Infinity; }
         if (label === void 0) { label = hashCall(stub, message, interval); }
         if (this.calls[label]) {
             throw new Error('Label already exists.');
@@ -23,8 +31,11 @@ var LoadTestEngine = /** @class */ (function () {
         this.calls[label] = {
             stub: stub,
             message: message,
+            options: options,
+            callback: callback,
             interval: interval,
-            timeout: timeout
+            count: count,
+            timeout: timeout,
         };
         console.log("Call ".concat(label, " added."));
         return this;
