@@ -3,6 +3,7 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../proto/helloworld';
 import { GreeterHandlers } from '../proto/greeterPackage/Greeter';
+import { addReflection } from 'grpc-server-reflection'
 
 const PORT = 8082;
 const PROTO_FILE = '../proto/helloworld.proto';
@@ -10,9 +11,13 @@ const PROTO_FILE = '../proto/helloworld.proto';
 const packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO_FILE))
 const grpcObj = (grpc.loadPackageDefinition(packageDef) as unknown) as ProtoGrpcType
 const greeterPackage = grpcObj.greeterPackage;
+const DESCRIPTOR_PATH = path.resolve(__dirname, '../proto/descriptor_set.bin')
+
 
 function main() {
   const server = getServer();
+
+  addReflection(server, DESCRIPTOR_PATH)
 
   server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
     if (err) {
@@ -22,6 +27,7 @@ function main() {
     console.log(`Your server has started on port ${port}`);
     server.start();
   })
+
 }
 
 function getServer() {

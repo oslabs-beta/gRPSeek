@@ -23,6 +23,8 @@
     "cors": "^2.8.5",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "express": "^4.18.2",
+    "grpc-reflection-js": "^0.3.0",
+    "grpc-server-reflection": "^0.1.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -50,6 +52,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "grpc_tools_node_protoc_ts": "^5.3.3",
     "html-webpack-plugin": "^5.5.3",
     "prettier": "^2.8.8",
     "prom-client": "^14.2.0",
