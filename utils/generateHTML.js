@@ -1,0 +1,15 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateHTML = void 0;
+var fs_1 = __importDefault(require("fs"));
+var generateHTML = function (latencyData) {
+    var requestNumbers = latencyData.map(function (item) { return item.requestNumber; });
+    var latencies = latencyData.map(function (item) { return item.latency; });
+    var htmlContent = "\n  <!DOCTYPE html>\n  <html>\n  <head>\n    <title>Time-Series Dashboard</title>\n    <script src=\"https://cdn.plot.ly/plotly-latest.min.js\"></script>\n  </head>\n  <body>\n    <div class=\"dashboard\">\n      <div class=\"dashboard-header\">\n        <h1 class=\"dashboard-title\">Time-Series Dashboard</h1>\n      </div>\n      <div class=\"plot-container\">\n        <div id=\"latency-over-time\"></div>\n        <div id=\"latency-distribution\"></div>\n        <div id=\"latency-summary\"></div>\n        <div id=\"latency-scatter-plot\"></div>\n      </div>\n    </div>\n    <script>\n      const requestNumbers = ".concat(JSON.stringify(requestNumbers), ";\n      const latencies = ").concat(JSON.stringify(latencies), ";\n\n      Plotly.newPlot('latency-over-time', [{\n        x: requestNumbers,\n        y: latencies,\n        type: 'scatter',\n        mode: 'lines+markers',\n        marker: { color: 'blue', size: 8 },\n        line: { color: 'blue', width: 2, shape: 'spline' },\n      }], {\n        title: 'Latency Over Time',\n        xaxis: { title: 'Request Number', showgrid: false, zeroline: false },\n        yaxis: { title: 'Latency', showline: false },\n        hovermode: 'closest',\n        plot_bgcolor: '#f3f3f3',\n      });\n\n      Plotly.newPlot('latency-distribution', [{\n        x: latencies,\n        type: 'histogram',\n        marker: { color: 'green' },\n      }], {\n        title: 'Latency Distribution',\n        xaxis: { title: 'Latency', showgrid: false, zeroline: false },\n        yaxis: { title: 'Frequency', showline: false },\n        barmode: 'overlay',\n        bargap: 0.05,\n        plot_bgcolor: '#f3f3f3',\n      });\n\n      Plotly.newPlot('latency-summary', [{\n        y: latencies,\n        type: 'box',\n        boxpoints: 'all',\n        jitter: 0.3,\n        pointpos: -1.8,\n      }], {\n        title: 'Latency Summary',\n        yaxis: { title: 'Latency', showline: false },\n        plot_bgcolor: '#f3f3f3',\n      });\n\n      Plotly.newPlot('latency-scatter-plot', [{\n        x: requestNumbers,\n        y: latencies,\n        mode: 'markers',\n        type: 'scatter',\n      }], {\n        title: 'Latency Scatter Plot',\n        xaxis: { title: 'Number of Requests' },\n        yaxis: { title: 'Latency' },\n      });\n    </script>\n  </body>\n  </html>\n  ");
+    fs_1.default.writeFileSync('dashboard.html', htmlContent);
+    console.log('HTML file has been generated successfully!');
+};
+exports.generateHTML = generateHTML;

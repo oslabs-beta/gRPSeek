@@ -1,0 +1,6 @@
+duration: 10
+protoPath: ../../proto/helloworld.proto
+serviceName: greeterPackage
+methodName: Greeter
+payloadPath: ../load-test-engine/load-test-config/payload.js
+callbackPath: ../load-test-engine/load-test-config/callback.js

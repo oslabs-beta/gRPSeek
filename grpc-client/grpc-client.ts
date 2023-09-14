@@ -8,14 +8,14 @@ const LTE = require('../load-test-engine/load-test-engine');
 const PORT = 8082;
 const PROTO = '../proto/helloworld.proto';
 
-const packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO));
+const packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO), {});
 const grpcObj = (grpc.loadPackageDefinition(packageDef) as unknown) as ProtoGrpcType;
 const greeterPackage = grpcObj.greeterPackage;
 
-const client = new grpcObj.greeterPackage.Greeter(
+const client = new greeterPackage.Greeter(
   `0.0.0.0:${PORT}`, grpc.credentials.createInsecure(),
 )
-
+console.log("CLIENT: ", client)
 let clientInterceptor = new MetricInterceptor();
 
 // Arguments to be passed into each RPC
@@ -30,7 +30,11 @@ const callback = (err: any, res: any) => {
   }
   console.log("result:", res)
 }
-
+let obj = client;
+while (obj) {
+  console.log(Object.getOwnPropertyNames(obj));
+  obj = Object.getPrototypeOf(obj);
+}
 // Iterate through client and add RPCs to engine, ignoring duplicate (Pascal case) versions of the RPCs.
 for (const key in client) {
     if (key[0] >= "a" && key[0] <= "z") {

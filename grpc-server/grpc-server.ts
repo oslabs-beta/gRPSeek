@@ -1,4 +1,6 @@
 import * as path from 'path';
+import * as fs from 'fs';
+import * as crypto from 'crypto';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../proto/helloworld';
@@ -15,11 +17,13 @@ const DESCRIPTOR_PATH = path.resolve(__dirname, '../proto/descriptor_set.bin')
 
 
 function main() {
+  
   const server = getServer();
-
+ 
+  
   addReflection(server, DESCRIPTOR_PATH)
-
-  server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
+  const serverCredentials = grpc.ServerCredentials.createInsecure()
+  server.bindAsync(`0.0.0.0:${PORT}`, serverCredentials, (err, port) => {
     if (err) {
       console.log("Error: ", err);
       return;
@@ -35,7 +39,7 @@ function getServer() {
 
   server.addService(greeterPackage.Greeter.service, {
     SayHello: (req, res) => {
-      // console.log("Server received request: ", req.request);
+      console.log("Server received request: ", req.request);
       let value = Math.floor(Math.random() * 10);
       if (value < 2) {
         res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHello)" })

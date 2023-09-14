@@ -1,12 +1,36 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var grpc = require("@grpc/grpc-js");
+var grpc = __importStar(require("@grpc/grpc-js"));
 var perf_hooks_1 = require("perf_hooks");
-var fs = require("fs");
-var path = require("path");
+var generateHTML_1 = require("../utils/generateHTML");
 var MetricInterceptor = /** @class */ (function () {
     function MetricInterceptor() {
         var _this = this;
+        // Class-level array to store latency data
+        this.latencyData = [];
         this.interceptor = function (options, nextCall) {
             var startTime;
             var endTime;
@@ -21,7 +45,13 @@ var MetricInterceptor = /** @class */ (function () {
                             var endTime = perf_hooks_1.performance.now();
                             var timeDuration = endTime - startTime;
                             //duration in ms
-                            fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), "Time Duration: ".concat(timeDuration, ", Call ").concat(_this.numCalls, "\n"), { flag: "a+" });
+                            // fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Request number ${this.numCalls}:, Time Duration: ${timeDuration}\n`, { flag: "a+" });
+                            _this.latencyData.push({ requestNumber: _this.numCalls, latency: endTime - startTime });
+                            // Check if all interceptors are done
+                            if (_this.numCalls >= 20) {
+                                _this.generateHTMLReport();
+                            }
+                            next(message);
                         },
                         onReceiveStatus: function (status, next) {
                             if (status.code !== grpc.status.OK) {
@@ -52,6 +82,9 @@ var MetricInterceptor = /** @class */ (function () {
         this.numCalls = 0;
         this.numErrors = 0;
     }
+    MetricInterceptor.prototype.generateHTMLReport = function () {
+        (0, generateHTML_1.generateHTML)(this.latencyData);
+    };
     return MetricInterceptor;
 }());
 exports.default = MetricInterceptor;
