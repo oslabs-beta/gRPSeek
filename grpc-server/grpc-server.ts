@@ -6,7 +6,7 @@ import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../proto/helloworld';
 import { GreeterHandlers } from '../proto/greeterPackage/Greeter';
 import { addReflection } from 'grpc-server-reflection'
-
+import { log } from '@grpc/grpc-js/build/src/logging';
 const PORT = 8082;
 const PROTO_FILE = '../proto/helloworld.proto';
 
@@ -15,6 +15,7 @@ const grpcObj = (grpc.loadPackageDefinition(packageDef) as unknown) as ProtoGrpc
 const greeterPackage = grpcObj.greeterPackage;
 const DESCRIPTOR_PATH = path.resolve(__dirname, '../proto/descriptor_set.bin')
 
+log
 
 function main() {
   
@@ -38,22 +39,22 @@ function getServer() {
   const server = new grpc.Server();
 
   server.addService(greeterPackage.Greeter.service, {
-    SayHello: (req, res) => {
-      console.log("Server received request: ", req.request);
-      let value = Math.floor(Math.random() * 10);
-      if (value < 2) {
-        res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHello)" })
+    SayHello: (call, callback) => {
+      console.log("Server received request: ", call.request);
+      
+      if (typeof call.request === 'string') {
+        callback({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHello)" })
       } else {
-        res(null, { message: "Hello from server" })
+        callback(null, { message: "Hello from server" })
       }
     },
-    SayHelloAgain: (req, res) => {
+    SayHelloAgain: (call, callback) => {
       // console.log("Server received request: ", req.request);
       let value = Math.floor(Math.random() * 10);
       if (value < 2) {
-        res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHelloAgain)" })
+        callback({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHelloAgain)" })
       } else {
-        res(null, { message: "Hello again from server" })
+        callback(null, { message: "Hello again from server" })
       }
     }
   } as GreeterHandlers);

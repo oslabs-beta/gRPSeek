@@ -33,6 +33,8 @@ var loadTester_1 = __importDefault(require("../server/loadTester"));
 var LTE = require('../load-test-engine/load-test-engine');
 var PORT = 8082;
 var PROTO = '../proto/helloworld.proto';
+process.env.GRPC_TRACE = 'api,channel';
+process.env.GRPC_VERBOSITY = 'DEBUG';
 var packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO), {});
 var grpcObj = grpc.loadPackageDefinition(packageDef);
 var greeterPackage = grpcObj.greeterPackage;
@@ -49,11 +51,11 @@ var callback = function (err, res) {
     }
     console.log("result:", res);
 };
-var obj = client;
-while (obj) {
-    console.log(Object.getOwnPropertyNames(obj));
-    obj = Object.getPrototypeOf(obj);
-}
+// let obj = client;
+// while (obj) {
+//   console.log(Object.getOwnPropertyNames(obj));
+//   obj = Object.getPrototypeOf(obj);
+// }
 // Iterate through client and add RPCs to engine, ignoring duplicate (Pascal case) versions of the RPCs.
 for (var key in client) {
     if (key[0] >= "a" && key[0] <= "z") {

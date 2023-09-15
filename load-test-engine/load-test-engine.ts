@@ -13,39 +13,56 @@ function hashCall(stub: Stub, message: Message, interval: number) {
     .update(stub.toString() + JSON.stringify(message) + interval.toString())
     .digest('hex');
 }
-function findService(grpcObject: any, serviceName: string): any {
-  console.log(`Searching for service ${serviceName}...`);
+// function findService(grpcObject: any, serviceName: string): any {
+//   console.log(`Searching for service ${serviceName}...`);
   
-  if (grpcObject[serviceName]) {
-    console.log(`Service ${serviceName} found at current level.`);
-    return grpcObject[serviceName];
-  }
+//   if (grpcObject[serviceName]) {
+//     // console.log(`Service ${serviceName} found at current level.`);
+//     return grpcObject[serviceName];
+//   }
   
-  for (const key in grpcObject) {
-    if (typeof grpcObject[key] === 'object') {
-      console.log(`Descending into ${key}...`);
-      const nestedService = findService(grpcObject[key], serviceName);
-      if (nestedService) {
-        console.log(`Service ${serviceName} found in ${key}.`);
-        return nestedService;
-      }
-    }
-  }
+//   for (const key in grpcObject) {
+//     if (typeof grpcObject[key] === 'object') {
+//       console.log(`Descending into ${key}...`);
+//       const nestedService = findService(grpcObject[key], serviceName);
+//       if (nestedService) {
+//         // console.log(`Service ${serviceName} found in ${key}.`);
+//         return nestedService;
+//       }
+//     }
+//   }
 
-  console.log(`Service ${serviceName} not found.`);
-  return null;
-}
+//   console.log(`Service ${serviceName} not found.`);
+//   return null;
+// }
 
 
 // Recursive setTimeout for repeating calls
 function repeatCall(call: Call) {
+  
+  
   // Type issue with grpc.CallOptions, temporarily disabling call count limit
-  // if (call.options.interceptors !== undefined && call.count >= call.options.interceptors[0].numCalls) {
-  //   clearTimeout(call.timeout);
-  //   return;
-  // }
-  call.stub(call.message, call.options, call.callback);
+  if (call.options.interceptors !== undefined && call.count >= options.interceptors.length) {
+    console.log('Clearing timeout')
+    clearTimeout(call.timeout);
+    return;
+  }
+
+  // console.log("call.timeout: ", call.timeout)
+  if(typeof call.stub === 'function'){
+    const instance = new (call.stub as any).constructor();
+    console.log("instance: ", instance);
+    // instance[instance.originalName](call.message, call.options, call.callback);
+    instance(call.message, call.options, call.callback);
+
+    
+  
+  }
+  call.stub(call.message, call.options, call.callback) ;
   call.timeout = setTimeout(() => {repeatCall(call)}, call.interval);
+console.log("Prototype of call.stub:", Object.getPrototypeOf(call.stub));
+
+
 }
 
 type Stub = (message: Message, options: grpc.CallOptions, callback: grpc.requestCallback<any>) => any;
@@ -68,6 +85,7 @@ export interface LoadTestConfig {
   methodName?: string,
   payloadPath?: string,
   callbackPath?: string,
+  packageName?: string,
   // ... other configurations
 }
 export class LoadTestEngine {
@@ -83,14 +101,15 @@ export class LoadTestEngine {
       this.setupGrpcClient();
     }
   }
-  public setupGrpcClient() {
+  private setupGrpcClient() {
     
     const packageDef = protoLoader.loadSync(path.resolve(__dirname, this.config.protoPath));
     const grpcObj = (grpc.loadPackageDefinition(packageDef) as unknown) as ProtoGrpcType;
     // console.log("grpcObject: ", grpcObj);
 
-    // const Pkg = grpcObj[this.config.serviceName] ;
-    const Pkg = findService(grpcObj, this.config.serviceName ?? '');
+    const Pkg = grpcObj[this.config.packageName] ;
+    // const Pkg = findService(grpcObj, this.config.packageName);
+    
 
     if (!Pkg) {
       throw new Error(`Service "${this.config.serviceName}" not found in the loaded .proto file.`);
@@ -99,29 +118,26 @@ export class LoadTestEngine {
     // console.log(typeof Pkg);
     // console.log("Package: ______", Pkg);
     // const client =  (new Pkg[this.config.methodName](this.config.protoPath, grpc.credentials.createInsecure())); 
-    const client =  new Pkg[this.config.methodName]('localhost:50051', grpc.credentials.createInsecure()); // Replace with your server details
+    const client =  new Pkg[this.config.serviceName]('localhost:8082', grpc.credentials.createInsecure()); // Replace with your server details
 
-
+    // console.log("CLIENT: ", client)
     // Assuming unary call for simplicity; you may need to handle different types of calls
-    const stub: Stub = (message, options, callback) => {
+    // console.log('pkg: ',Pkg)
+    // const stub: Stub = (message, options, callback) => {
       
-      // Implement the actual gRPC call here using service and methodName
-      //  return this.config.serviceName[this.config.methodName]console.log('Inspecting client object:', client);
-      console.log('Method name:', this.config.methodName);
-      console.log('Is method a function?', typeof client[this.config.methodName] === 'function');
-      client[this.config.methodName](message, callback)
-
-   
-     };
+    //    const stubs = (client as any)[this.config.methodName] as Function
+    //   // return stubs(message, options, callback)
+    //   this.addCall(stubs.bind(client), payload, options, callback, interval);
+    //   return  stubs
+    //  };
      
-   
-    // Load custom payload and callback if provided
-    const payload = this.config.payloadPath ? require(this.config.payloadPath) : {};
-    const callback: grpc.requestCallback<any> = this.config.callbackPath ? require(this.config.callbackPath) : (err: any, res: any) => {};
-    const options: grpc.CallOptions = {};
-    const interval: number = 1000;
+     
+     // Load custom payload and callback if provided
+     const payload = this.config.payloadPath ? require(this.config.payloadPath) : {};
+     const callback: grpc.requestCallback<any> = this.config.callbackPath ? require(this.config.callbackPath) : (err: any, res: any) => {};
+     const options: grpc.CallOptions = {};
+     const interval: number = 1000;
 
-    this.addCall(stub, payload, options, callback, interval);
   }
   // Overload signatures
   addCall(stub: Stub, message: Message, options: grpc.CallOptions, callback: grpc.requestCallback<any>, interval: number): LoadTestEngine;
@@ -136,7 +152,7 @@ export class LoadTestEngine {
     interval: number,
     count?: number,
     label?: string ,
-    timeout?: NodeJS.Timeout | undefined,
+    timeout?: NodeJS.Timeout ,
   ): LoadTestEngine {
     if (this.calls[label]) {
       throw new Error('Label already exists.');

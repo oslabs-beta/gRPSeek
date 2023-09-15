@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "@grpc/grpc-js": "^1.9.0",
+    "@types/js-yaml": "^4.0.5",
     "commander": "^11.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -26,6 +27,7 @@
     "express": "^4.18.2",
     "grpc-reflection-js": "^0.3.0",
     "grpc-server-reflection": "^0.1.5",
+    "grpseek": "^1.4.4",
     "js-yaml": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

@@ -25,6 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var grpc = __importStar(require("@grpc/grpc-js"));
 var perf_hooks_1 = require("perf_hooks");
+var fs = __importStar(require("fs"));
+var path = __importStar(require("path"));
 var generateHTML_1 = require("../utils/generateHTML");
 var MetricInterceptor = /** @class */ (function () {
     function MetricInterceptor() {
@@ -45,7 +47,7 @@ var MetricInterceptor = /** @class */ (function () {
                             var endTime = perf_hooks_1.performance.now();
                             var timeDuration = endTime - startTime;
                             //duration in ms
-                            // fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Request number ${this.numCalls}:, Time Duration: ${timeDuration}\n`, { flag: "a+" });
+                            fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), "Request number ".concat(_this.numCalls, ":, Time Duration: ").concat(timeDuration, "\n"), { flag: "a+" });
                             _this.latencyData.push({ requestNumber: _this.numCalls, latency: endTime - startTime });
                             // Check if all interceptors are done
                             if (_this.numCalls >= 20) {

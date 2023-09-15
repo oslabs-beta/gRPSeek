@@ -39,7 +39,7 @@ class MetricInterceptor implements MetricInterceptorInterface {
             let endTime = performance.now();
             let timeDuration = endTime - startTime;
             //duration in ms
-            // fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Request number ${this.numCalls}:, Time Duration: ${timeDuration}\n`, { flag: "a+" });
+            fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Request number ${this.numCalls}:, Time Duration: ${timeDuration}\n`, { flag: "a+" });
 
             this.latencyData.push({ requestNumber: this.numCalls, latency: endTime - startTime });
             

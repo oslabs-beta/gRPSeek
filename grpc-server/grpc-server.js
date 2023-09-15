@@ -27,12 +27,14 @@ var path = __importStar(require("path"));
 var grpc = __importStar(require("@grpc/grpc-js"));
 var protoLoader = __importStar(require("@grpc/proto-loader"));
 var grpc_server_reflection_1 = require("grpc-server-reflection");
+var logging_1 = require("@grpc/grpc-js/build/src/logging");
 var PORT = 8082;
 var PROTO_FILE = '../proto/helloworld.proto';
 var packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO_FILE));
 var grpcObj = grpc.loadPackageDefinition(packageDef);
 var greeterPackage = grpcObj.greeterPackage;
 var DESCRIPTOR_PATH = path.resolve(__dirname, '../proto/descriptor_set.bin');
+logging_1.log;
 function main() {
     var server = getServer();
     (0, grpc_server_reflection_1.addReflection)(server, DESCRIPTOR_PATH);
@@ -49,24 +51,23 @@ function main() {
 function getServer() {
     var server = new grpc.Server();
     server.addService(greeterPackage.Greeter.service, {
-        SayHello: function (req, res) {
-            console.log("Server received request: ", req.request);
-            var value = Math.floor(Math.random() * 10);
-            if (value < 2) {
-                res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHello)" });
+        SayHello: function (call, callback) {
+            console.log("Server received request: ", call.request);
+            if (typeof call.request === 'string') {
+                callback({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHello)" });
             }
             else {
-                res(null, { message: "Hello from server" });
+                callback(null, { message: "Hello from server" });
             }
         },
-        SayHelloAgain: function (req, res) {
+        SayHelloAgain: function (call, callback) {
             // console.log("Server received request: ", req.request);
             var value = Math.floor(Math.random() * 10);
             if (value < 2) {
-                res({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHelloAgain)" });
+                callback({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHelloAgain)" });
             }
             else {
-                res(null, { message: "Hello again from server" });
+                callback(null, { message: "Hello again from server" });
             }
         }
     });
