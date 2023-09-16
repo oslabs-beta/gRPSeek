@@ -8,32 +8,36 @@ import {
   LoadTestEngine,
   LoadTestConfig,
 } from '../load-test-engine/load-test-engine';
+import MetricInterceptor from '../server/loadTester';
+import { generateHTML } from '../utils/generateHTML';
+let clientInterceptor = new MetricInterceptor();
+const otherOptions = { interceptors: [clientInterceptor.interceptor] };
 
-function findService(
-  grpcObject: Record<string, any>,
-  serviceName: string
-): Record<string, any> | null {
-  console.log(`Searching for service ${serviceName}...`);
+// function findService(
+//   grpcObject: Record<string, any>,
+//   serviceName: string
+// ): Record<string, any> | null {
+//   console.log(`Searching for service ${serviceName}...`);
 
-  if (grpcObject[serviceName]) {
-    console.log(`Service ${serviceName} found at current level.`);
-    return grpcObject[serviceName];
-  }
+//   if (grpcObject[serviceName]) {
+//     console.log(`Service ${serviceName} found at current level.`);
+//     return grpcObject[serviceName];
+//   }
 
-  for (const key in grpcObject) {
-    if (typeof grpcObject[key] === 'object') {
-      console.log(`Descending into ${key}...`);
-      const nestedService = findService(grpcObject[key], serviceName);
-      if (nestedService) {
-        console.log(`Service ${serviceName} found in ${key}.`);
-        return nestedService;
-      }
-    }
-  }
+//   for (const key in grpcObject) {
+//     if (typeof grpcObject[key] === 'object') {
+//       console.log(`Descending into ${key}...`);
+//       const nestedService = findService(grpcObject[key], serviceName);
+//       if (nestedService) {
+//         console.log(`Service ${serviceName} found in ${key}.`);
+//         return nestedService;
+//       }
+//     }
+//   }
 
-  console.log(`Service ${serviceName} not found.`);
-  return null;
-}
+//   console.log(`Service ${serviceName} not found.`);
+//   return null;
+// }
 
 program
   .option('-c, --config <path>', 'Path to the YAML configuration file')
@@ -120,6 +124,9 @@ const service = pkg[config.serviceName ?? ''];
 
 const client = new service(`localhost:8082`, grpc.credentials.createInsecure());
 
+// const clientInterceptor = new MetricInterceptor();
+// const callOptions = { interceptors: [clientInterceptor.interceptor] };
+
 // Dynamically import payload and callback
 const payload = require(path.resolve(__dirname, config.payloadPath ?? ''));
 const callback = require(path.resolve(__dirname, config.callbackPath ?? ''));
@@ -131,13 +138,14 @@ const engine = new LoadTestEngine(config);
 engine.addCall(
   client[methodName ?? ''].bind(client),
   payload,
-  {},
+  otherOptions,
   callback,
   1000
 );
 
 // Start and stop load testing based on the duration
 engine.run();
-setTimeout(() => {
+setTimeout(async () => {
+  generateHTML(clientInterceptor.latencyData);
   engine.stopAll();
 }, config.duration * 1000);

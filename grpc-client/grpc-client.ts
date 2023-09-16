@@ -8,8 +8,8 @@ const LTE = require('../load-test-engine/load-test-engine');
 const PORT = 8082;
 const PROTO = '../proto/helloworld.proto';
 
-process.env.GRPC_TRACE = 'api,channel';
-process.env.GRPC_VERBOSITY = 'DEBUG';
+// process.env.GRPC_TRACE = 'api,channel';
+// process.env.GRPC_VERBOSITY = 'DEBUG';
 
 const packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO), {});
 const grpcObj = grpc.loadPackageDefinition(

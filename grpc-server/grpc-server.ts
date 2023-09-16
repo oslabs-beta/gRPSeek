@@ -6,7 +6,7 @@ import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../proto/helloworld';
 import { GreeterHandlers } from '../proto/greeterPackage/Greeter';
 import { addReflection } from 'grpc-server-reflection';
-import { log } from '@grpc/grpc-js/build/src/logging';
+
 const PORT = 8082;
 const PROTO_FILE = '../proto/helloworld.proto';
 
@@ -16,8 +16,6 @@ const grpcObj = grpc.loadPackageDefinition(
 ) as unknown as ProtoGrpcType;
 const greeterPackage = grpcObj.greeterPackage;
 const DESCRIPTOR_PATH = path.resolve(__dirname, '../proto/descriptor_set.bin');
-
-log;
 
 function main() {
   const server = getServer();
@@ -41,7 +39,7 @@ function getServer() {
     SayHello: (call, callback) => {
       console.log('Server received request: ', call.request);
 
-      if (typeof call.request === 'string') {
+      if (!call.request.name) {
         callback({
           code: grpc.status.INVALID_ARGUMENT,
           message: 'Invalid arg from server (SayHello)',

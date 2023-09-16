@@ -18,11 +18,12 @@ class MetricInterceptor implements MetricInterceptorInterface {
   numCalls: number;
   numErrors: number;
   // Class-level array to store latency data
-  private latencyData: Array<{ requestNumber: number; latency: number }> = [];
+  latencyData: any[];
 
   constructor() {
     this.numCalls = 0;
     this.numErrors = 0;
+    this.latencyData = [];
   }
 
   interceptor: grpc.Interceptor = (options, nextCall) => {
@@ -38,22 +39,16 @@ class MetricInterceptor implements MetricInterceptorInterface {
             console.log('inbound message received: ', message);
             let endTime = performance.now();
             let timeDuration = endTime - startTime;
-            //duration in ms
-            fs.writeFileSync(
-              path.join(__dirname, '../metrics/time.txt'),
-              `Request number ${this.numCalls}:, Time Duration: ${timeDuration}\n`,
-              { flag: 'a+' }
-            );
 
             this.latencyData.push({
               requestNumber: this.numCalls,
-              latency: endTime - startTime,
+              latency: timeDuration,
             });
 
             // Check if all interceptors are done
-            if (this.numCalls >= 10) {
-              this.generateHTMLReport();
-            }
+            // if (this.numCalls >= 10) {
+            //   generateHTML(this.latencyData);
+            // }
             next(message);
           },
           onReceiveStatus: (status, next) => {
@@ -84,6 +79,7 @@ class MetricInterceptor implements MetricInterceptorInterface {
     const call = new grpc.InterceptingCall(nextCall(options), requestor);
     return call;
   };
+
   generateHTMLReport(): void {
     generateHTML(this.latencyData);
   }

@@ -4,10 +4,10 @@ import * as grpc from '@grpc/grpc-js';
 import * as path from 'path';
 import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../proto/helloworld';
-import { generateHTML } from '../utils/generateHTML';
+
+import fs from 'fs';
 let clientInterceptor = new MetricInterceptor();
-const options = { interceptors: [clientInterceptor.interceptor] };
-console.log('OPTIONS: ', JSON.stringify(options));
+export const options = { interceptors: [clientInterceptor.interceptor] };
 // Generates a label if one is not provided by user
 function hashCall(stub: Stub, message: Message, interval: number) {
   return hash
@@ -19,19 +19,20 @@ function hashCall(stub: Stub, message: Message, interval: number) {
 // Recursive setTimeout for repeating calls
 function repeatCall(call: Call) {
   // Type issue with grpc.CallOptions, temporarily disabling call count limit
-  if (
-    call.options.interceptors !== undefined &&
-    call.count >= options.interceptors.length
-  ) {
-    console.log('Clearing timeout');
-    clearTimeout(call.timeout);
-    return;
-  }
-  console.log('OPTIONS: ', JSON.stringify(options));
+  // if (
+  //   call.options.interceptors !== undefined &&
+  //   call.count >= options.interceptors.length
+  // ) {
+  //   console.log('Clearing timeout');
+  //   clearTimeout(call.timeout);
+  //   return;
+  // }
+  console.log('this.latencyData:5 ', clientInterceptor.latencyData);
 
   // console.log("call.timeout: ", call.timeout)
   if (typeof call.stub === 'function') {
     const instance = new (call.stub as any).constructor();
+
     instance(call.message, call.options, call.callback);
   }
   call.stub(call.message, call.options, call.callback);
@@ -80,7 +81,7 @@ export class LoadTestEngine {
       this.setupGrpcClient();
     }
   }
-  private setupGrpcClient() {
+  public setupGrpcClient() {
     const packageDef = protoLoader.loadSync(
       path.resolve(__dirname, this.config.protoPath)
     );
@@ -201,7 +202,8 @@ export class LoadTestEngine {
 
   stopAll(): void {
     if (!Object.keys(this.active).length) {
-      throw new Error('No active calls.');
+      // throw new Error('No active calls.');
+      console.log('No active calls');
     }
 
     for (const label in this.active) {
@@ -216,7 +218,10 @@ export class LoadTestEngine {
     this.startAll();
     setTimeout(() => {
       console.log('OPTIONS:kenlog ', options);
+      console.log('this.latencyData:1 ', clientInterceptor.latencyData);
+
       this.stopAll();
+      console.log('this.latencyData:2 ', clientInterceptor.latencyData);
     }, this.config.duration * 1000);
   }
 }

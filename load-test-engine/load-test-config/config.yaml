@@ -1,4 +1,4 @@
-duration: 10
+duration: 20
 protoPath: ../proto/helloworld.proto
 serviceName: Greeter
 packageName: greeterPackage

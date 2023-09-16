@@ -25,14 +25,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var grpc = __importStar(require("@grpc/grpc-js"));
 var perf_hooks_1 = require("perf_hooks");
-var fs = __importStar(require("fs"));
-var path = __importStar(require("path"));
 var generateHTML_1 = require("../utils/generateHTML");
 var MetricInterceptor = /** @class */ (function () {
     function MetricInterceptor() {
         var _this = this;
-        // Class-level array to store latency data
-        this.latencyData = [];
         this.interceptor = function (options, nextCall) {
             var startTime;
             var endTime;
@@ -47,15 +43,19 @@ var MetricInterceptor = /** @class */ (function () {
                             var endTime = perf_hooks_1.performance.now();
                             var timeDuration = endTime - startTime;
                             //duration in ms
-                            fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), "Request number ".concat(_this.numCalls, ":, Time Duration: ").concat(timeDuration, "\n"), { flag: 'a+' });
+                            // fs.writeFileSync(
+                            //   path.join(__dirname, '../metrics/time.txt'),
+                            //   `Request number ${this.numCalls}:, Time Duration: ${timeDuration}\n`,
+                            //   { flag: 'a+' }
+                            // );
                             _this.latencyData.push({
                                 requestNumber: _this.numCalls,
-                                latency: endTime - startTime,
+                                latency: timeDuration,
                             });
                             // Check if all interceptors are done
-                            if (_this.numCalls >= 10) {
-                                _this.generateHTMLReport();
-                            }
+                            // if (this.numCalls >= 10) {
+                            //   generateHTML(this.latencyData);
+                            // }
                             next(message);
                         },
                         onReceiveStatus: function (status, next) {
@@ -89,6 +89,7 @@ var MetricInterceptor = /** @class */ (function () {
         };
         this.numCalls = 0;
         this.numErrors = 0;
+        this.latencyData = [];
     }
     MetricInterceptor.prototype.generateHTMLReport = function () {
         (0, generateHTML_1.generateHTML)(this.latencyData);

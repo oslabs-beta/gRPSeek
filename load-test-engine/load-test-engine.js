@@ -26,15 +26,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadTestEngineInstance = exports.LoadTestEngine = void 0;
+exports.loadTestEngineInstance = exports.LoadTestEngine = exports.options = void 0;
 var hash = require('crypto');
 var loadTester_1 = __importDefault(require("../server/loadTester"));
 var grpc = __importStar(require("@grpc/grpc-js"));
 var path = __importStar(require("path"));
 var protoLoader = __importStar(require("@grpc/proto-loader"));
 var clientInterceptor = new loadTester_1.default();
-var options = { interceptors: [clientInterceptor.interceptor] };
-console.log('OPTIONS: ', JSON.stringify(options));
+exports.options = { interceptors: [clientInterceptor.interceptor] };
 // Generates a label if one is not provided by user
 function hashCall(stub, message, interval) {
     return hash
@@ -45,13 +44,15 @@ function hashCall(stub, message, interval) {
 // Recursive setTimeout for repeating calls
 function repeatCall(call) {
     // Type issue with grpc.CallOptions, temporarily disabling call count limit
-    if (call.options.interceptors !== undefined &&
-        call.count >= options.interceptors.length) {
-        console.log('Clearing timeout');
-        clearTimeout(call.timeout);
-        return;
-    }
-    console.log('OPTIONS: ', JSON.stringify(options));
+    // if (
+    //   call.options.interceptors !== undefined &&
+    //   call.count >= options.interceptors.length
+    // ) {
+    //   console.log('Clearing timeout');
+    //   clearTimeout(call.timeout);
+    //   return;
+    // }
+    console.log('this.latencyData:5 ', clientInterceptor.latencyData);
     // console.log("call.timeout: ", call.timeout)
     if (typeof call.stub === 'function') {
         var instance = new call.stub.constructor();
@@ -79,19 +80,6 @@ var LoadTestEngine = /** @class */ (function () {
         if (!Pkg) {
             throw new Error("Service \"".concat(this.config.serviceName, "\" not found in the loaded .proto file."));
         }
-        // const client = new Pkg[this.config.serviceName](
-        //   'localhost:8082',
-        //   grpc.credentials.createInsecure()
-        // ); // Replace with your server details
-        // Load custom payload and callback if provided
-        // const payload = this.config.payloadPath
-        //   ? require(this.config.payloadPath)
-        //   : {};
-        // const callback: grpc.requestCallback<any> = this.config.callbackPath
-        //   ? require(this.config.callbackPath)
-        //   : (err: any, res: any) => {};
-        // const options: grpc.CallOptions = {};
-        // const interval: number = 1000;
     };
     LoadTestEngine.prototype.addCall = function (stub, message, options, callback, interval, count, label, timeout) {
         if (this.calls[label]) {
@@ -167,7 +155,8 @@ var LoadTestEngine = /** @class */ (function () {
     };
     LoadTestEngine.prototype.stopAll = function () {
         if (!Object.keys(this.active).length) {
-            throw new Error('No active calls.');
+            // throw new Error('No active calls.');
+            console.log('No active calls');
         }
         for (var label in this.active) {
             clearTimeout(this.active[label].timeout);
@@ -180,8 +169,10 @@ var LoadTestEngine = /** @class */ (function () {
         var _this = this;
         this.startAll();
         setTimeout(function () {
-            console.log('OPTIONS:kenlog ', options);
+            console.log('OPTIONS:kenlog ', exports.options);
+            console.log('this.latencyData:1 ', clientInterceptor.latencyData);
             _this.stopAll();
+            console.log('this.latencyData:2 ', clientInterceptor.latencyData);
         }, this.config.duration * 1000);
     };
     return LoadTestEngine;
