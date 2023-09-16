@@ -5,8 +5,8 @@ import * as path from 'path';
 import { generateHTML } from '../utils/generateHTML';
 
 interface MetricInterceptorInterface {
-  numCalls: number,
-  numErrors: number,
+  numCalls: number;
+  numErrors: number;
   interceptor: grpc.Interceptor;
   getNumCalls: () => number;
   getNumErrors: () => number;
@@ -18,7 +18,7 @@ class MetricInterceptor implements MetricInterceptorInterface {
   numCalls: number;
   numErrors: number;
   // Class-level array to store latency data
-  private latencyData: Array<{ requestNumber: number, latency: number }> = [];
+  private latencyData: Array<{ requestNumber: number; latency: number }> = [];
 
   constructor() {
     this.numCalls = 0;
@@ -39,47 +39,60 @@ class MetricInterceptor implements MetricInterceptorInterface {
             let endTime = performance.now();
             let timeDuration = endTime - startTime;
             //duration in ms
-            fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), `Request number ${this.numCalls}:, Time Duration: ${timeDuration}\n`, { flag: "a+" });
+            fs.writeFileSync(
+              path.join(__dirname, '../metrics/time.txt'),
+              `Request number ${this.numCalls}:, Time Duration: ${timeDuration}\n`,
+              { flag: 'a+' }
+            );
 
-            this.latencyData.push({ requestNumber: this.numCalls, latency: endTime - startTime });
-            
-             // Check if all interceptors are done
-            if(this.numCalls >= 20){
+            this.latencyData.push({
+              requestNumber: this.numCalls,
+              latency: endTime - startTime,
+            });
+
+            // Check if all interceptors are done
+            if (this.numCalls >= 10) {
               this.generateHTMLReport();
             }
-            next(message)
+            next(message);
           },
           onReceiveStatus: (status, next) => {
             if (status.code !== grpc.status.OK) {
               this.numErrors++;
-              console.log(`status error: ${grpc.status[status.code]} message: ${status.details}, ${this.numErrors}, ${this.numCalls}`);
+              console.log(
+                `status error: ${grpc.status[status.code]} message: ${
+                  status.details
+                }, ${this.numErrors}, ${this.numCalls}`
+              );
               //   Potential Stretch feature: handling failed requests with a fallback method
             }
             next(status);
-          }
+          },
         };
         next(metadata, newListener);
       },
       //sendMesssage method called before every outbound message - where we count total number of calls, time start
       sendMessage: (message, next) => {
-        // console.log('outbound message sent: ', message);
+        console.log('outbound message sent: ', message);
         startTime = performance.now();
         this.numCalls++;
         console.log(this.numCalls);
         next(message);
-      }
-    }
+      },
+    };
 
     const call = new grpc.InterceptingCall(nextCall(options), requestor);
     return call;
-  }
+  };
   generateHTMLReport(): void {
-    generateHTML(this.latencyData)
+    generateHTML(this.latencyData);
   }
   getNumCalls: () => number = () => this.numCalls;
   getNumErrors: () => number = () => this.numErrors;
-  resetMetrics: () => void = () => { this.numCalls = 0; this.numErrors = 0; }
-
+  resetMetrics: () => void = () => {
+    this.numCalls = 0;
+    this.numErrors = 0;
+  };
 }
 
 export default MetricInterceptor;

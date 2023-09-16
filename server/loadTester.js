@@ -47,10 +47,13 @@ var MetricInterceptor = /** @class */ (function () {
                             var endTime = perf_hooks_1.performance.now();
                             var timeDuration = endTime - startTime;
                             //duration in ms
-                            fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), "Request number ".concat(_this.numCalls, ":, Time Duration: ").concat(timeDuration, "\n"), { flag: "a+" });
-                            _this.latencyData.push({ requestNumber: _this.numCalls, latency: endTime - startTime });
+                            fs.writeFileSync(path.join(__dirname, '../metrics/time.txt'), "Request number ".concat(_this.numCalls, ":, Time Duration: ").concat(timeDuration, "\n"), { flag: 'a+' });
+                            _this.latencyData.push({
+                                requestNumber: _this.numCalls,
+                                latency: endTime - startTime,
+                            });
                             // Check if all interceptors are done
-                            if (_this.numCalls >= 20) {
+                            if (_this.numCalls >= 10) {
                                 _this.generateHTMLReport();
                             }
                             next(message);
@@ -62,25 +65,28 @@ var MetricInterceptor = /** @class */ (function () {
                                 //   Potential Stretch feature: handling failed requests with a fallback method
                             }
                             next(status);
-                        }
+                        },
                     };
                     next(metadata, newListener);
                 },
                 //sendMesssage method called before every outbound message - where we count total number of calls, time start
                 sendMessage: function (message, next) {
-                    // console.log('outbound message sent: ', message);
+                    console.log('outbound message sent: ', message);
                     startTime = perf_hooks_1.performance.now();
                     _this.numCalls++;
                     console.log(_this.numCalls);
                     next(message);
-                }
+                },
             };
             var call = new grpc.InterceptingCall(nextCall(options), requestor);
             return call;
         };
         this.getNumCalls = function () { return _this.numCalls; };
         this.getNumErrors = function () { return _this.numErrors; };
-        this.resetMetrics = function () { _this.numCalls = 0; _this.numErrors = 0; };
+        this.resetMetrics = function () {
+            _this.numCalls = 0;
+            _this.numErrors = 0;
+        };
         this.numCalls = 0;
         this.numErrors = 0;
     }

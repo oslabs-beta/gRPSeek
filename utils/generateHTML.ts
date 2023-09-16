@@ -1,6 +1,8 @@
 import fs from 'fs';
 
-export const generateHTML = (latencyData: Array<{ requestNumber: number, latency: number }>) => {
+export const generateHTML = (
+  latencyData: Array<{ requestNumber: number; latency: number }>
+) => {
   const requestNumbers = latencyData.map((item) => item.requestNumber);
   const latencies = latencyData.map((item) => item.latency);
 

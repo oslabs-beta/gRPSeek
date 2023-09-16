@@ -39,31 +39,28 @@ var packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO), {});
 var grpcObj = grpc.loadPackageDefinition(packageDef);
 var greeterPackage = grpcObj.greeterPackage;
 var client = new greeterPackage.Greeter("0.0.0.0:".concat(PORT), grpc.credentials.createInsecure());
-console.log("CLIENT: ", client);
+console.log('CLIENT: ', client);
 var clientInterceptor = new loadTester_1.default();
 // Arguments to be passed into each RPC
-var message = { name: "Kenny" };
+var message = { name: 'Kenny' };
 var options = { interceptors: [clientInterceptor.interceptor] };
 var callback = function (err, res) {
     if (err) {
         console.log('error', err);
         return;
     }
-    console.log("result:", res);
+    console.log('result:', res);
 };
-// let obj = client;
-// while (obj) {
-//   console.log(Object.getOwnPropertyNames(obj));
-//   obj = Object.getPrototypeOf(obj);
-// }
 // Iterate through client and add RPCs to engine, ignoring duplicate (Pascal case) versions of the RPCs.
 for (var key in client) {
-    if (key[0] >= "a" && key[0] <= "z") {
+    if (key[0] >= 'a' && key[0] <= 'z') {
         var stub = client[key];
-        LTE.addCall(stub.bind(client), message, options, callback, 1000, undefined, "TestCall:" + key);
+        LTE.addCall(stub.bind(client), message, options, callback, 1000, undefined, 'TestCall:' + key);
     }
 }
 // Start load testing
 LTE.startAll();
 // Stop load testing after 10 seconds
-setTimeout(function () { LTE.stopAll(); }, 10000);
+setTimeout(function () {
+    LTE.stopAll();
+}, 10000);

@@ -41,7 +41,7 @@ function main() {
     var serverCredentials = grpc.ServerCredentials.createInsecure();
     server.bindAsync("0.0.0.0:".concat(PORT), serverCredentials, function (err, port) {
         if (err) {
-            console.log("Error: ", err);
+            console.log('Error: ', err);
             return;
         }
         console.log("Your server has started on port ".concat(port));
@@ -52,24 +52,30 @@ function getServer() {
     var server = new grpc.Server();
     server.addService(greeterPackage.Greeter.service, {
         SayHello: function (call, callback) {
-            console.log("Server received request: ", call.request);
+            console.log('Server received request: ', call.request);
             if (typeof call.request === 'string') {
-                callback({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHello)" });
+                callback({
+                    code: grpc.status.INVALID_ARGUMENT,
+                    message: 'Invalid arg from server (SayHello)',
+                });
             }
             else {
-                callback(null, { message: "Hello from server" });
+                callback(null, { message: 'Hello from server' });
             }
         },
         SayHelloAgain: function (call, callback) {
             // console.log("Server received request: ", req.request);
             var value = Math.floor(Math.random() * 10);
             if (value < 2) {
-                callback({ code: grpc.status.INVALID_ARGUMENT, message: "Invalid arg from server (SayHelloAgain)" });
+                callback({
+                    code: grpc.status.INVALID_ARGUMENT,
+                    message: 'Invalid arg from server (SayHelloAgain)',
+                });
             }
             else {
-                callback(null, { message: "Hello again from server" });
+                callback(null, { message: 'Hello again from server' });
             }
-        }
+        },
     });
     return server;
 }
