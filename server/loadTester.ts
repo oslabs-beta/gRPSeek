@@ -29,11 +29,11 @@ class MetricInterceptor implements MetricInterceptorInterface {
   interceptor: grpc.Interceptor = (options, nextCall) => {
     let startTime: number;
     let endTime: number;
-    //create a requestor intercepts outbound operations (start, sendMessage)
+    // Create a requestor intercepts outbound operations (start, sendMessage)
     let requestor: grpc.Requester = {
-      //start method called before an outbound call has started. This is where to define listener and methods that occur with inbound operations
+      // Start method called before an outbound call has started. This is where to define listener and methods that occur with inbound operations
       start: (metadata, listener, next) => {
-        //listener that intercepts inbound operations - receiving server status and message
+        // Listener that intercepts inbound operations - receiving server status and message
         let newListener: grpc.Listener = {
           onReceiveMessage: (message, next) => {
             console.log('inbound message received: ', message);
@@ -44,11 +44,6 @@ class MetricInterceptor implements MetricInterceptorInterface {
               requestNumber: this.numCalls,
               latency: timeDuration,
             });
-
-            // Check if all interceptors are done
-            // if (this.numCalls >= 10) {
-            //   generateHTML(this.latencyData);
-            // }
             next(message);
           },
           onReceiveStatus: (status, next) => {
@@ -59,7 +54,6 @@ class MetricInterceptor implements MetricInterceptorInterface {
                   status.details
                 }, ${this.numErrors}, ${this.numCalls}`
               );
-              //   Potential Stretch feature: handling failed requests with a fallback method
             }
             next(status);
           },

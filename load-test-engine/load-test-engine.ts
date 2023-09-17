@@ -3,9 +3,7 @@ import MetricInterceptor from '../server/loadTester';
 import * as grpc from '@grpc/grpc-js';
 import * as path from 'path';
 import * as protoLoader from '@grpc/proto-loader';
-import { ProtoGrpcType } from '../proto/helloworld';
 
-import fs from 'fs';
 let clientInterceptor = new MetricInterceptor();
 export const options = { interceptors: [clientInterceptor.interceptor] };
 // Generates a label if one is not provided by user
@@ -27,7 +25,6 @@ function repeatCall(call: Call) {
   //   clearTimeout(call.timeout);
   //   return;
   // }
-  console.log('this.latencyData:5 ', clientInterceptor.latencyData);
 
   // console.log("call.timeout: ", call.timeout)
   if (typeof call.stub === 'function') {
@@ -39,7 +36,7 @@ function repeatCall(call: Call) {
   call.timeout = setTimeout(() => {
     repeatCall(call);
   }, call.interval);
-  console.log('Prototype of call.stub:', Object.getPrototypeOf(call.stub));
+  // console.log('Prototype of call.stub:', Object.getPrototypeOf(call.stub));
 }
 
 type Stub = (
@@ -82,15 +79,13 @@ export class LoadTestEngine {
     }
   }
   public setupGrpcClient() {
+    console.log('Setting up gRPC client...');
     const packageDef = protoLoader.loadSync(
       path.resolve(__dirname, this.config.protoPath)
     );
-    const grpcObj = grpc.loadPackageDefinition(
-      packageDef
-    ) as unknown as ProtoGrpcType;
-
+    const grpcObj = grpc.loadPackageDefinition(packageDef) as unknown;
     const Pkg = grpcObj[this.config.packageName];
-
+    console.log('Pkg: ', Pkg);
     if (!Pkg) {
       throw new Error(
         `Service "${this.config.serviceName}" not found in the loaded .proto file.`
@@ -217,11 +212,7 @@ export class LoadTestEngine {
   public run() {
     this.startAll();
     setTimeout(() => {
-      console.log('OPTIONS:kenlog ', options);
-      console.log('this.latencyData:1 ', clientInterceptor.latencyData);
-
       this.stopAll();
-      console.log('this.latencyData:2 ', clientInterceptor.latencyData);
     }, this.config.duration * 1000);
   }
 }

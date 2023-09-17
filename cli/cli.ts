@@ -4,12 +4,14 @@ import yaml from 'js-yaml';
 import path from 'path';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
+
 import {
   LoadTestEngine,
   LoadTestConfig,
 } from '../load-test-engine/load-test-engine';
 import MetricInterceptor from '../server/loadTester';
 import { generateHTML } from '../utils/generateHTML';
+
 let clientInterceptor = new MetricInterceptor();
 const otherOptions = { interceptors: [clientInterceptor.interceptor] };
 
@@ -110,6 +112,7 @@ const grpcObj = grpc.loadPackageDefinition(packageDef);
 
 // Create the gRPC client stub
 const pkg = grpcObj[config.packageName ?? ''];
+console.log('pkg: ', pkg);
 
 // Check if the service exists
 if (!pkg) {
@@ -140,11 +143,12 @@ engine.addCall(
   payload,
   otherOptions,
   callback,
-  1000
+  0
 );
 
 // Start and stop load testing based on the duration
 engine.run();
+
 setTimeout(async () => {
   generateHTML(clientInterceptor.latencyData);
   engine.stopAll();
