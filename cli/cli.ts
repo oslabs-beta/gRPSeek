@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+// process.env.GRPC_NODE_TRACE = 'api,channel';
+// process.env.GRPC_NODE_VERBOSITY = 'DEBUG';
 import { program } from 'commander';
 import fs from 'fs';
 import yaml from 'js-yaml';
@@ -14,7 +18,7 @@ import { generateHTML } from '../utils/generateHTML';
 
 let clientInterceptor = new MetricInterceptor();
 const otherOptions = { interceptors: [clientInterceptor.interceptor] };
-
+import loadT from '../server/cluster';
 // function findService(
 //   grpcObject: Record<string, any>,
 //   serviceName: string
@@ -103,7 +107,6 @@ if (options.config) {
     callbackPath: options.callback ?? '',
   };
 }
-
 // Load the gRPC Object
 const packageDef = protoLoader.loadSync(
   path.resolve(__dirname, config.protoPath ?? '')
@@ -112,7 +115,6 @@ const grpcObj = grpc.loadPackageDefinition(packageDef);
 
 // Create the gRPC client stub
 const pkg = grpcObj[config.packageName ?? ''];
-console.log('pkg: ', pkg);
 
 // Check if the service exists
 if (!pkg) {
@@ -123,9 +125,12 @@ if (!pkg) {
 }
 const methodName = config.methodName;
 
-const service = pkg[config.serviceName ?? ''];
+export const service = pkg[config.serviceName ?? ''];
 
-const client = new service(`localhost:8082`, grpc.credentials.createInsecure());
+export const client = new service(
+  `localhost:50051`,
+  grpc.credentials.createInsecure()
+);
 
 // const clientInterceptor = new MetricInterceptor();
 // const callOptions = { interceptors: [clientInterceptor.interceptor] };
@@ -134,22 +139,27 @@ const client = new service(`localhost:8082`, grpc.credentials.createInsecure());
 const payload = require(path.resolve(__dirname, config.payloadPath ?? ''));
 const callback = require(path.resolve(__dirname, config.callbackPath ?? ''));
 
+// setTimeout(async () => {
+//   generateHTML(clientInterceptor.latencyData);
+// }, 4000);
+
 // Initialize LoadTestEngine and add the call
+// WHAT??
+// const engine = new LoadTestEngine(config);
 
-const engine = new LoadTestEngine(config);
+// engine.addCall(
+//   client[methodName ?? ''].bind(client),
+//   payload,
+//   otherOptions,
+//   callback,
+//   0
+// );
 
-engine.addCall(
-  client[methodName ?? ''].bind(client),
-  payload,
-  otherOptions,
-  callback,
-  0
-);
+// // Start and stop load testing based on the duration
+// engine.run();
 
-// Start and stop load testing based on the duration
-engine.run();
-
-setTimeout(async () => {
-  generateHTML(clientInterceptor.latencyData);
-  engine.stopAll();
-}, config.duration * 1000);
+// setTimeout(async () => {
+//   generateHTML(clientInterceptor.latencyData);
+//   engine.stopAll();
+// }, config.duration * 1000);
+loadT();

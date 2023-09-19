@@ -5,7 +5,7 @@ import { ProtoGrpcType } from '../proto/helloworld';
 import { GreeterHandlers } from '../proto/greeterPackage/Greeter';
 import { addReflection } from 'grpc-server-reflection';
 let numCalls = 0;
-const PORT = 8082;
+const PORT = 50051;
 const PROTO_FILE = '../proto/helloworld.proto';
 
 const packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO_FILE));
