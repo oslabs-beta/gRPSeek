@@ -14,7 +14,7 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { ProtoGrpcType } from '../proto/helloworld';
 import MetricInterceptor from './loadTester';
-
+import { generateGrpcLoadTestDashboard } from '../genDash';
 /**
  * Data Storage Metrics
  */
@@ -74,14 +74,6 @@ export default async function loadT() {
     console.log(
       `This is the gRPSeek Load Balance Tester! The tester requires you to input the number of concurrent processes you'd like to run to simulate a grpc server load.`
     );
-    console.log(`
-    ██████╗  ██████╗ ██████╗ ███████╗███████╗███████╗██╗  ██╗
-    ██╔════╝ ██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝██║ ██╔╝
-    ██║  ███╗██████╔╝██████╔╝███████╗█████╗  █████╗  █████╔╝
-    ██║   ██║██╔══██╗██╔═══╝ ╚════██║██╔══╝  ██╔══╝  ██╔═██╗
-    ██████╔╝ ██║  ██║██║     ███████║███████╗███████╗██║  ██╗
-     ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝
-   `);
 
     const { numClusters, numWorkers, numCalls } = await gatherInputs();
 
@@ -99,16 +91,19 @@ export default async function loadT() {
     cluster.on('exit', (worker, code, signal) => {
       console.log(`worker ${worker.process.pid} died`);
       exitedWorkers++;
-      // if (Object.keys(cluster.workers).length === 0) {
-      //   // All workers have exited, close readLine and exit
-      //   readLine.close();
-      //   process.exit(0);
-      // }
       if (exitedWorkers >= totalWorkers) {
-        // Write the metrics data to files
         const fs = require('fs');
-        fs.writeFileSync('cpuUsageData.json', JSON.stringify(cpuUsageData));
-        fs.writeFileSync('eluData.json', JSON.stringify(eluData));
+
+        try {
+          const dashboardHtml = generateGrpcLoadTestDashboard(
+            cpuUsageData,
+            eluData
+          );
+          fs.writeFileSync('./dash.html', dashboardHtml);
+          console.log('Dashboard HTML written successfully');
+        } catch (error) {
+          console.error('Error writing HTML dashboard:', error);
+        }
 
         // All workers have exited, close readLine and exit
         readLine.close();
@@ -117,9 +112,17 @@ export default async function loadT() {
     });
     cluster.on('message', (worker, message, handle) => {
       if (message.type === 'CPU') {
-        cpuUsageData.push(message.data);
+        cpuUsageData.push({
+          workerId: message.workerId,
+          clusterId: message.clusterId,
+          value: message.data,
+        });
       } else if (message.type === 'ELU') {
-        eluData.push(message.data);
+        eluData.push({
+          workerId: message.workerId,
+          clusterId: message.clusterId,
+          value: message.data,
+        });
       }
     });
   } else {
@@ -131,32 +134,6 @@ export default async function loadT() {
     //Worker Cluster process
     if (isMainThread) {
       let lastMeasure = os.cpus();
-
-      setInterval(() => {
-        const currentMeasure = os.cpus();
-
-        for (let i = 0; i < currentMeasure.length; i++) {
-          const idleDifference =
-            currentMeasure[i].times.idle - lastMeasure[i].times.idle;
-          const totalDifference = Object.keys(currentMeasure[i].times).reduce(
-            (total, mode) => {
-              return (
-                total +
-                currentMeasure[i].times[mode] -
-                lastMeasure[i].times[mode]
-              );
-            },
-            0
-          );
-          const cpuUsage = (1 - idleDifference / totalDifference) * 100;
-
-          console.log(
-            `CPU${i} Usage: ${(1 - idleDifference / totalDifference) * 100}%`
-          );
-        }
-
-        lastMeasure = currentMeasure;
-      }, 1000);
 
       //Main thread - set up worker threads
       let activeWorkers = 0;
@@ -181,16 +158,24 @@ export default async function loadT() {
               0
             );
             const cpuUsage = (1 - idleDifference / totalDifference) * 100;
-            process.send({ type: 'CPU', data: cpuUsage });
+            process.send({
+              type: 'CPU',
+              data: cpuUsage,
+              workerId: worker.threadId,
+              clusterId: process.pid,
+            });
+
+            process.send({
+              type: 'ELU',
+              data: worker.performance.eventLoopUtilization(),
+              workerId: worker.threadId,
+              clusterId: process.pid,
+            });
+            console.log('CPU Usage: ', cpuUsage);
+            console.log('ELU: ', worker.performance.eventLoopUtilization());
           }
           // Check the worker's usage directly and immediately. The call is thread-safe
           // so it doesn't need to wait for the worker's event loop to become free.
-
-          process.send({
-            type: 'ELU',
-            data: worker.performance.eventLoopUtilization(),
-          });
-          // console.log(worker.performance.eventLoopUtilization());
         }, 100);
 
         //listen for messages from the worker and errors
@@ -228,7 +213,7 @@ export default async function loadT() {
       let clientInterceptor = new MetricInterceptor();
 
       let runStub = () => {
-        client.SayHello(
+        client.sayHello(
           { name: 'Kenny' },
           { interceptors: [clientInterceptor.interceptor] },
           (err, res) => {
@@ -257,7 +242,8 @@ export default async function loadT() {
       setTimeout(() => {
         console.log('Finished calls: ', clientInterceptor.numCalls);
         console.log('Number of failed requests: ', clientInterceptor.numErrors);
-      }, 2000);
+        // clientInterceptor.generateHTMLReport();
+      }, 1000);
     }
 
     //close the prompt

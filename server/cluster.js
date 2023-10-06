@@ -72,6 +72,7 @@ var path = __importStar(require("path"));
 var grpc = __importStar(require("@grpc/grpc-js"));
 var protoLoader = __importStar(require("@grpc/proto-loader"));
 var loadTester_1 = __importDefault(require("./loadTester"));
+var genDash_1 = require("../genDash");
 /**
  * Data Storage Metrics
  */
@@ -142,7 +143,6 @@ function loadT() {
                 case 0:
                     if (!(cluster.isPrimary && node_worker_threads_1.isMainThread)) return [3 /*break*/, 2];
                     console.log("This is the gRPSeek Load Balance Tester! The tester requires you to input the number of concurrent processes you'd like to run to simulate a grpc server load.");
-                    console.log("\n    \u2588\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2557  \u2588\u2588\u2557\n    \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D \u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2551 \u2588\u2588\u2554\u255D\n    \u2588\u2588\u2551  \u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2588\u2588\u2588\u2554\u255D\n    \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u255D \u255A\u2550\u2550\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u255D  \u2588\u2588\u2554\u2550\u2550\u255D  \u2588\u2588\u2554\u2550\u2588\u2588\u2557\n    \u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D \u2588\u2588\u2551  \u2588\u2588\u2551\u2588\u2588\u2551     \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551  \u2588\u2588\u2557\n     \u255A\u2550\u2550\u2550\u2550\u2550\u255D \u255A\u2550\u255D  \u255A\u2550\u255D\u255A\u2550\u255D     \u255A\u2550\u2550\u2550\u2550\u2550\u2550\u255D\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u255D\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u255D\u255A\u2550\u255D  \u255A\u2550\u255D\n   ");
                     return [4 /*yield*/, gatherInputs()];
                 case 1:
                     _a = _b.sent(), numClusters = _a.numClusters, numWorkers = _a.numWorkers, numCalls = _a.numCalls;
@@ -159,16 +159,16 @@ function loadT() {
                     cluster.on('exit', function (worker, code, signal) {
                         console.log("worker ".concat(worker.process.pid, " died"));
                         exitedWorkers++;
-                        // if (Object.keys(cluster.workers).length === 0) {
-                        //   // All workers have exited, close readLine and exit
-                        //   readLine.close();
-                        //   process.exit(0);
-                        // }
                         if (exitedWorkers >= totalWorkers) {
-                            // Write the metrics data to files
                             var fs = require('fs');
-                            fs.writeFileSync('cpuUsageData.json', JSON.stringify(cpuUsageData));
-                            fs.writeFileSync('eluData.json', JSON.stringify(eluData));
+                            try {
+                                var dashboardHtml = (0, genDash_1.generateGrpcLoadTestDashboard)(cpuUsageData, eluData);
+                                fs.writeFileSync('./dash.html', dashboardHtml);
+                                console.log('Dashboard HTML written successfully');
+                            }
+                            catch (error) {
+                                console.error('Error writing HTML dashboard:', error);
+                            }
                             // All workers have exited, close readLine and exit
                             readLine.close();
                             process.exit(0);
@@ -176,10 +176,18 @@ function loadT() {
                     });
                     cluster.on('message', function (worker, message, handle) {
                         if (message.type === 'CPU') {
-                            cpuUsageData.push(message.data);
+                            cpuUsageData.push({
+                                workerId: message.workerId,
+                                clusterId: message.clusterId,
+                                value: message.data,
+                            });
                         }
                         else if (message.type === 'ELU') {
-                            eluData.push(message.data);
+                            eluData.push({
+                                workerId: message.workerId,
+                                clusterId: message.clusterId,
+                                value: message.data,
+                            });
                         }
                     });
                     return [3 /*break*/, 3];
@@ -191,30 +199,13 @@ function loadT() {
                     //Worker Cluster process
                     if (node_worker_threads_1.isMainThread) {
                         lastMeasure_1 = os.cpus();
-                        setInterval(function () {
-                            var currentMeasure = os.cpus();
-                            var _loop_2 = function (i) {
-                                var idleDifference = currentMeasure[i].times.idle - lastMeasure_1[i].times.idle;
-                                var totalDifference = Object.keys(currentMeasure[i].times).reduce(function (total, mode) {
-                                    return (total +
-                                        currentMeasure[i].times[mode] -
-                                        lastMeasure_1[i].times[mode]);
-                                }, 0);
-                                var cpuUsage = (1 - idleDifference / totalDifference) * 100;
-                                console.log("CPU".concat(i, " Usage: ").concat((1 - idleDifference / totalDifference) * 100, "%"));
-                            };
-                            for (var i = 0; i < currentMeasure.length; i++) {
-                                _loop_2(i);
-                            }
-                            lastMeasure_1 = currentMeasure;
-                        }, 1000);
                         activeWorkers_1 = 0;
                         _loop_1 = function (i) {
                             activeWorkers_1++;
                             var worker = new node_worker_threads_1.Worker(__filename, { workerData: { numCalls: numCalls } });
                             setInterval(function () {
                                 var currentMeasure = os.cpus();
-                                var _loop_3 = function (i_1) {
+                                var _loop_2 = function (i_1) {
                                     var idleDifference = currentMeasure[i_1].times.idle - lastMeasure_1[i_1].times.idle;
                                     var totalDifference = Object.keys(currentMeasure[i_1].times).reduce(function (total, mode) {
                                         return (total +
@@ -222,18 +213,26 @@ function loadT() {
                                             lastMeasure_1[i_1].times[mode]);
                                     }, 0);
                                     var cpuUsage = (1 - idleDifference / totalDifference) * 100;
-                                    process.send({ type: 'CPU', data: cpuUsage });
+                                    process.send({
+                                        type: 'CPU',
+                                        data: cpuUsage,
+                                        workerId: worker.threadId,
+                                        clusterId: process.pid,
+                                    });
+                                    process.send({
+                                        type: 'ELU',
+                                        data: worker.performance.eventLoopUtilization(),
+                                        workerId: worker.threadId,
+                                        clusterId: process.pid,
+                                    });
+                                    console.log('CPU Usage: ', cpuUsage);
+                                    console.log('ELU: ', worker.performance.eventLoopUtilization());
                                 };
                                 for (var i_1 = 0; i_1 < currentMeasure.length; i_1++) {
-                                    _loop_3(i_1);
+                                    _loop_2(i_1);
                                 }
                                 // Check the worker's usage directly and immediately. The call is thread-safe
                                 // so it doesn't need to wait for the worker's event loop to become free.
-                                process.send({
-                                    type: 'ELU',
-                                    data: worker.performance.eventLoopUtilization(),
-                                });
-                                // console.log(worker.performance.eventLoopUtilization());
                             }, 100);
                             //listen for messages from the worker and errors
                             worker.on('message', function (msg) {
@@ -263,7 +262,7 @@ function loadT() {
                         client_1 = new grpcObj.greeterPackage.Greeter("0.0.0.0:".concat(PORT), grpc.credentials.createInsecure());
                         clientInterceptor_1 = new loadTester_1.default();
                         runStub_1 = function () {
-                            client_1.SayHello({ name: 'Kenny' }, { interceptors: [clientInterceptor_1.interceptor] }, function (err, res) {
+                            client_1.sayHello({ name: 'Kenny' }, { interceptors: [clientInterceptor_1.interceptor] }, function (err, res) {
                                 if (err) {
                                     console.log('error', err);
                                     return;
@@ -284,7 +283,8 @@ function loadT() {
                         setTimeout(function () {
                             console.log('Finished calls: ', clientInterceptor_1.numCalls);
                             console.log('Number of failed requests: ', clientInterceptor_1.numErrors);
-                        }, 2000);
+                            // clientInterceptor.generateHTMLReport();
+                        }, 1000);
                     }
                     //close the prompt
                     readLine.close();

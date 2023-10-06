@@ -64,6 +64,7 @@ export interface LoadTestConfig {
   payloadPath?: string;
   callbackPath?: string;
   packageName?: string;
+  host?: string;
 }
 export class LoadTestEngine {
   private calls: Record<string, Call>;

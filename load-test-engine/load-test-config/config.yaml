@@ -5,3 +5,4 @@ packageName: greeterPackage
 methodName: sayHello
 payloadPath: ../load-test-engine/load-test-config/payload.js
 callbackPath: ../load-test-engine/load-test-config/callback.js
+host: 50051

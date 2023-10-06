@@ -39,7 +39,7 @@ var MetricInterceptor = /** @class */ (function () {
                     // Listener that intercepts inbound operations - receiving server status and message
                     var newListener = {
                         onReceiveMessage: function (message, next) {
-                            console.log('inbound message received: ', message);
+                            // console.log('inbound message received: ', message);
                             var endTime = perf_hooks_1.performance.now();
                             var timeDuration = endTime - startTime;
                             _this.latencyData.push({

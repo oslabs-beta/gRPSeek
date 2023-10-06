@@ -2,7 +2,9 @@
   "name": "grpseek-v2",
   "version": "1.0.0",
   "bin": {
-    "loadtest": "./cli/cli.js"
+    "loadtest": "./cli/cli.js",
+    "lt": "./cli/lt.js",
+    "loadt": "./server/cluster.js"
   },
   "description": "",
   "main": "index.js",
@@ -14,8 +16,9 @@
     "grpcClient": "ts-node ./grpc-client/grpc-client.ts",
     "apiServer": "ts-node ./server/server.ts",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
-    "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "proto:gen": "./tools/proto-gen.sh"
+    "format": "prettier --write \"./src/;**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "proto:gen": "./tools/proto-gen.sh",
+    "lt": "node ./server/cluster.js"
   },
   "keywords": [],
   "author": "",

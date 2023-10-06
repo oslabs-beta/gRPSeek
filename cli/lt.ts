@@ -3,8 +3,8 @@
 // process.env.GRPC_NODE_TRACE = 'api,channel';
 // process.env.GRPC_NODE_VERBOSITY = 'DEBUG';
 import { program } from 'commander';
-import * as fs from 'fs';
-import * as yaml from 'js-yaml';
+import fs from 'fs';
+import yaml from 'js-yaml';
 import path from 'path';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
@@ -14,11 +14,11 @@ import {
   LoadTestConfig,
 } from '../load-test-engine/load-test-engine';
 import MetricInterceptor from '../server/loadTester';
-// import { generateHTML } from '../utils/generateHTML';
-import loadT from '../server/cluster';
+import { generateHTML } from '../utils/generateHTML';
 
 let clientInterceptor = new MetricInterceptor();
 const otherOptions = { interceptors: [clientInterceptor.interceptor] };
+import loadT from '../server/cluster';
 // function findService(
 //   grpcObject: Record<string, any>,
 //   serviceName: string
@@ -63,11 +63,12 @@ program
     '--callback <path>',
     'path to a JavaScript file that exports the callback function'
   )
+  .option('-h, --host <host>', 'host to connect to', 'localhost')
   .parse(process.argv);
 
 const options = program.opts();
 
-export let config: LoadTestConfig = {
+let config: LoadTestConfig = {
   duration: 10,
   packageName: '',
   protoPath: '',
@@ -111,61 +112,53 @@ if (options.config) {
   };
 }
 // Load the gRPC Object
-// const packageDef = protoLoader.loadSync(
-//   path.resolve(__dirname, config.protoPath ?? '')
-// );
-// const grpcObj = grpc.loadPackageDefinition(packageDef);
+const packageDef = protoLoader.loadSync(
+  path.resolve(__dirname, config.protoPath ?? '')
+);
+const grpcObj = grpc.loadPackageDefinition(packageDef);
 
-// // Create the gRPC client stub
-// const pkg = grpcObj[config.packageName ?? ''];
+// Create the gRPC client stub
+const pkg = grpcObj[config.packageName ?? ''];
 
-// // Check if the service exists
-// if (!pkg) {
-//   console.error(
-//     `Service "${config.serviceName}" not found in the loaded .proto file.`
-//   );
-//   process.exit(1); // Exit with an error code
-// }
-// const methodName = config.methodName;
+// Check if the service exists
+if (!pkg) {
+  console.error(
+    `Service "${config.serviceName}" not found in the loaded .proto file.`
+  );
+  process.exit(1); // Exit with an error code
+}
+const methodName = config.methodName;
 
-// export const service = pkg[config.serviceName ?? ''];
+export const service = pkg[config.serviceName ?? ''];
 
-// export const client = new service(
-//   `localhost:50052`,
-//   grpc.credentials.createInsecure()
-// );
+export const client = new service(
+  `localhost:${config.host}`,
+  grpc.credentials.createInsecure()
+);
 
 // const clientInterceptor = new MetricInterceptor();
 // const callOptions = { interceptors: [clientInterceptor.interceptor] };
 
 // Dynamically import payload and callback
-// const payload = require(path.resolve(__dirname, config.payloadPath ?? ''));
-// const callback = require(path.resolve(__dirname, config.callbackPath ?? ''));
-
-// setTimeout(async () => {
-//   generateHTML(clientInterceptor.latencyData);
-// }, 4000);
+const payload = require(path.resolve(__dirname, config.payloadPath ?? ''));
+const callback = require(path.resolve(__dirname, config.callbackPath ?? ''));
 
 // Initialize LoadTestEngine and add the call
-// WHAT??
-// const engine = new LoadTestEngine(config);
 
-// engine.addCall(
-//   client[methodName ?? ''].bind(client),
-//   payload,
-//   otherOptions,
-//   callback,
-//   0
-// );
+const engine = new LoadTestEngine(config);
+
+engine.addCall(
+  client[methodName ?? ''].bind(client),
+  payload,
+  otherOptions,
+  callback,
+  0
+);
 
 // // Start and stop load testing based on the duration
-// engine.run();
+engine.run();
 
-// setTimeout(async () => {
-//   generateHTML(clientInterceptor.latencyData);
-//   engine.stopAll();
-// }, config.duration * 1000);
-loadT().catch((err) => {
-  console.error('An error occured: ', err);
-  process.exit(1);
-});
+setTimeout(async () => {
+  generateHTML(clientInterceptor.latencyData);
+  engine.stopAll();
+}, config.duration * 1000);

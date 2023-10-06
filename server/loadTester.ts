@@ -36,7 +36,7 @@ class MetricInterceptor implements MetricInterceptorInterface {
         // Listener that intercepts inbound operations - receiving server status and message
         let newListener: grpc.Listener = {
           onReceiveMessage: (message, next) => {
-            console.log('inbound message received: ', message);
+            // console.log('inbound message received: ', message);
             let endTime = performance.now();
             let timeDuration = endTime - startTime;
 
