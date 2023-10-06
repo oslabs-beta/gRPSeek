@@ -1,0 +1,1 @@
+grpc_tools_node_protoc --descriptor_set_out=proto/descriptor_set.bin --include_imports ./proto/helloworld.proto 

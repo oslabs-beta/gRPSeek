@@ -1,0 +1,7 @@
+duration: 10
+protoPath: ../example/proto/route_guide.proto
+serviceName: RouteGuide
+packageName: routeguide
+methodName: RouteChat
+payloadPath: ../load-test-engine/load-test-config/streaming_config/payload.js
+callbackPath: ../load-test-engine/load-test-config/streaming_config/callback.js

@@ -1,4 +1,4 @@
+build 
 node_modules
-metrics/dist
-metrics/data
-.DS_Store
+.env
+metrics/

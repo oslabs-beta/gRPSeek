@@ -1,0 +1,38 @@
+.dashboard {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-title {
+  margin: 0;
+}
+
+.plot-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.plot {
+  flex: 1;
+  min-width: calc(50% - 10px);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.plot h2 {
+  margin-top: 0;
+}

@@ -1,64 +1,58 @@
+import express from 'express';
 import path from 'path';
-import * as grpc from '@grpc/grpc-js';
-import * as protoLoader from '@grpc/proto-loader';
-import { ProtoGrpcType } from '../proto/toDo';
-import { query as pool } from '../database/todoModel';
-const PORT = 8082;
-const PROTO_FILE = '../proto/todo.proto';
+import cookieParser from 'cookie-parser';
+import fs from 'fs';
+import cors from 'cors';
+const PORT = 8081;
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
-const packageDef = protoLoader.loadSync(path.resolve(__dirname, PROTO_FILE));
-const grpcObj = grpc.loadPackageDefinition(
-  packageDef
-) as unknown as ProtoGrpcType;
-const todoPackage = grpcObj.todoPackage;
+/** Request for static files */
+app.use('/build', express.static(path.join(__dirname, '../build')));
 
-function main() {
-  const server = getServer();
 
-  server.bindAsync(
-    `0.0.0.0:${PORT}`,
-    grpc.ServerCredentials.createInsecure(),
-    (err, port) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log(`Your server as started on port ${port}`);
-      server.start();
+app.get('/requestData', (req, res) => {
+  const logFile = 'logs.txt';
+  const logData = fs.readFileSync(logFile, 'utf8');
+  const lines = logData.split('\n');
+  const requestData = lines.map(line => {
+    const match = line.match(/Request number (\d+): Call to \/greeterPackage\.Greeter\/SayHello took (\d+) nanoseconds/);
+    if (match) {
+      return {
+        requestNumber: parseInt(match[1], 10),
+        latency: parseInt(match[2], 10) / 1e6 // Convert to milliseconds
+      };
     }
-  );
-}
+    return null;
+  }).filter(item => item !== null);
+  
+  
+  res.json(requestData);
+});
+/** Catch-all route handler for unknown routes */
+app.use((req, res) => res.status(404).send('Invalid page'));
 
-function getServer() {
-  const server = new grpc.Server();
 
-  server.addService(todoPackage.Todo.service, {
-    createTodo: async (call, callback) => {
-      const todoText = call.request.text;
-      try {
-        const result = pool(
-          'INSERT into todos (text) VALUES ($1) RETURNING *',
-          [todoText]
-        );
-        const insertedTodoItem = result.rows[0];
-        console.log('New item: ', insertedTodoItem);
-        callback(null, insertedTodoItem);
-      } catch (error) {
-        callback(error);
-      }
-    },
-    readTodos: async (call, callback) => {
-      try {
-        const result = await pool('SELECT * FROM todos');
-        const todoItems = result.rows;
-        callback(null, { items: todoItems });
-        // return result
-      } catch (error) {
-        console.log('Error: ', error);
-      }
-    },
-  });
-  return server;
-}
+/** Global error handler */
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middlware error',
+    status: 400,
+    message: { err: 'An error occurred' },
+  };
 
-main();
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
+});
+
+
+/** Starting server */
+app.listen(PORT, () => {
+  console.log(`Server listening on port: ${PORT}...`);
+});
+
+module.exports = app;
