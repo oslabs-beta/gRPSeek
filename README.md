@@ -3,7 +3,7 @@
   <img width="350" src="./assets/logo.png">
 </p>
 
-***gRPSeek*** is a load testing and metrics visualization tool. By utilizing this package, developers can increase observability of their gRPC servers and gain valuable insights into the performance of the services.
+***gRPSeek*** is a load testing and metrics visualization tool. By utilizing this package, developers can increase the observability of their gRPC servers and gain valuable insights into the performance of the services.
 
 Check out our [website](https://www.grpseek.io/)!
 
@@ -41,7 +41,7 @@ In this example, 400 worker threads are running the `greeter_client.js` file, fo
   <img width="350" src="./assets/grpc-dash.jpg">
 </p>
 
-This makes it extremely easy for developers in Node.js to load test their gRPC services without making massive changes to their code base or installing unnecessary dependencies. Worker threads are a native module to Node and does not require any other packages for the workers to run the client’s file.
+This makes it extremely easy for developers in Node.js to load-test their gRPC services without making massive changes to their code base or installing unnecessary dependencies. Worker threads are a native module to Node and do not require any other packages for the workers to run the client’s file.
 
 ## Protocol Buffers
 Protocol Buffers (ProtoBuf) are a binary serialization format created by Google in 2008, offering a compact and efficient alternative to JSON and XML. Proto files, or Protocol Buffer files, are the key to using Protocol Buffers. These files are used to define the structure of the data to be serialized or deserialized. They act as a contract or schema between services, ensuring consistent communication.
